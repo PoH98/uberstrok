@@ -4,7 +4,7 @@ using UberStrok.Core.Common;
 
 namespace UberStrok.Core.Views
 {
-	[Serializable]
+    [Serializable]
 	public class PublicProfileView
 	{
 		public PublicProfileView()
@@ -19,23 +19,38 @@ namespace UberStrok.Core.Views
             FacebookId = string.Empty;
 		}
 
-		public PublicProfileView(int cmid, string name, MemberAccessLevel accesLevel, bool isChatDisabled, DateTime lastLoginDate, EmailAddressStatus emailAddressStatus, string facebookId)
-		{
+        public PublicProfileView(int cmid, string name, MemberAccessLevel accesLevel, bool isChatDisabled, DateTime lastLoginDate, EmailAddressStatus emailAddressStatus, string facebookId)
+        {
             SetPublicProfile(cmid, name, accesLevel, isChatDisabled, string.Empty, lastLoginDate, emailAddressStatus, facebookId);
-		}
-
-
-		private void SetPublicProfile(int cmid, string name, MemberAccessLevel accesLevel, bool isChatDisabled, string groupTag, DateTime lastLoginDate, EmailAddressStatus emailAddressStatus, string facebookId)
+        }
+        private void SetPublicProfile(
+            int cmid,
+            string name,
+            MemberAccessLevel accessLevel,
+            bool isChatDisabled,
+            string groupTag,
+            DateTime lastLoginDate,
+            EmailAddressStatus emailAddressStatus,
+            string facebookId)
 		{
             Cmid = cmid;
             Name = name;
-            AccessLevel = accesLevel;
+            AccessLevel = accessLevel;
             IsChatDisabled = isChatDisabled;
             GroupTag = groupTag;
             LastLoginDate = lastLoginDate;
             EmailAddressStatus = emailAddressStatus;
             FacebookId = facebookId;
 		}
+
+		public MemberAccessLevel AccessLevel { get; set; }
+		public int Cmid { get; set; }
+		public EmailAddressStatus EmailAddressStatus { get; set; }
+		public string FacebookId { get; set; }
+		public string GroupTag { get; set; }
+		public bool IsChatDisabled { get; set; }
+		public DateTime LastLoginDate { get; set; }
+		public string Name { get; set; }
 
 		public override string ToString()
 		{
@@ -75,14 +90,5 @@ namespace UberStrok.Core.Views
 				"]"
 			});
 		}
-
-		public MemberAccessLevel AccessLevel { get; set; }
-		public int Cmid { get; set; }
-		public EmailAddressStatus EmailAddressStatus { get; set; }
-		public string FacebookId { get; set; }
-		public string GroupTag { get; set; }
-		public bool IsChatDisabled { get; set; }
-		public DateTime LastLoginDate { get; set; }
-		public string Name { get; set; }
 	}
 }
