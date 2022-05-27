@@ -5,7 +5,7 @@ using System.IO;
 
 namespace UberStrok.Patcher
 {
-    public class UberStrike
+    public class UberStrike:IDisposable
     {
         private readonly string _managedPath;
         private readonly ModuleContext _moduleCtx;
@@ -40,6 +40,13 @@ namespace UberStrok.Patcher
         public ModuleDefMD UnityEngine => _unityEngine;
 
         public string ManagedPath => _managedPath;
+
+        public void Dispose()
+        {
+            _assemblyCSharp.Dispose();
+            _assemblyCSharpFirstpass.Dispose();
+            _unityEngine.Dispose();
+        }
 
         public ModuleDefMD GetModule(string name)
         {
