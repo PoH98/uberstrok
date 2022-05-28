@@ -20,6 +20,7 @@ namespace UberStrok.Realtime.Server.Game
 
         public sealed override void OnDisconnect(GamePeer peer, DisconnectReason reasonCode, string reasonDetail)
         {
+            peer.Disconnect();
             Leave(peer);
         }
 
@@ -143,6 +144,7 @@ namespace UberStrok.Realtime.Server.Game
             {
                 ReportLog.Warn($"[Weapon] OnExplosionDamage False positive reached {actor.Cmid}");
                 actor.Peer.Disconnect();
+                Leave(actor.Peer);
             }
             else
             {
@@ -195,6 +197,7 @@ namespace UberStrok.Realtime.Server.Game
             {
                 ReportLog.Warn($"[Weapon] OnDirectHitDamage FalsePositive reached {actor.Cmid}");
                 actor.Peer.Disconnect();
+                Leave(actor.Peer);
             }
             else
             {
@@ -238,6 +241,7 @@ namespace UberStrok.Realtime.Server.Game
             {
                 Log.Warn($"Negative damage: {damage}; Disconnecting.");
                 actor.Peer.Disconnect();
+                Leave(actor.Peer);
             }
             else
             {
@@ -306,6 +310,7 @@ namespace UberStrok.Realtime.Server.Game
             {
                 ReportLog.Warn($"[Weapon] OnEmitProjectile FalsePositive reached {actor.Cmid}");
                 actor.Peer.Disconnect();
+                Leave(actor.Peer);
                 return;
             }
 
@@ -315,6 +320,7 @@ namespace UberStrok.Realtime.Server.Game
             {
                 ReportLog.Warn($"[Projectiles] OnEmitProjectile FalsePositive reached {actor.Cmid}");
                 actor.Peer.Disconnect();
+                Leave(actor.Peer);
             }
             else
             {
@@ -344,6 +350,7 @@ namespace UberStrok.Realtime.Server.Game
             {
                 ReportLog.Warn($"[Projectiles] OnRemoveProjectile FalsePositive reached {actor.Cmid}");
                 actor.Peer.Disconnect();
+                Leave(actor.Peer);
             }
             else
             {

@@ -29,6 +29,7 @@ namespace UberStrok.Realtime.Server.Game
         {
             base.SendError(message);
             Events.SendDisconnectAndDisablePhoton(message);
+            GameApplication.Instance.Lobby.Leave(this);
         }
 
         public LoadoutView GetLoadout(bool retrieve)
