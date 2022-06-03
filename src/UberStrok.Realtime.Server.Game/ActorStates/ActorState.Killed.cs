@@ -8,7 +8,7 @@ namespace UberStrok.Realtime.Server.Game
         private readonly Countdown _respawnCountdown;
         private readonly Countdown _disconnectCountdown;
 
-        public KilledActorState(GameActor actor) 
+        public KilledActorState(GameActor actor)
             : base(actor)
         {
             _respawnCountdown = new Countdown(Room.Loop, 5, 0);

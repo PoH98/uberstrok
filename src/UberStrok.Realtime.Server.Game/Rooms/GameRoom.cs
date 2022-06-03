@@ -20,7 +20,8 @@ namespace UberStrok.Realtime.Server.Game
         private readonly Timer _frameTimer;
         //A time that players had retrain the same for long time
         private readonly GameRoomDataView _view;
-
+        public int EmptyTickTime = 0;
+        public int LastTickTime;
         /* 
          * Dictionary mapping player CMIDs to StatisticsManager instances.
          * This is used for when a player leaves and joins the game again; so
@@ -53,13 +54,14 @@ namespace UberStrok.Realtime.Server.Game
         public PowerUpManager PowerUps { get; }
 
         public bool Updated { get; set; }
-
+        public bool IsTeamElimination => _view.GameMode == GameModeType.EliminationMode;
         public int RoundNumber { get; set; }
         public int StartTime { get; set; }
         public int EndTime { get; set; }
 
-        public TeamID Winner { get; protected set; }
-
+        public TeamID Winner { get; set; }
+        public int BlueTeamScore { get; set; }
+        public int RedTeamScore { get; set; }
         /* 
          * Room ID but we call it number since we already defined Id &
          * thats how UberStrike calls it too. 
@@ -95,7 +97,7 @@ namespace UberStrok.Realtime.Server.Game
 
             int capacity = data.PlayerLimit / 2;
             _players = new List<GameActor>(capacity);
-            _actors = new List<GameActor>(capacity); 
+            _actors = new List<GameActor>(capacity);
             _actorDeltas = new List<GameActorInfoDeltaView>(capacity);
             _actorMovements = new List<PlayerMovement>(capacity);
 
@@ -118,7 +120,7 @@ namespace UberStrok.Realtime.Server.Game
             State.Register(RoomState.Id.Countdown, new CountdownRoomState(this));
             State.Register(RoomState.Id.Running, new RunningRoomState(this));
             State.Register(RoomState.Id.End, new EndRoomState(this));
-
+            State.Register(RoomState.Id.AfterRound, new AfterRoundState(this));
             /* 
              * * Expected interval between ticks by the client is 100ms 
              * (10 tick/s).
@@ -162,10 +164,26 @@ namespace UberStrok.Realtime.Server.Game
         {
             if (peer == null)
                 throw new ArgumentNullException(nameof(peer));
-            if (peer.Actor != null)
-                throw new InvalidOperationException("Peer already in another room");
-
+            if (peer.Actor != null && peer.Actor.Room != null)
+            {
+                peer.Actor.Room.Leave(peer);
+            }
             Enqueue(() => DoJoin(peer));
+        }
+
+        public void ReJoin(GamePeer peer)
+        {
+            if (peer == null)
+                throw new ArgumentNullException(nameof(peer));
+            if (peer.Actor != null && peer.Actor.Room != null)
+            {
+                peer.OnLeaveRoom = delegate () { Enqueue(() => DoJoin(peer, true)); };
+                peer.Actor.Room.Leave(peer);
+            }
+            else
+            {
+                Enqueue(() => DoJoin(peer, true));
+            }
         }
 
         public void Leave(GamePeer peer)
@@ -174,9 +192,6 @@ namespace UberStrok.Realtime.Server.Game
                 throw new ArgumentNullException(nameof(peer));
             if (peer.Actor == null)
                 throw new InvalidOperationException("Peer is not in a room");
-            if (peer.Actor.Room != this)
-                throw new InvalidOperationException("Peer is not leaving the correct room");
-
             Enqueue(() => DoLeave(peer));
         }
 
@@ -230,7 +245,7 @@ namespace UberStrok.Realtime.Server.Game
                 var hardestHitter = new Achievement(AchievementType.HardestHitter, achievements);
                 var sharpestShooter = new Achievement(AchievementType.SharpestShooter, achievements);
                 var triggerHappy = new Achievement(AchievementType.TriggerHappy, achievements);
-                
+
                 foreach (var player in Players)
                 {
                     var stats = player.Statistics.Total;
@@ -240,7 +255,7 @@ namespace UberStrok.Realtime.Server.Game
                         Name = player.PlayerFullName,
                         Kills = player.Info.Kills,
                         Deaths = player.Info.Deaths,
-                        Level = player.Info.Level,  
+                        Level = player.Info.Level,
                         Team = player.Info.TeamID,
                         Achievements = new Dictionary<byte, ushort>()
                     };
@@ -325,6 +340,15 @@ namespace UberStrok.Realtime.Server.Game
             State.Tick();
             PowerUps.Tick();
 
+            if (Actors.Count == 0)
+            {
+                EmptyTickTime++;
+            }
+            else
+            {
+                EmptyTickTime = 0;
+            }
+
             for (int i = 0; i < _actors.Count; i++)
             {
                 var actor = _actors[i];
@@ -355,7 +379,7 @@ namespace UberStrok.Realtime.Server.Game
                     /* 
                      * If the actor is a player.
                      */
-                    if (Players.Contains(actor))
+                    if (Players.Contains(actor) || actor.State.Current == ActorState.Id.Spectator)
                     {
                         var delta = actor.Info.GetViewDelta();
 
@@ -418,19 +442,11 @@ namespace UberStrok.Realtime.Server.Game
         }
 
         /* This is executed on the game room loop thread. */
-        private void DoJoin(GamePeer peer)
+        private void DoJoin(GamePeer peer, bool reJoin = false)
         {
             Debug.Assert(peer != null);
             try
             {
-                //disconnect those ghost actors
-                for(int x = 0; x < _actors.Count; x++)
-                {
-                    if (_actors[x].Cmid == peer.Actor.Cmid)
-                    {
-                        DoLeave(_actors[x].Peer);
-                    }
-                }
                 peer.Handlers.Add(this);
 
                 var view = GetView();
@@ -447,7 +463,7 @@ namespace UberStrok.Realtime.Server.Game
                      * creates the game room instance type and registers the
                      * GameRoom OperationHandler to its photon client.
                      */
-                    peer.Events.SendRoomEntered(view);
+                    peer.Events.SendRoomEntered(view, reJoin);
 
                     peer.Actor = actor;
                     peer.Actor.State.Set(ActorState.Id.Overview);
@@ -475,7 +491,13 @@ namespace UberStrok.Realtime.Server.Game
             Debug.Assert(peer.Actor.Room == this);
 
             var actor = peer.Actor;
+            bool donotResetActor = false;
 
+            if (peer.Actor.Room != this)
+            {
+                Log.Error("Peer tried to leave a room, but doesnt belong to this room");
+                donotResetActor = true;
+            }
             try
             {
                 if (_actors.Remove(actor))
@@ -495,8 +517,16 @@ namespace UberStrok.Realtime.Server.Game
             finally
             {
                 /* Clean up. */
-                peer.Actor = null;
-                peer.Handlers.Remove(Id);
+                if (!donotResetActor)
+                {
+                    peer.Actor = null;
+                    peer.Handlers.Remove(Id);
+                }
+                if (peer.OnLeaveRoom != null)
+                {
+                    peer.OnLeaveRoom();
+                    peer.OnLeaveRoom = null;
+                }
             }
         }
 

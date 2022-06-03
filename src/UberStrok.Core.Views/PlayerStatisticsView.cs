@@ -3,17 +3,17 @@ using System.Text;
 
 namespace UberStrok.Core.Views
 {
-	[Serializable]
-	public class PlayerStatisticsView
-	{
-		public PlayerStatisticsView()
-		{
+    [Serializable]
+    public class PlayerStatisticsView
+    {
+        public PlayerStatisticsView()
+        {
             PersonalRecord = new PlayerPersonalRecordStatisticsView();
             WeaponStatistics = new PlayerWeaponStatisticsView();
-		}
+        }
 
-		public PlayerStatisticsView(
-            int cmid, 
+        public PlayerStatisticsView(
+            int cmid,
             int splats,
             int splatted,
             long shots,
@@ -22,21 +22,21 @@ namespace UberStrok.Core.Views
             int nutshots,
             PlayerPersonalRecordStatisticsView personalRecord,
             PlayerWeaponStatisticsView weaponStatistics)
-		{
+        {
             Cmid = cmid;
             Hits = hits;
-			Level = 0;
-			Shots = shots;
-			Splats = splats;
-			Splatted = splatted;
-			Headshots = headshots;
-			Nutshots = nutshots;
-			Xp = 0;
-			PersonalRecord = personalRecord;
-			WeaponStatistics = weaponStatistics;
-		}
+            Level = 0;
+            Shots = shots;
+            Splats = splats;
+            Splatted = splatted;
+            Headshots = headshots;
+            Nutshots = nutshots;
+            Xp = 0;
+            PersonalRecord = personalRecord;
+            WeaponStatistics = weaponStatistics;
+        }
 
-		public PlayerStatisticsView(
+        public PlayerStatisticsView(
             int cmid,
             int splats,
             int splatted,
@@ -48,22 +48,22 @@ namespace UberStrok.Core.Views
             int level,
             PlayerPersonalRecordStatisticsView personalRecord,
             PlayerWeaponStatisticsView weaponStatistics)
-		{
-			Cmid = cmid;
-			Hits = hits;
-			Level = level;
-			Shots = shots;
-			Splats = splats;
-			Splatted = splatted;
-			Headshots = headshots;
-			Nutshots = nutshots;
-			Xp = xp;
-			PersonalRecord = personalRecord;
-			WeaponStatistics = weaponStatistics;
-		}
+        {
+            Cmid = cmid;
+            Hits = hits;
+            Level = level;
+            Shots = shots;
+            Splats = splats;
+            Splatted = splatted;
+            Headshots = headshots;
+            Nutshots = nutshots;
+            Xp = xp;
+            PersonalRecord = personalRecord;
+            WeaponStatistics = weaponStatistics;
+        }
 
-		public override string ToString()
-		{
+        public override string ToString()
+        {
             var builder = new StringBuilder().Append("[PlayerStatisticsView: ")
                 .Append("[Cmid: ").Append(Cmid)
                 .Append("][Hits: ").Append(Hits)
@@ -78,20 +78,20 @@ namespace UberStrok.Core.Views
                 .Append(PersonalRecord)
                 .Append(WeaponStatistics)
             .Append("]");
-			return builder.ToString();
-		}
+            return builder.ToString();
+        }
 
-		public int Cmid { get; set; }
-		public int Headshots { get; set; }
-		public long Hits { get; set; }
-		public int Level { get; set; }
-		public int Nutshots { get; set; }
-		public PlayerPersonalRecordStatisticsView PersonalRecord { get; set; }
-		public long Shots { get; set; }
-		public int Splats { get; set; }
-		public int Splatted { get; set; }
-		public int TimeSpentInGame { get; set; }
-		public PlayerWeaponStatisticsView WeaponStatistics { get; set; }
-		public int Xp { get; set; }
-	}
+        public int Cmid { get; set; }
+        public int Headshots { get; set; }
+        public long Hits { get; set; }
+        public int Level { get; set; }
+        public int Nutshots { get; set; }
+        public PlayerPersonalRecordStatisticsView PersonalRecord { get; set; }
+        public long Shots { get; set; }
+        public int Splats { get; set; }
+        public int Splatted { get; set; }
+        public int TimeSpentInGame { get; set; }
+        public PlayerWeaponStatisticsView WeaponStatistics { get; set; }
+        public int Xp { get; set; }
+    }
 }

@@ -19,3 +19,11 @@ If you managed to get it running even.
 
 ### License
 MIT License.
+
+## MOD
+Here is the list of modded Uberstrok things. Thanks to anonymous providing big help on this project!
+> .NET 6 support with LiteDB
+> Added TeamEliminationMatch
+> Bug fixes
+> New patches for patcher
+> Minor protections

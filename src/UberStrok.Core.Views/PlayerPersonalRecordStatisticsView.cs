@@ -3,15 +3,15 @@ using System.Text;
 
 namespace UberStrok.Core.Views
 {
-	[Serializable]
-	public class PlayerPersonalRecordStatisticsView
-	{
-		public PlayerPersonalRecordStatisticsView()
-		{
+    [Serializable]
+    public class PlayerPersonalRecordStatisticsView
+    {
+        public PlayerPersonalRecordStatisticsView()
+        {
             // Space
-		}
+        }
 
-		public PlayerPersonalRecordStatisticsView(
+        public PlayerPersonalRecordStatisticsView(
             int mostHeadshots,
             int mostNutshots,
             int mostConsecutiveSnipes,
@@ -28,28 +28,28 @@ namespace UberStrok.Core.Views
             int mostSplattergunSplats,
             int mostCannonSplats,
             int mostLauncherSplats)
-		{
-			MostArmorPickedUp = mostArmorPickedUp;
-			MostCannonSplats = mostCannonSplats;
-			MostConsecutiveSnipes = mostConsecutiveSnipes;
-			MostDamageDealt = mostDamageDealt;
-			MostDamageReceived = mostDamageReceived;
-			MostHeadshots = mostHeadshots;
-			MostHealthPickedUp = mostHealthPickedUp;
-			MostLauncherSplats = mostLauncherSplats;
-			MostMachinegunSplats = mostMachinegunSplats;
-			MostMeleeSplats = mostMeleeSplats;
-			MostNutshots = mostNutshots;
-			MostShotgunSplats = mostShotgunSplats;
-			MostSniperSplats = mostSniperSplats;
-			MostSplats = mostSplats;
-			MostSplattergunSplats = mostSplattergunSplats;
-			MostXPEarned = mostXPEarned;
-		}
+        {
+            MostArmorPickedUp = mostArmorPickedUp;
+            MostCannonSplats = mostCannonSplats;
+            MostConsecutiveSnipes = mostConsecutiveSnipes;
+            MostDamageDealt = mostDamageDealt;
+            MostDamageReceived = mostDamageReceived;
+            MostHeadshots = mostHeadshots;
+            MostHealthPickedUp = mostHealthPickedUp;
+            MostLauncherSplats = mostLauncherSplats;
+            MostMachinegunSplats = mostMachinegunSplats;
+            MostMeleeSplats = mostMeleeSplats;
+            MostNutshots = mostNutshots;
+            MostShotgunSplats = mostShotgunSplats;
+            MostSniperSplats = mostSniperSplats;
+            MostSplats = mostSplats;
+            MostSplattergunSplats = mostSplattergunSplats;
+            MostXPEarned = mostXPEarned;
+        }
 
-		public override string ToString()
-		{
-			var builder = new StringBuilder().Append("[PlayerPersonalRecordStatisticsView: ")
+        public override string ToString()
+        {
+            var builder = new StringBuilder().Append("[PlayerPersonalRecordStatisticsView: ")
                 .Append("[MostArmorPickedUp: ").Append(MostArmorPickedUp)
                 .Append("][MostCannonSplats: ").Append(MostCannonSplats)
                 .Append("][MostConsecutiveSnipes: ").Append(MostConsecutiveSnipes)
@@ -66,25 +66,25 @@ namespace UberStrok.Core.Views
                 .Append("][MostSplats: ").Append(MostSplats)
                 .Append("][MostSplattergunSplats: ").Append(MostSplattergunSplats)
                 .Append("][MostXPEarned: ").Append(MostXPEarned)
-			.Append("]]");
-			return builder.ToString();
-		}
+            .Append("]]");
+            return builder.ToString();
+        }
 
-		public int MostArmorPickedUp { get; set; }
-		public int MostCannonSplats { get; set; }
-		public int MostConsecutiveSnipes { get; set; }
-		public int MostDamageDealt { get; set; }
-		public int MostDamageReceived { get; set; }
-		public int MostHeadshots { get; set; }
-		public int MostHealthPickedUp { get; set; }
-		public int MostLauncherSplats { get; set; }
-		public int MostMachinegunSplats { get; set; }
-		public int MostMeleeSplats { get; set; }
-		public int MostNutshots { get; set; }
-		public int MostShotgunSplats { get; set; }
-		public int MostSniperSplats { get; set; }
-		public int MostSplats { get; set; }
-		public int MostSplattergunSplats { get; set; }
-		public int MostXPEarned { get; set; }
-	}
+        public int MostArmorPickedUp { get; set; }
+        public int MostCannonSplats { get; set; }
+        public int MostConsecutiveSnipes { get; set; }
+        public int MostDamageDealt { get; set; }
+        public int MostDamageReceived { get; set; }
+        public int MostHeadshots { get; set; }
+        public int MostHealthPickedUp { get; set; }
+        public int MostLauncherSplats { get; set; }
+        public int MostMachinegunSplats { get; set; }
+        public int MostMeleeSplats { get; set; }
+        public int MostNutshots { get; set; }
+        public int MostShotgunSplats { get; set; }
+        public int MostSniperSplats { get; set; }
+        public int MostSplats { get; set; }
+        public int MostSplattergunSplats { get; set; }
+        public int MostXPEarned { get; set; }
+    }
 }

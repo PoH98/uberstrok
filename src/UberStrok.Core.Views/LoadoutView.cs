@@ -14,10 +14,10 @@ namespace UberStrok.Core.Views
         }
 
         public LoadoutView(
-            int loadoutId, 
-            int backpack, 
-            int boots, 
-            int cmid, 
+            int loadoutId,
+            int backpack,
+            int boots,
+            int cmid,
             int face,
             int functionalItem1,
             int functionalItem2,
@@ -40,7 +40,7 @@ namespace UberStrok.Core.Views
             int weapon2Mod2,
             int weapon2Mod3,
             int weapon3,
-            int weapon3Mod1, 
+            int weapon3Mod1,
             int weapon3Mod2,
             int weapon3Mod3,
             int webbing,
@@ -121,7 +121,7 @@ namespace UberStrok.Core.Views
         public int Boots { get; set; }
         public int Cmid { get; set; }
         public int Face { get; set; }
-        public int FunctionalItem1{ get; set; }
+        public int FunctionalItem1 { get; set; }
         public int FunctionalItem2 { get; set; }
         public int FunctionalItem3 { get; set; }
         public int Gloves { get; set; }

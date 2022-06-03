@@ -2,7 +2,7 @@
 {
     public sealed class CountdownActorState : ActorState
     {
-        public CountdownActorState(GameActor actor) 
+        public CountdownActorState(GameActor actor)
             : base(actor)
         {
             /* Space */

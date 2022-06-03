@@ -1,6 +1,6 @@
 ﻿using System;
-using UberStrok.Core.Views;
 using UberStrok.Core.Common;
+using UberStrok.Core.Views;
 
 namespace UberStrok.Core
 {
@@ -17,7 +17,7 @@ namespace UberStrok.Core
         public Item(BaseUberStrikeItemView view)
             => View = view ?? throw new ArgumentNullException(nameof(view));
 
-        public BaseUberStrikeItemView GetView() 
+        public BaseUberStrikeItemView GetView()
             => View;
 
         public override int GetHashCode()

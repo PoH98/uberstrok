@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace UberStrok.Patcher
+﻿namespace UberStrok.Patcher
 {
     internal class CreditPatch : Patch
     {
@@ -13,7 +7,7 @@ namespace UberStrok.Patcher
             var ApplicationDataManager_Type = uberStrike.AssemblyCSharp.Find("ApplicationDataManager", true);
             var ApplicationDataManager_CCtor = ApplicationDataManager_Type.FindMethod("OpenBuyCredits");
             var ilBody = ApplicationDataManager_CCtor.Body;
-            if(ilBody.Instructions.Count == 15)
+            if (ilBody.Instructions.Count == 15)
             {
                 for (int x = 0; x <= 14; x++)
                 {
@@ -24,9 +18,9 @@ namespace UberStrok.Patcher
             var ShopPageGUI_Type = uberStrike.AssemblyCSharp.Find("ShopPageGUI", true);
             var ShopPageGUI_Start = ShopPageGUI_Type.FindMethod("Start");
             ilBody = ShopPageGUI_Start.Body;
-            if(ilBody.Instructions.Count == 298)
+            if (ilBody.Instructions.Count == 298)
             {
-                for(int x = 45; x < 53; x++)
+                for (int x = 45; x < 53; x++)
                 {
                     ilBody.Instructions.RemoveAt(45);
                 }

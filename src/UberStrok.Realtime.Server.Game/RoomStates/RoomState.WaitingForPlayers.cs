@@ -2,7 +2,7 @@
 {
     public sealed class WaitingForPlayersRoomState : RoomState
     {
-        public WaitingForPlayersRoomState(GameRoom room) 
+        public WaitingForPlayersRoomState(GameRoom room)
             : base(room)
         {
             /* Space */

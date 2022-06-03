@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Text;
 using System.Windows.Forms;
 
@@ -59,7 +58,7 @@ namespace UberStrok.Patcher
             if (!Directory.Exists(uberStrikePath))
             {
                 Console.Error.WriteLine(" Unable to find UberStrike installation directory.");
-                
+
             }
             var defaultColor = Console.ForegroundColor;
             Console.WriteLine(" -----------------------------------");
@@ -159,7 +158,7 @@ namespace UberStrok.Patcher
                 }
                 Directory.Delete("patched", true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Error.WriteLine("Failed to copy, please copy manually. Error: " + ex.Message);

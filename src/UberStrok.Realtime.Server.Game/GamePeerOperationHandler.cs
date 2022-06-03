@@ -83,7 +83,7 @@ namespace UberStrok.Realtime.Server.Game
                     return;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 peer.Events.SendRoomEnterFailed(string.Empty, 0, "Failed to authenticate user. Try restarting UberStrike.");
                 MessageBox.Show(ex.ToString());
@@ -106,7 +106,7 @@ namespace UberStrok.Realtime.Server.Game
                 peer.Events.SendRoomEnterFailed(string.Empty, 0, "UberStrok does not support the selected game mode.");
                 return;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 peer.Events.SendRoomEnterFailed(string.Empty, 0, "Failed to create game room. Exception: " + ex.Message);
                 throw;
@@ -166,7 +166,7 @@ namespace UberStrok.Realtime.Server.Game
                     if (samePlayer.Count() > 0)
                     {
                         //there is bugged player!
-                        foreach(var p in samePlayer)
+                        foreach (var p in samePlayer)
                         {
                             room.Leave(p.Peer);
                         }

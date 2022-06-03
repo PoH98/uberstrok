@@ -14,7 +14,7 @@ namespace UberStrok.Core
 
         public bool CanHit => (DateTime.UtcNow - _lastHit).TotalMilliseconds >= GetView().RateOfFire;
 
-        public Weapon(UberStrikeItemWeaponView view) 
+        public Weapon(UberStrikeItemWeaponView view)
             : base(view)
         {
             _lastHit = DateTime.UtcNow;
