@@ -60,7 +60,7 @@ namespace UberStrok.WebServices.AspNetCore.Database.LiteDb
             return Task.CompletedTask;
         }
 
-        private LiteCollection<Member> GetIncludes(Member.LoadOptions options)
+        private ILiteCollection<Member> GetIncludes(Member.LoadOptions options)
         {
             var col = Collection;
             if (options.HasFlag(Member.LoadOptions.Transactions))

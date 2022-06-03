@@ -7,5 +7,6 @@ namespace UberStrok.WebServices.AspNetCore.Configurations
         public int Points { get; set; }
         public int Credits { get; set; }
         public List<string> Items { get; set; }
+        public bool Lock { get; set; }
     }
 }

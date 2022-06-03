@@ -113,6 +113,7 @@ namespace UberStrok.WebServices.AspNetCore
                 switch (durationType)
                 {
                     case BuyingDurationType.Permanent:
+                    case BuyingDurationType.None:
                         expiration = null;
                         break;
 
@@ -128,7 +129,6 @@ namespace UberStrok.WebServices.AspNetCore
                     case BuyingDurationType.OneDay:
                         expiration = transactionDate.AddDays(1);
                         break;
-
                     default:
                         return BuyItemResult.InvalidData;
                 }

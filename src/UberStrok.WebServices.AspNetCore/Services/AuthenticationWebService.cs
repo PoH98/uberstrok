@@ -57,6 +57,10 @@ namespace UberStrok.WebServices.AspNetCore
         {
             try
             {
+                if (_accountConfig.Lock)
+                {
+                    return new AccountCompletionResultView(AccountCompletionResult.IsBanned);
+                }
                 var member = await _database.Members.FindAsync(cmid);
                 if (member == null)
                 {
@@ -212,7 +216,7 @@ namespace UberStrok.WebServices.AspNetCore
                 ClanId = null,
                 SteamId = steamId,
                 Name = null,
-                Level = 1,
+                Level = 5,
                 MuteExpiration = null,
                 BanExpiration = null,
                 Credits = _accountConfig.Credits,
@@ -314,8 +318,6 @@ namespace UberStrok.WebServices.AspNetCore
                     var inventoryItem = new InventoryItem
                     {
                         ItemId = item.Id,
-
-                        // TODO: Make configurable as well.
                         AmountRemaining = -1,
                         Expiration = null
                     };

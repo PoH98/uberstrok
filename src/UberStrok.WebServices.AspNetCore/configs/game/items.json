@@ -1,6 +1,45 @@
 ﻿{
   "Items": {
-    "FunctionalItems": [],
+    "FunctionalItems": [
+      {
+        "ItemType": 5,
+        "ItemClass": 21,
+        "ID": 1234,
+        "Name": "Clan License",
+        "Description": "This is a clan license. You need to own one of these to create a clan.",
+        "LevelLock": 0,
+        "IsConsumable": false,
+        "Prices": [
+          {
+            "Price": 0,
+            "Currency": 1,
+            "Discount": 0,
+            "Amount": 0,
+            "PackType": 0,
+            "Duration": 0
+          }
+        ]
+      },
+      {
+        "ItemType": 5,
+        "ItemClass": 21,
+        "ID": 1294,
+        "Name": "Name Change",
+        "Description": "Use this item to change your name once. Item is consumed after use.",
+        "LevelLock": 0,
+        "IsConsumable": false,
+        "Prices": [
+          {
+            "Price": 0,
+            "Currency": 1,
+            "Discount": 0,
+            "Amount": 1,
+            "PackType": 0,
+            "Duration": 0
+          }
+        ]
+      }
+    ],
     "GearItems": [
       {
         "ItemType": 3,

@@ -116,22 +116,19 @@ namespace UberStrok.Realtime.Server.Game
         protected sealed override void OnPlayerKilled(PlayerKilledEventArgs args)
         {
             base.OnPlayerKilled(args);
-
             if (State.Current == RoomState.Id.WaitingForPlayers)
             {
-                if (args.Victim.Info.TeamID == TeamID.BLUE)
-                    BlueTeamAlivePlayer--;
-                else if (args.Victim.Info.TeamID == TeamID.RED)
-                    RedTeamAlivePlayer--;
-
-                if (BlueTeamAlivePlayer == 0 || RedTeamAlivePlayer == 0)
-                {
-                    EndRound();
-                }
+                OnRespawnRequest(args.Victim);
+                return;
             }
-            else
+            if (args.Victim.Info.TeamID == TeamID.BLUE)
+                BlueTeamAlivePlayer--;
+            else if (args.Victim.Info.TeamID == TeamID.RED)
+                RedTeamAlivePlayer--;
+
+            if (BlueTeamAlivePlayer == 0 || RedTeamAlivePlayer == 0)
             {
-                this.OnRespawnRequest(args.Victim);
+                EndRound();
             }
         }
 

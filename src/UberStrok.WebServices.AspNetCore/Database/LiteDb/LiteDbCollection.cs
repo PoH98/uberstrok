@@ -9,7 +9,7 @@ namespace UberStrok.WebServices.AspNetCore.Database.LiteDb
     public abstract class LiteDbCollection<TDocument> : IDbCollection<TDocument> where TDocument : class
     {
         protected LiteDatabase Database { get; }
-        protected LiteCollection<TDocument> Collection { get; }
+        protected ILiteCollection<TDocument> Collection { get; }
 
         public LiteDbCollection(LiteDatabase db)
         {
