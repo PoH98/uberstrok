@@ -7,5 +7,6 @@ namespace UberStrok.WebServices.AspNetCore
     {
         Task<string> CreateSessionAsync(Member member, string machineId);
         Task<Member> GetMemberAsync(string authToken);
+        Task DeleteExpiredMemberSessionAsync();
     }
 }

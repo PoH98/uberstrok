@@ -53,6 +53,11 @@
     <Compile Include="Views\ApplicationConfigurationViewProxy.cs" />
     <Compile Include="Views\AuthenticateApplicationViewProxy.cs" />
     <Compile Include="Views\BundleItemViewProxy.cs" />
+    <Compile Include="Views\ClanCreationReturnViewProxy.cs" />
+    <Compile Include="Views\ClanMemberViewProxy.cs" />
+    <Compile Include="Views\ClanRequestAcceptViewProxy.cs" />
+    <Compile Include="Views\ClanRequestDeclineViewProxy.cs" />
+    <Compile Include="Views\ClanViewProxy.cs" />
     <Compile Include="Views\CommActorInfoViewProxy.cs" />
     <Compile Include="Views\ConnectionAddressViewProxy.cs" />
     <Compile Include="Views\ContactGroupViewProxy.cs" />
@@ -63,6 +68,8 @@
     <Compile Include="Views\GameActorInfoViewProxy.cs" />
     <Compile Include="Views\GameRoomDataViewProxy.cs" />
     <Compile Include="Views\GameRoomViewProxy.cs" />
+    <Compile Include="Views\GroupCreationViewProxy.cs" />
+    <Compile Include="Views\GroupInvitationViewProxy.cs" />
     <Compile Include="Views\ItemInventoryViewProxy.cs" />
     <Compile Include="Views\ItemPriceViewProxy.cs" />
     <Compile Include="Views\ItemTransactionPageViewProxy.cs" />
@@ -77,6 +84,7 @@
     <Compile Include="StringProxy.cs" />
     <Compile Include="UInt16Proxy.cs" />
     <Compile Include="Views\MemberAuthenticationResultViewProxy.cs" />
+    <Compile Include="Views\MemberPositionUpdateViewProxy.cs" />
     <Compile Include="Views\MemberSessionDataViewProxy.cs" />
     <Compile Include="Views\MemberViewProxy.cs" />
     <Compile Include="Views\MemberWalletViewProxy.cs" />

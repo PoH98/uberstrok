@@ -9,6 +9,6 @@ namespace UberStrok.WebServices.AspNetCore.Models
         public string Tag { get; set; }
         public string Motto { get; set; }
         public int LeaderId { get; set; }
-        public ICollection<Member> Members { get; set; }
+        public ICollection<ClanMember> Members { get; set; }
     }
 }

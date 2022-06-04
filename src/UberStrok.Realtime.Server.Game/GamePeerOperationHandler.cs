@@ -162,16 +162,10 @@ namespace UberStrok.Realtime.Server.Game
                 }
                 else
                 {
-                    var samePlayer = room.Players.Where(x => x.PlayerId == peer.Actor.PlayerId);
-                    if (samePlayer.Count() > 0)
-                    {
-                        //there is bugged player!
-                        foreach (var p in samePlayer)
-                        {
-                            room.Leave(p.Peer);
-                        }
+                    try 
+                    { 
+                        room.Join(peer); 
                     }
-                    try { room.Join(peer); }
                     catch
                     {
                         peer.Events.SendRoomEnterFailed(string.Empty, 0, "Failed to join room.");
@@ -211,33 +205,34 @@ namespace UberStrok.Realtime.Server.Game
 
         protected override void OnUpdateKeyState(GamePeer peer, byte state)
         {
-            if (peer.Actor != null)
-                peer.Actor.Movement.KeyState = state;
+
         }
 
         protected override void OnUpdateLoadout(GamePeer peer)
         {
             var actor = peer.Actor;
-            if (actor != null)
+            if (actor == null)
             {
-                try
-                {
-                    var shop = actor.Room.Shop;
-                    var loadout = peer.GetLoadout(retrieve: true);
+                Log.Error("Peer attempted to update loadout but was not associated with any Actor.");
+                return;
+            }
+            try
+            {
+                var shop = actor.Room.Shop;
+                var loadout = peer.GetLoadout(retrieve: true);
 
-                    actor.Loadout.Update(shop, loadout);
+                actor.Loadout.Update(shop, loadout);
 
-                    actor.Info.Gear = actor.Loadout.Gear.GetAsList();
-                    actor.Info.Weapons = actor.Loadout.Weapons.GetAsList();
-                    actor.Info.QuickItems = actor.Loadout.QuickItems.GetAsList();
+                actor.Info.Gear = actor.Loadout.Gear.GetAsList();
+                actor.Info.Weapons = actor.Loadout.Weapons.GetAsList();
+                actor.Info.QuickItems = actor.Loadout.QuickItems.GetAsList();
 
-                    actor.Info.ArmorPointCapacity = actor.Loadout.Gear.GetArmorCapacity();
-                }
-                catch
-                {
-                    peer.Disconnect();
-                    throw;
-                }
+                actor.Info.ArmorPointCapacity = actor.Loadout.Gear.GetArmorCapacity();
+            }
+            catch
+            {
+                peer.Disconnect();
+                throw;
             }
         }
 

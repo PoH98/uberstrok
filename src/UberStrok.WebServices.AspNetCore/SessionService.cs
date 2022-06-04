@@ -42,6 +42,16 @@ namespace UberStrok.WebServices.AspNetCore
             return _auth.Create(member.Id, createdAt, expiresAt);
         }
 
+        public async Task DeleteExpiredMemberSessionAsync()
+        {
+            var now = DateTime.Now;
+            var expired = await _database.Sessions.Where(x => x.Expiration < now);
+            foreach(var ex in expired)
+            {
+                _ = _database.Sessions.DeleteAsync(ex);
+            }
+        }
+
         public async Task<Member> GetMemberAsync(string authToken)
         {
             if (authToken == null)

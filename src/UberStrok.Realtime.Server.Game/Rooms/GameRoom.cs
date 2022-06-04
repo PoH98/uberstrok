@@ -171,21 +171,6 @@ namespace UberStrok.Realtime.Server.Game
             Enqueue(() => DoJoin(peer));
         }
 
-        public void ReJoin(GamePeer peer)
-        {
-            if (peer == null)
-                throw new ArgumentNullException(nameof(peer));
-            if (peer.Actor != null && peer.Actor.Room != null)
-            {
-                peer.OnLeaveRoom = delegate () { Enqueue(() => DoJoin(peer, true)); };
-                peer.Actor.Room.Leave(peer);
-            }
-            else
-            {
-                Enqueue(() => DoJoin(peer, true));
-            }
-        }
-
         public void Leave(GamePeer peer)
         {
             if (peer == null)

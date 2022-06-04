@@ -4,13 +4,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Quartz;
 using SoapCore;
+using System;
 using UberStrok.Core;
 using UberStrok.WebServices.AspNetCore.Authentication;
 using UberStrok.WebServices.AspNetCore.Authentication.Jwt;
 using UberStrok.WebServices.AspNetCore.Configurations;
 using UberStrok.WebServices.AspNetCore.Database;
 using UberStrok.WebServices.AspNetCore.Database.LiteDb;
+using UberStrok.WebServices.AspNetCore.Job;
 
 namespace UberStrok.WebServices.AspNetCore
 {
@@ -47,9 +50,29 @@ namespace UberStrok.WebServices.AspNetCore
             services.AddSingleton<AuthenticationWebService>();
             services.AddSingleton<ShopWebService>();
             services.AddSingleton<UserWebService>();
-            // services.AddSingleton<ClanWebService>();
+            services.AddSingleton<ClanWebService>();
             services.AddSingleton<PrivateMessageWebService>();
             services.AddSingleton<RelationshipWebService>();
+
+            services.AddQuartz(q =>
+            {
+                q.UseMicrosoftDependencyInjectionJobFactory();
+                q.UseSimpleTypeLoader();
+                q.UseInMemoryStore();
+                q.UseDefaultThreadPool(tp =>
+                {
+                    tp.MaxConcurrency = 2;
+                });
+                q.ScheduleJob<SessionJob>(trigger => trigger
+                    .StartNow()
+                    .WithDailyTimeIntervalSchedule(x => x.WithInterval(1, IntervalUnit.Hour))
+                );
+            });
+            services.AddQuartzHostedService(options =>
+            {
+                // when shutting down we want jobs to complete gracefully
+                options.WaitForJobsToComplete = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
@@ -63,7 +86,7 @@ namespace UberStrok.WebServices.AspNetCore
             app.UseSoapEndpoint<ApplicationWebService>("/ApplicationWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
             app.UseSoapEndpoint<ShopWebService>("/ShopWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
             app.UseSoapEndpoint<UserWebService>("/UserWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
-            // app.UseSoapEndpoint<ClanWebService>("ClanWebService", new BasicHttpBinding());
+            app.UseSoapEndpoint<ClanWebService>("/ClanWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
             app.UseSoapEndpoint<PrivateMessageWebService>("/PrivateMessageWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
             app.UseSoapEndpoint<RelationshipWebService>("/RelationshipWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
         }

@@ -9,10 +9,11 @@ namespace UberStrok.WebServices.AspNetCore.Database.LiteDb
         private readonly LiteDbSessionCollection _sessions;
         private readonly LiteDbClanCollection _clans;
         private readonly LiteDbMemberCollection _members;
-
+        private readonly LiteDbClanInvitationCollection _clanInvite;
         public IDbSessionCollection Sessions => _sessions;
         public IDbClanCollection Clans => _clans;
         public IDbMemberCollection Members => _members;
+        public IDbClanInvitationCollection ClanInvitations => _clanInvite;
 
         public LiteDbService()
         {
