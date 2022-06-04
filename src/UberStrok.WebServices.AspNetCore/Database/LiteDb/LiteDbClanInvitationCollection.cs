@@ -20,5 +20,10 @@ namespace UberStrok.WebServices.AspNetCore.Database.LiteDb
             Collection.Delete(document.Id);
             return Task.CompletedTask;
         }
+
+        public Task<bool> IsInvited(int clanId, int invitee)
+        {
+            return Task.Run(() => Collection.FindOne(x => x.View.GroupId == clanId && x.View.InviteeCmid == invitee) != null);
+        }
     }
 }

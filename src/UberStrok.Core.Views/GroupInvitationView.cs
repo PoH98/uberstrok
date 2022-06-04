@@ -9,6 +9,7 @@ namespace UberStrok.Core.Views
         {
         }
 
+
         public GroupInvitationView(int inviterCmid, int groupId, int inviteeCmid, string message)
         {
             this.InviterCmid = inviterCmid;

@@ -19,7 +19,7 @@ namespace UberStrok.WebServices.AspNetCore
 
         public abstract Task<List<GroupInvitationView>> OnGetPendingGroupInvitations(int groupId, string authToken);
 
-        public abstract int OnGetMyClanId(string authToken);
+        public abstract Task<int> OnGetMyClanId(string authToken);
 
         public abstract Task<int> OnUpdateMemberPosition(MemberPositionUpdateView memberPositionUpdate);
 
@@ -166,7 +166,7 @@ namespace UberStrok.WebServices.AspNetCore
             using (MemoryStream bytes = new MemoryStream(data))
             {
                 string authToken = StringProxy.Deserialize(bytes);
-                int id = OnGetMyClanId(authToken);
+                int id = await OnGetMyClanId(authToken);
                 using (MemoryStream outBytes = new MemoryStream())
                 {
                     Int32Proxy.Serialize(outBytes, id);

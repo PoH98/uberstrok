@@ -198,54 +198,215 @@ namespace UberStrok.WebServices.AspNetCore
             return new ClanRequestDeclineView();
         }
 
-        public override Task<int> OnDisbandClan(int groupId, string authToken)
+        public override async Task<int> OnDisbandClan(int groupId, string authToken)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(authToken);
+            if(member == null || member.ClanId == null || member.ClanId.Value != groupId)
+            {
+                return 69;
+            }
+            if(member.ClanId == groupId)
+            {
+                var clan = await _database.Clans.FindAsync(member.ClanId.Value);
+                if(clan != null)
+                {
+                    foreach(var mem in clan.Members)
+                    {
+                        var m = await _database.Members.FindAsync(mem.CmId);
+                        m.Clan = null;
+                        m.ClanId = null;
+                        _ = _database.Members.UpdateAsync(m);
+                    }
+                    _ = _database.Clans.DeleteAsync(clan);
+                    return 0;
+                }
+            }
+            return 69;
         }
 
-        public override Task<List<GroupInvitationView>> OnGetAllGroupInvitations(string authToken)
+        public override async Task<List<GroupInvitationView>> OnGetAllGroupInvitations(string authToken)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(authToken);
+            return (await _database.ClanInvitations.Where(x => x.View.InviteeCmid == member.Id)).Select(x =>
+            {
+                x.View.GroupInvitationId = x.Id;
+                return x.View;
+            }).ToList();
         }
 
-        public override int OnGetMyClanId(string authToken)
+        public override async Task<int> OnGetMyClanId(string authToken)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(authToken);
+            if(member == null || member.ClanId == null)
+            {
+                return 0;
+            }
+            return member.ClanId.Value;
         }
 
-        public override Task<ClanView> OnGetOwnClan(string authToken, int groupId)
+        public override async Task<ClanView> OnGetOwnClan(string authToken, int groupId)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(authToken);
+            if (member == null || member.ClanId == null || member.ClanId.Value != groupId)
+            {
+                return null;
+            }
+            var clan = (await _database.Clans.Where(x => x.Id == member.ClanId)).FirstOrDefault();
+            return new ClanView
+            {
+                MembersCount = clan.Members.Count,
+                OwnerCmid = clan.LeaderId,
+                Name = clan.Name,
+                Motto = clan.Motto,
+                GroupId = clan.Id,
+                Tag = clan.Tag,
+                Members = clan.Members.Select(x =>
+                {
+                    var member = _database.Members.FindAsync(x.CmId).Result;
+                    return new ClanMemberView
+                    {
+                        Cmid = x.CmId,
+                        Name = member.Name,
+                        Lastlogin = member.LastLogin,
+                        JoiningDate = x.JoinDate
+                    };
+                }).ToList(),
+            };
         }
 
-        public override Task<List<GroupInvitationView>> OnGetPendingGroupInvitations(int groupId, string authToken)
+        public override async Task<List<GroupInvitationView>> OnGetPendingGroupInvitations(int groupId, string authToken)
         {
-            throw new System.NotImplementedException();
+            return (await OnGetAllGroupInvitations(authToken)).Where(x => x.GroupId == groupId).ToList();
         }
 
-        public override Task<int> OnInviteMemberToJoinAGroup(int clanId, string authToken, int invitee, string message)
+        public override async Task<int> OnInviteMemberToJoinAGroup(int clanId, string authToken, int invitee, string message)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(authToken);
+            if (member == null || member.ClanId == null)
+            {
+                return -1;
+            }
+            var clan = await _database.Clans.FindAsync(clanId);
+            var invmem = await _database.Members.FindAsync(invitee);
+            if(invmem == null || clan == null)
+            {
+                return -1;
+            }
+            if(!await _database.ClanInvitations.IsInvited(clanId, invitee))
+            {
+                await _database.ClanInvitations.InsertAsync(new GroupInvitation
+                {
+                    View = new GroupInvitationView { 
+                        GroupId = clan.Id,
+                        GroupName = clan.Name,
+                        GroupTag = clan.Tag,
+                        InviterCmid = member.Id,
+                        InviteeName = member.Name,
+                        Message = message,
+                        InviteeCmid = invitee,
+                        InviterName = invmem.Name
+                    }
+                });
+                return 0;
+            }
+            return -1;
         }
 
-        public override Task<int> OnKick(int groupId, string authToken, int cmidToKick)
+        public override async Task<int> OnKick(int groupId, string authToken, int cmidToKick)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(authToken);
+            var clan = await _database.Clans.FindAsync(groupId);
+            if(member == null || clan == null || member.ClanId.Value != groupId)
+            {
+                return 69;
+            }
+            var clanMem = clan.Members.FirstOrDefault(x => x.CmId == member.Id);
+            var kickMem = clan.Members.FirstOrDefault(x => x.CmId == cmidToKick);
+            var kickable = false;
+            switch (clanMem.Position)
+            {
+                case GroupPosition.Officer:
+                    kickable = kickMem.Position == GroupPosition.Member;
+                    break;
+                case GroupPosition.Leader:
+                    kickable = kickMem.Position != GroupPosition.Leader;
+                    break;
+            }
+            if (kickable)
+            {
+                clan.Members.Remove(kickMem);
+                var mem = await _database.Members.FindAsync(kickMem.CmId);
+                mem.Clan = null;
+                mem.ClanId = null;
+                _ = _database.Members.UpdateAsync(mem);
+                _ = _database.Clans.UpdateAsync(clan);
+                return 0;
+            }
+            return 69;
         }
 
-        public override Task<int> OnLeaveClan(int groupId, string authToken)
+        public override async Task<int> OnLeaveClan(int groupId, string authToken)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(authToken);
+            if(member == null || member.ClanId == null || member.ClanId.Value != groupId)
+            {
+                return 69;
+            }
+            var clan = await _database.Clans.FindAsync(groupId);
+            var leaveMem = clan.Members.FirstOrDefault(x => x.CmId == member.Id);
+            if(leaveMem == null)
+            {
+                return 69;
+            }
+            clan.Members.Remove(leaveMem);
+            member.Clan = null;
+            member.ClanId = null;
+            _ = _database.Members.UpdateAsync(member);
+            _ = _database.Clans.UpdateAsync(clan);
+            return 0;
         }
 
-        public override Task<int> OnTransferOwnership(int groupId, string authToken, int newLeaderCmid)
+        public override async Task<int> OnTransferOwnership(int groupId, string authToken, int newLeaderCmid)
         {
-            throw new System.NotImplementedException();
+            //lazy implement this shit
+            return 69;
         }
 
-        public override Task<int> OnUpdateMemberPosition(MemberPositionUpdateView memberPositionUpdate)
+        public override async Task<int> OnUpdateMemberPosition(MemberPositionUpdateView memberPositionUpdate)
         {
-            throw new System.NotImplementedException();
+            var member = await _sessions.GetMemberAsync(memberPositionUpdate.AuthToken);
+            if(member == null || member.ClanId != memberPositionUpdate.GroupId)
+            {
+                return 69;
+            }
+            var clan = await _database.Clans.FindAsync(member.ClanId.Value);
+            if(clan == null)
+            {
+                return -1;
+            }
+            var executor = clan.Members.FirstOrDefault(x => x.CmId == member.Id);
+            var target = clan.Members.FirstOrDefault(x => x.CmId == memberPositionUpdate.MemberCmid);
+            if(executor == null || target == null)
+            {
+                return 69;
+            }
+            var executable = false;
+            switch (executor.Position)
+            {
+                case GroupPosition.Officer:
+                    executable = target.Position == GroupPosition.Member;
+                    break;
+                case GroupPosition.Leader:
+                    executable = target.Position != GroupPosition.Leader;
+                    break;
+            }
+            if (executable)
+            {
+                target.Position = memberPositionUpdate.Position;
+                _ = _database.Clans.UpdateAsync(clan);
+                return 0;
+            }
+            return -1;
         }
     }
 }

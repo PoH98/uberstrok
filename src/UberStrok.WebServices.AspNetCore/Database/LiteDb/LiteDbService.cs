@@ -21,6 +21,7 @@ namespace UberStrok.WebServices.AspNetCore.Database.LiteDb
             _clans = new LiteDbClanCollection(_db);
             _members = new LiteDbMemberCollection(_db);
             _sessions = new LiteDbSessionCollection(_db);
+            _clanInvite = new LiteDbClanInvitationCollection(_db);
         }
     }
 }
