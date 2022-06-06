@@ -36,23 +36,23 @@ namespace UberStrok.WebServices.AspNetCore
             services.Configure<AuthConfiguration>(Configuration.GetSection("Auth"));
 
             // Register services.
-            services.AddSingleton<IDbService, LiteDbService>();
+            services.AddScoped<IDbService, LiteDbService>();
             services.AddSingleton<IAuthService, JwtAuthService>();
-            services.AddSingleton<ISessionService, SessionService>();
+            services.AddScoped<ISessionService, SessionService>();
 
             services.AddSoapCore();
 
-            services.AddSingleton(s => new ItemManager(s.GetRequiredService<IOptions<ItemsConfiguration>>().Value));
-            services.AddSingleton(s => new MapManager(s.GetRequiredService<IOptions<MapsConfiguration>>().Value));
+            services.AddScoped(s => new ItemManager(s.GetRequiredService<IOptions<ItemsConfiguration>>().Value));
+            services.AddScoped(s => new MapManager(s.GetRequiredService<IOptions<MapsConfiguration>>().Value));
 
             // Register web services.
-            services.AddSingleton<ApplicationWebService>();
-            services.AddSingleton<AuthenticationWebService>();
-            services.AddSingleton<ShopWebService>();
-            services.AddSingleton<UserWebService>();
-            services.AddSingleton<ClanWebService>();
-            services.AddSingleton<PrivateMessageWebService>();
-            services.AddSingleton<RelationshipWebService>();
+            services.AddScoped<ApplicationWebService>();
+            services.AddScoped<AuthenticationWebService>();
+            services.AddScoped<ShopWebService>();
+            services.AddScoped<UserWebService>();
+            services.AddScoped<ClanWebService>();
+            services.AddScoped<PrivateMessageWebService>();
+            services.AddScoped<RelationshipWebService>();
 
             services.AddQuartz(q =>
             {

@@ -313,8 +313,8 @@ namespace UberStrok.Realtime.Server.Comm
             if (mutedPeer != null && mutedPeer.Actor.AccessLevel < MemberAccessLevel.Moderator)
             {
                 mutedPeer.Actor.IsMuted = durationInMinutes > 0;
-                mutedPeer.Actor.MuteEndTime = DateTime.UtcNow.AddSeconds(durationInMinutes);
-                mutedPeer.Events.Lobby.SendModerationMutePlayer(disableChat);
+                mutedPeer.Actor.MuteEndTime = DateTime.UtcNow.AddMinutes(durationInMinutes);
+                mutedPeer.Events.Lobby.SendModerationMutePlayer(mutedPeer.Actor.IsMuted);
             }
         }
 
@@ -388,7 +388,7 @@ namespace UberStrok.Realtime.Server.Comm
 
         protected override void OnSetContactList(CommPeer peer, List<int> cmids)
         {
-            throw new NotImplementedException();
+            peer.Actor.ContactList = new HashSet<int>(cmids);
         }
 
         protected override void OnUpdateAllActors(CommPeer peer)
@@ -398,7 +398,7 @@ namespace UberStrok.Realtime.Server.Comm
 
         protected override void OnUpdateContacts(CommPeer peer)
         {
-
+            throw new NotImplementedException();
         }
 
         private bool DoBan(CommPeer peer, int cmid)

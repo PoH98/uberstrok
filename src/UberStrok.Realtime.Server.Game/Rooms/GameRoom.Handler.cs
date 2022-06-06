@@ -26,6 +26,8 @@ namespace UberStrok.Realtime.Server.Game
 
         protected sealed override void OnJoinTeam(GameActor actor, TeamID team)
         {
+            if (actor == null)
+                return;
             if (!CanJoin(actor, team))
             {
                 actor.Peer.Events.Game.SendJoinGameFailed("Room or team is full.");
@@ -66,6 +68,8 @@ namespace UberStrok.Realtime.Server.Game
 
         protected sealed override void OnChatMessage(GameActor actor, string message, byte context)
         {
+            if (actor == null)
+                throw new ArgumentNullException(nameof(actor));
             var cmid = actor.Cmid;
             var playerName = actor.Info.PlayerName;
             var accessLevel = actor.Info.AccessLevel;
@@ -125,9 +129,6 @@ namespace UberStrok.Realtime.Server.Game
 
         protected sealed override void OnExplosionDamage(GameActor actor, int targetCmid, byte slot, byte distance, Vector3 force)
         {
-            if (State.Current != RoomState.Id.Running)
-                return;
-
             GameActor attacker = actor;
 
             int weaponSlot = slot;
@@ -280,9 +281,12 @@ namespace UberStrok.Realtime.Server.Game
                 var damage = (ushort)actor.Info.Health;
 
                 actor.Info.Health = 0;
-                actor.Info.Deaths++;
-                actor.Info.Kills--;
-                actor.Statistics.RecordSuicide();
+                if(State.Current == RoomState.Id.Running)
+                {
+                    actor.Info.Deaths++;
+                    actor.Info.Kills--;
+                    actor.Statistics.RecordSuicide();
+                }
 
                 OnPlayerKilled(new PlayerKilledEventArgs
                 {
@@ -394,6 +398,8 @@ namespace UberStrok.Realtime.Server.Game
         {
             var weapon = actor.Loadout.Weapons[actor.Info.CurrentWeaponID];
 
+            if (weapon == null)
+                return;
             /* Send single bullet fire to all peers. */
             foreach (var otherActors in Actors)
                 otherActors.Peer.Events.Game.SendSingleBulletFire(actor.Cmid);

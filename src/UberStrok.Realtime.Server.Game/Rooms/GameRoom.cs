@@ -340,6 +340,7 @@ namespace UberStrok.Realtime.Server.Game
                 if (actor.Peer.HasError)
                 {
                     actor.Peer.Disconnect();
+                    Leave(actor.Peer);
                 }
                 else
                 {
@@ -356,7 +357,7 @@ namespace UberStrok.Realtime.Server.Game
                         Log.Error($"Failed to tick {actor.GetDebug()}. Disconnecting...", ex);
                         actor.Peer.Disconnect();
                         //remove from actors list
-                        DoLeave(actor.Peer);
+                        Leave(actor.Peer);
                         /* Something happened; we dip. */
                         continue;
                     }
@@ -567,7 +568,7 @@ namespace UberStrok.Realtime.Server.Game
             var victimPos = victim.Movement.Position;
             var attackerPos = attacker.Movement.Position;
             direction = attackerPos - victimPos;
-
+            
             /* Chill time, game has ended; we don't do damage. */
             if (State.Current == RoomState.Id.End)
                 return false;
@@ -626,6 +627,7 @@ namespace UberStrok.Realtime.Server.Game
             /* Check if the player is dead. */
             if (victim.Info.Health <= 0)
             {
+                
                 if (victim.Damages.Count > 0)
                 {
                     /* 

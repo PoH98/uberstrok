@@ -78,45 +78,7 @@ namespace UberStrok.Realtime.Server.Comm
 
                 BufferedMessage.DeleteBufferedMessage(peer.Actor.Cmid);
             }
-            UpdateList();
-        }
-        public void UpdateMute(CommPeer peer, int muteDuration)
-        {
-            if (muteDuration > 0)
-            {
-                peer.Actor.MuteEndTime = DateTime.UtcNow.AddMinutes(muteDuration);
-                peer.Actor.IsMuted = true;
-                var message = "Your account has been temporarily muted!" + Environment.NewLine + "Duration left: " + (muteDuration / 60) + " hours " + (muteDuration % 60) + " minutes.";
-                peer.Events.Lobby.SendModerationCustomMessage(message);
-                peer.Events.Lobby.SendModerationMutePlayer(true);
-            }
-            else if (muteDuration == -1)
-            {
-                peer.Actor.MuteEndTime = DateTime.MaxValue;
-                peer.Actor.IsMuted = true;
-                var message = "Your account has been muted permanently!";
-                peer.Events.Lobby.SendModerationCustomMessage(message);
-                peer.Events.Lobby.SendModerationMutePlayer(true);
-            }
-        }
-
-        public string Message(int cmid, string message)
-        {
-            var peer = Find(cmid);
-
-            if (peer == null)
-            {
-                if (!BufferedMessage.HasBufferedMessage(cmid))
-                {
-                    BufferedMessage.AddBufferedMessage(cmid, message);
-
-                    return "``User is Offline. Message will be executed on next log in.``";
-                }
-                else { return "``There's already a message in queue.``"; }
-            }
-
-            peer.Events.Lobby.SendModerationCustomMessage(message);
-            return "``Message has been sent to target user``";
+            UpdateList("Peer joined");
         }
 
         public string UpdateMute(int cmid, int muteDuration)
@@ -191,7 +153,7 @@ namespace UberStrok.Realtime.Server.Comm
             Log.Debug($"CommPeer left the room {peer.Actor.Cmid}");
 
             peer.Handlers.Remove(Id);
-            UpdateList();
+            UpdateList("Peer Leave");
             /* TODO: Tell the web servers to close the user's session or something. */
         }
 
@@ -207,7 +169,7 @@ namespace UberStrok.Realtime.Server.Comm
         private void OnTick()
         {
             _failedPeers.Clear();
-
+            bool changed = false;
             lock (Sync)
             {
                 foreach (var peer in Peers)
@@ -215,21 +177,34 @@ namespace UberStrok.Realtime.Server.Comm
                     if (peer.HasError)
                     {
                         peer.Disconnect();
-                        break;
-                    }
-
-                    try { peer.Tick(); }
-                    catch (Exception ex)
-                    {
-                        /* NOTE: This should never happen, but just incase. */
-                        Log.Error("Failed to update peer.", ex);
+                        changed = true;
                         _failedPeers.Add(peer);
+                    }
+                    else
+                    {
+                        try
+                        {
+                            peer.Tick();
+                        }
+                        catch (Exception ex)
+                        {
+                            /* NOTE: This should never happen, but just incase. */
+                            Log.Error("Failed to update peer.", ex);
+                            _failedPeers.Add(peer);
+                        }
                     }
                 }
             }
-
+            if (_failedPeers.Count > 0)
+            {
+                changed = true;
+            }
             foreach (var peer in _failedPeers)
                 Leave(peer);
+            if (changed)
+            {
+                Log.Debug("Peers disconnect detected");
+            }
         }
 
         private void OnTickError(Exception ex)
@@ -238,8 +213,9 @@ namespace UberStrok.Realtime.Server.Comm
         }
 
         /* Update all peer's player list in the lobby. */
-        private void UpdateList()
+        private void UpdateList(string updateReason)
         {
+            Log.Debug("Sending update room list because of " + updateReason);
             lock (Sync)
             {
                 var actors = new List<CommActorInfoView>(_peers.Count);

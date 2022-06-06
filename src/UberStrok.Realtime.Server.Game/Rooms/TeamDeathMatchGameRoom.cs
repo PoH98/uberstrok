@@ -8,8 +8,6 @@ namespace UberStrok.Realtime.Server.Game
     public sealed class TeamDeathMatchGameRoom : GameRoom
     {
         public bool FriendlyFire { get; set; }
-        public int BlueTeamScore { get; private set; }
-        public int RedTeamScore { get; private set; }
 
         public int BlueTeamPlayer { get; private set; }
         public int RedTeamPlayer { get; private set; }

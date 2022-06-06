@@ -106,10 +106,7 @@ namespace UberStrok.Realtime.Server.Game
 
                     State.Set(RoomState.Id.End);
                 }
-                else if (RedTeamAlivePlayer == 0 || BlueTeamAlivePlayer == 0)
-                {
-                    EndRound();
-                }
+                EndRound();
             }
         }
 
@@ -158,7 +155,7 @@ namespace UberStrok.Realtime.Server.Game
 
         public sealed override bool CanDamage(GameActor victim, GameActor attacker)
         {
-            if (State.Current == RoomState.Id.Running)
+            if (State.Current != RoomState.Id.Running)
                 return false;
 
             if (FriendlyFire)
@@ -217,7 +214,7 @@ namespace UberStrok.Realtime.Server.Game
         {
             BlueTeamAlivePlayer = BlueTeamTotalPlayer;
             RedTeamAlivePlayer = RedTeamTotalPlayer;
-
+            
             Winner = TeamID.NONE;
             RoundWinner = TeamID.NONE;
         }
@@ -244,7 +241,7 @@ namespace UberStrok.Realtime.Server.Game
                 actor.Peer.Events.Game.SendUpdateRoundScore(RoundNumber, (short)BlueTeamScore, (short)RedTeamScore);
             }
 
-            State.Set(RoomState.Id.AfterRound);
+            State.Set(RoomState.Id.End);
         }
     }
 }

@@ -30,15 +30,21 @@ namespace UberStrok.Realtime.Server.Comm
 
         public override void Tick()
         {
-            base.Tick();
-
-            if (Actor.IsMuted)
+            try
             {
-                if (Actor.MuteEndTime < DateTime.UtcNow)
+                base.Tick();
+                if (Actor.IsMuted)
                 {
-                    Events.Lobby.SendModerationMutePlayer(false);
-                    Actor.IsMuted = false;
+                    if (Actor.MuteEndTime < DateTime.UtcNow)
+                    {
+                        Events.Lobby.SendModerationMutePlayer(false);
+                        Actor.IsMuted = false;
+                    }
                 }
+            }
+            catch
+            {
+                HasError = true;
             }
         }
 
@@ -58,7 +64,7 @@ namespace UberStrok.Realtime.Server.Comm
 
         protected override void OnDisconnect(global::PhotonHostRuntimeInterfaces.DisconnectReason reasonCode, string reasonDetail)
         {
-
+            HasError = true;
         }
     }
 }

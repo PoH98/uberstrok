@@ -17,7 +17,10 @@ namespace UberStrok.WebServices.AspNetCore.Database.LiteDb
 
         public LiteDbService()
         {
-            _db = new LiteDatabase("Filename=uberstrok.db;connection=shared;");
+            _db = new LiteDatabase(new ConnectionString(@"uberstrok.db")
+            {
+                Connection = ConnectionType.Shared
+            });
             _clans = new LiteDbClanCollection(_db);
             _members = new LiteDbMemberCollection(_db);
             _sessions = new LiteDbSessionCollection(_db);
