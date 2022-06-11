@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UberStrok.Core.Common;
@@ -18,7 +19,6 @@ namespace UberStrok.WebServices.AspNetCore
             UberStrikeItemType itemType,
             BuyingLocationType marketLocation,
             BuyingRecommendationType recommendationType);
-
         async Task<byte[]> IShopAsyncWebServiceContract.BuyItem(byte[] data)
         {
             using (var bytes = new MemoryStream(data))
@@ -66,8 +66,25 @@ namespace UberStrok.WebServices.AspNetCore
         Task<byte[]> IShopAsyncWebServiceContract.GetAllMysteryBoxs_2(byte[] data)
             => ThrowHelpers.ThrowOperationNotSupported(nameof(IShopAsyncWebServiceContract.GetAllMysteryBoxs_2));
 
-        Task<byte[]> IShopAsyncWebServiceContract.GetBundles(byte[] data)
-            => ThrowHelpers.ThrowOperationNotSupported(nameof(IShopAsyncWebServiceContract.GetBundles));
+        async Task<byte[]> IShopAsyncWebServiceContract.GetBundles(byte[] data)
+        {
+            try
+            {
+                using (var bytes = new MemoryStream(data))
+                {
+                    var channel = EnumProxy<ChannelType>.Deserialize(bytes);
+                    using (var outBytes = new MemoryStream())
+                    {
+                        EnumProxy<ChannelType>.Serialize(outBytes, channel);
+                        return outBytes.ToArray();
+                    }
+                }
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
         Task<byte[]> IShopAsyncWebServiceContract.GetLuckyDraw(byte[] data)
             => ThrowHelpers.ThrowOperationNotSupported(nameof(IShopAsyncWebServiceContract.GetLuckyDraw));
