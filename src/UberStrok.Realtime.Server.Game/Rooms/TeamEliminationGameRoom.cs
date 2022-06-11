@@ -87,7 +87,7 @@ namespace UberStrok.Realtime.Server.Game
 
             base.OnPlayerLeft(args);
 
-            if (State.Current == RoomState.Id.WaitingForPlayers)
+            if (State.Current != RoomState.Id.WaitingForPlayers)
             {
                 if (RedTeamTotalPlayer == 0 || BlueTeamTotalPlayer == 0)
                 {
@@ -106,13 +106,17 @@ namespace UberStrok.Realtime.Server.Game
 
                     State.Set(RoomState.Id.End);
                 }
-                EndRound();
+                else if (RedTeamAlivePlayer == 0 || BlueTeamAlivePlayer == 0)
+                {
+                    EndRound();
+                }
             }
         }
 
         protected sealed override void OnPlayerKilled(PlayerKilledEventArgs args)
         {
             base.OnPlayerKilled(args);
+            Log.Debug(State.Current);
             if (State.Current == RoomState.Id.WaitingForPlayers)
             {
                 OnRespawnRequest(args.Victim);

@@ -155,8 +155,6 @@ namespace UberStrok.Realtime.Server.Game
             if (actor.Projectiles.FalsePositive >= 10)
             {
                 ReportLog.Warn($"[Weapon] OnExplosionDamage False positive reached {actor.Cmid}");
-                actor.Peer.Disconnect();
-                Leave(actor.Peer);
             }
             else
             {
@@ -206,8 +204,6 @@ namespace UberStrok.Realtime.Server.Game
             if (weapon.FalsePositive >= weapon.FalsePositiveThreshold)
             {
                 ReportLog.Warn($"[Weapon] OnDirectHitDamage FalsePositive reached {actor.Cmid}");
-                actor.Peer.Disconnect();
-                Leave(actor.Peer);
             }
             else
             {
@@ -396,6 +392,9 @@ namespace UberStrok.Realtime.Server.Game
 
         protected sealed override void OnSingleBulletFire(GameActor actor)
         {
+            if (State.Current != RoomState.Id.Running)
+                return;
+
             var weapon = actor.Loadout.Weapons[actor.Info.CurrentWeaponID];
 
             if (weapon == null)

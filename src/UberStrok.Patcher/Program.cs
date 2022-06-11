@@ -15,6 +15,7 @@ namespace UberStrok.Patcher
             Console.WriteLine("https://steamdb.info/app/291210/");
             Console.ReadLine();
             var sw = Stopwatch.StartNew();
+            Console.WriteLine(" Thanks to Anonymous from UberKill providing us MODs");
             Console.WriteLine(" Searching for Steam installation...");
 
             var steamPath = default(string);
@@ -76,6 +77,14 @@ namespace UberStrok.Patcher
                     url = File.ReadAllText(uberStrikePath + "\\UberStrike_Data\\.uberstrok");
                 }
             }
+            if (!url.StartsWith("http://"))
+            {
+                url = "http://" + url;
+            }
+            if (!url.EndsWith("/"))
+            {
+                url += "/";
+            }
             File.WriteAllText(uberStrikePath + "\\UberStrike_Data\\.uberstrok", url);
             Console.WriteLine("Binded uberstrike to service...");
             Console.WriteLine(" -----------------------------------");
@@ -109,7 +118,8 @@ namespace UberStrok.Patcher
                 new WebServicesPatch(),
                 new HostPatch(),
                 new MouseSensitivePatch(),
-                new CreditPatch()
+                new CreditPatch(),
+                new UIPatch()
             };
 
             Console.WriteLine(" Patches ->");
