@@ -120,6 +120,7 @@ namespace UberStrok.Realtime.Server.Game
             State.Register(RoomState.Id.Countdown, new CountdownRoomState(this));
             State.Register(RoomState.Id.Running, new RunningRoomState(this));
             State.Register(RoomState.Id.End, new EndRoomState(this));
+            State.Register(RoomState.Id.AfterRound, new AfterRoundState(this));
             /* 
              * * Expected interval between ticks by the client is 100ms 
              * (10 tick/s).

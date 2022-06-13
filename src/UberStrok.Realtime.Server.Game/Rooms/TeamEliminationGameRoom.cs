@@ -199,8 +199,8 @@ namespace UberStrok.Realtime.Server.Game
                     {
                         Attacker = actor,
                         Victim = actor,
-                        ItemClass = UberStrikeItemClass.WeaponMachinegun,
-                        Part = BodyPart.Body,
+                        ItemClass = UberStrikeItemClass.WeaponMelee,
+                        Part = BodyPart.Nuts,
                     });
 
                     foreach (var player in Players)
@@ -245,7 +245,7 @@ namespace UberStrok.Realtime.Server.Game
                 actor.Peer.Events.Game.SendUpdateRoundScore(RoundNumber, (short)BlueTeamScore, (short)RedTeamScore);
             }
 
-            State.Set(RoomState.Id.End);
+            State.Set(RoomState.Id.AfterRound);
         }
     }
 }

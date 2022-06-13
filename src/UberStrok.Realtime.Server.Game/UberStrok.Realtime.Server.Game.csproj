@@ -56,6 +56,7 @@
     <Compile Include="GameLobby.cs" />
     <Compile Include="Operations\BaseGamePeerOperationHandler.cs" />
     <Compile Include="Operations\BaseGameRoomOperationHandler.cs" />
+    <Compile Include="RoomStates\RoomState.AfterRound.cs" />
     <Compile Include="RoomStates\RoomState.End.cs" />
     <Compile Include="ActorStates\ActorState.Countdown.cs" />
     <Compile Include="GameActor.cs" />
