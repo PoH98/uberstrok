@@ -54,7 +54,6 @@ namespace UberStrok.WebServices.AspNetCore
             services.AddScoped<ClanWebService>();
             services.AddScoped<PrivateMessageWebService>();
             services.AddScoped<RelationshipWebService>();
-
             services.AddQuartz(q =>
             {
                 q.UseMicrosoftDependencyInjectionJobFactory();

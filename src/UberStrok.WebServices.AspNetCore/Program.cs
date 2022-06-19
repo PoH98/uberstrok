@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace UberStrok.WebServices.AspNetCore
 {
@@ -16,6 +17,7 @@ namespace UberStrok.WebServices.AspNetCore
         public static WebApplicationBuilder CreateWebHostBuilder(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console().WriteTo.File("Logs\\log-.log", rollingInterval: RollingInterval.Day));
             startup = new Startup(builder.Configuration);
             builder.Configuration.AddJsonFile("configs/game/items.json", optional: false, reloadOnChange: true);
             builder.Configuration.AddJsonFile("configs/game/maps.json", optional: false, reloadOnChange: true);
