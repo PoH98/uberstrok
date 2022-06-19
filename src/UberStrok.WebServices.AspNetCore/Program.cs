@@ -22,6 +22,7 @@ namespace UberStrok.WebServices.AspNetCore
             builder.Configuration.AddJsonFile("configs/game/application.json", optional: false, reloadOnChange: true);
             builder.Configuration.AddJsonFile("configs/game/servers.json", optional: false, reloadOnChange: true);
             builder.Configuration.AddJsonFile("configs/account.json", optional: false, reloadOnChange: true);
+            builder.Configuration.AddJsonFile("configs/game/excludedItemsNewPlayer.json", optional: false, reloadOnChange: true);
             startup.ConfigureServices(builder.Services);
             return builder;
         }

@@ -29,6 +29,8 @@ namespace UberStrok.WebServices.AspNetCore
 
         private readonly ItemManager _items;
         private readonly AccountConfiguration _accountConfig;
+
+        private readonly ExcludedItemsNewPlayerConfiguration _excluded;
         private readonly IDbService _database;
         private readonly ISessionService _sessions;
         private readonly IHostEnvironment _env;
@@ -40,6 +42,7 @@ namespace UberStrok.WebServices.AspNetCore
             IOptions<AccountConfiguration> accConfig,
             IDbService database,
             ISessionService sessions,
+            IOptions<ExcludedItemsNewPlayerConfiguration> exclude,
             ItemManager items)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
@@ -48,7 +51,7 @@ namespace UberStrok.WebServices.AspNetCore
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _sessions = sessions ?? throw new ArgumentNullException(nameof(sessions));
             _accountConfig = accConfig.Value;
-
+            _excluded = exclude.Value;
             if (_env.IsDevelopment())
                 _auths = new HashSet<string>();
         }
@@ -239,7 +242,7 @@ namespace UberStrok.WebServices.AspNetCore
                 Statistics = new MemberStatistics()
             };
             var shop = _items.GetView();
-            foreach (var w in shop.WeaponItems)
+            foreach (var w in shop.WeaponItems.Where(x => !_excluded.ExcludedIds.Contains(x.ID)))
             {
                 member.Inventory.Add(new InventoryItem
                 {
@@ -248,7 +251,7 @@ namespace UberStrok.WebServices.AspNetCore
                     Expiration = null
                 });
             }
-            foreach (var w in shop.GearItems)
+            foreach (var w in shop.GearItems.Where(x => !_excluded.ExcludedIds.Contains(x.ID)))
             {
                 member.Inventory.Add(new InventoryItem
                 {

@@ -30,6 +30,7 @@ namespace UberStrok.WebServices.AspNetCore
 
             services.Configure<MapsConfiguration>(Configuration.GetSection("Maps"));
             services.Configure<ItemsConfiguration>(Configuration.GetSection("Items"));
+            services.Configure<ExcludedItemsNewPlayerConfiguration>(Configuration.GetSection("ExcludedItemsNewPlayer"));
             services.Configure<ServersConfiguration>(Configuration.GetSection("Servers"));
             services.Configure<ApplicationConfiguration>(Configuration.GetSection("Application"));
             services.Configure<AccountConfiguration>(Configuration.GetSection("Account"));
