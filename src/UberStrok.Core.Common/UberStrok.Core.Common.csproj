@@ -31,17 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountCompletionResult.cs" />
     <Compile Include="AchievementType.cs" />
     <Compile Include="AvatarType.cs" />
     <Compile Include="BodyPart.cs" />
+    <Compile Include="GameBoxType.cs" />
     <Compile Include="BundleCategoryType.cs" />
     <Compile Include="BuyingDurationType.cs" />
     <Compile Include="BuyingLocationType.cs" />
@@ -50,13 +49,12 @@
     <Compile Include="ChannelType.cs" />
     <Compile Include="ChatContext.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="ContactRequestStatus.cs" />
     <Compile Include="Conversions.cs" />
     <Compile Include="DamageEffectType.cs" />
     <Compile Include="DefinitionType.cs" />
     <Compile Include="EmailAddressStatus.cs" />
     <Compile Include="FireMode.cs" />
-    <Compile Include="GameFlags.cs" />
+    <Compile Include="GameFlagsView.cs" />
     <Compile Include="GameModeType.cs" />
     <Compile Include="GearSlotType.cs" />
     <Compile Include="ItemPropertyType.cs" />
@@ -65,12 +63,12 @@
     <Compile Include="MemberAccessLevel.cs" />
     <Compile Include="MemberAuthenticationResult.cs" />
     <Compile Include="MemberOperationResult.cs" />
+    <Compile Include="MemberRegistrationResult.cs" />
     <Compile Include="PackType.cs" />
     <Compile Include="PhotonUsageType.cs" />
     <Compile Include="PickupItemType.cs" />
     <Compile Include="PlayerMovement.cs" />
     <Compile Include="PlayerStates.cs" />
-    <Compile Include="PointsDepositType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickItemLogic.cs" />
     <Compile Include="RegionType.cs" />

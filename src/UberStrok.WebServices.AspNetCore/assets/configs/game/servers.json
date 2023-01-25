@@ -1,0 +1,16 @@
+﻿{
+    "CommServer": {
+        "IP": "109.230.238.103",
+        "Port": 5055
+    },
+    "GameServers": [
+        {
+            "Name": "Germany",
+            "IP": "109.230.238.103",
+            "Region": 1,
+            "Port": 5056,
+            "UsageType": 1,
+            "MinLatency": 500
+        }
+    ]
+}

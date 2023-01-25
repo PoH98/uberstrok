@@ -1,0 +1,23 @@
+﻿{
+  "locked": false,
+  "service_auth": "rEtArDMoTheRfUcKeRDD0S",
+  "service_base": "http://109.230.238.103:5000/2.0/",
+  "service_socket": "",
+  "server_game_version": "4.8.4",
+  "wallet": {
+    "starting_points": 10000,
+    "starting_credits": 10000
+  },
+  "loadout": {
+    "starting_items": [
+      1,
+      12
+    ]
+  },
+  "service_database": {
+    "host": "localhost",
+    "database": "uberkill",
+    "username": "Administrator",
+    "password": "retardmf"
+  }
+}
