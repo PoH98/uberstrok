@@ -4,17 +4,24 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using UberStrok.WebServices.AspNetCore.WebService;
 
 namespace UberStrok.WebServices.AspNetCore.Core.Discord
 {
     public class UDPListener
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(UDPListener));
+        public readonly ILog Log = LogManager.GetLogger(typeof(UDPListener));
 
-        public static UdpClient udpClient = new UdpClient(5070);
+        public UdpClient udpClient = new UdpClient(5070);
 
-        public static void BeginListen()
+        private readonly CoreDiscord coreDiscord;
+        public UDPListener(CoreDiscord coreDiscord)
+        {
+            this.coreDiscord = coreDiscord;
+            Initialise();
+            Console.WriteLine("UDP Listener Started.\n");
+        }
+
+        public void BeginListen()
         {
             try
             {
@@ -22,11 +29,11 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
             }
             catch (Exception e)
             {
-                AuthenticationWebService.Log.Error(e.ToString());
+                Log.Error(e.ToString());
             }
         }
 
-        private static void onReceive(IAsyncResult res)
+        private void onReceive(IAsyncResult res)
         {
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 5070);
             byte[] received = udpClient.EndReceive(res, ref RemoteIpEndPoint);
@@ -45,22 +52,22 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
             BeginListen();
         }
 
-        public static void Initialise()
+        public void Initialise()
         {
             new Thread(new ThreadStart(BeginListen)).Start();
         }
 
-        public static void SendDiscord(string message, bool login = false)
+        public void SendDiscord(string message, bool login = false)
         {
             try
             {
                 if (login)
                 {
-                    CoreDiscord.SendLoginLog(message).GetAwaiter().GetResult();
+                    coreDiscord.SendLoginLog(message).GetAwaiter().GetResult();
                 }
                 else
                 {
-                    CoreDiscord.SendChannel(message).GetAwaiter().GetResult();
+                    coreDiscord.SendChannel(message).GetAwaiter().GetResult();
                 }
             }
             catch (Exception e)

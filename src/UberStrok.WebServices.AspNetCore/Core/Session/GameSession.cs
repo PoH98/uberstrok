@@ -39,7 +39,8 @@ namespace UberStrok.WebServices.AspNetCore.Core.Session
             set;
         }
 
-        public GameSession(string sessionId, UserDocument document)
+        private readonly ClanManager clanManager;
+        public GameSession(string sessionId, UserDocument document, ClanManager clanManager)
         {
             SessionId = sessionId;
             Member = new MemberView(document.Profile, document.Wallet, document.Inventory.Select((ItemInventoryView t) => t.ItemId).ToList())
@@ -50,6 +51,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Session
                 }
             };
             Document = document;
+            this.clanManager = clanManager;
             RefreshClanLastLoginTime();
         }
 
@@ -59,14 +61,14 @@ namespace UberStrok.WebServices.AspNetCore.Core.Session
             {
                 _ = Task.Run(async delegate
                 {
-                    ClanDocument clan = await ClanManager.Get(Document.ClanId);
+                    ClanDocument clan = await clanManager.Get(Document.ClanId);
                     if (clan != null)
                     {
                         ClanMemberView member = clan.Clan.Members.Find((ClanMemberView m) => m.Cmid == Document.UserId);
                         if (member != null)
                         {
                             member.Lastlogin = DateTime.UtcNow;
-                            await ClanManager.Save(clan);
+                            await clanManager.Save(clan);
                         }
                     }
                 });

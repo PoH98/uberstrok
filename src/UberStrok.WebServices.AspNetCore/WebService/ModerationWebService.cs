@@ -7,18 +7,25 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 {
     public class ModerationWebService : BaseModerationWebService
     {
+        private readonly SecurityManager securityManager;
+        private readonly GameSessionManager gameSessionManager;
+        public ModerationWebService(SecurityManager securityManager, GameSessionManager gameSessionManager)
+        {
+            this.securityManager = securityManager;
+            this.gameSessionManager = gameSessionManager;
+        }
         public override int OnBan(string serviceAuth, int cmid)
         {
-            SecurityManager.BanCmid(cmid);
-            if (GameSessionManager.TryGet(cmid, out GameSession session))
+            securityManager.BanCmid(cmid);
+            if (gameSessionManager.TryGet(cmid, out GameSession session))
             {
                 if (session.IPAddress != null)
                 {
-                    SecurityManager.BanIp(session.IPAddress);
+                    securityManager.BanIp(session.IPAddress);
                 }
                 if (session.MachineId != null)
                 {
-                    SecurityManager.BanHwd(session.MachineId);
+                    securityManager.BanHwd(session.MachineId);
                 }
             }
             return 0;
@@ -26,52 +33,52 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override int OnBanIp(string authToken, string ip)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Member.PublicProfile.AccessLevel < MemberAccessLevel.SeniorModerator)
                 {
                     return 1;
                 }
-                SecurityManager.BanIp(ip);
+                securityManager.BanIp(ip);
             }
             return 0;
         }
 
         public override int OnBanCmid(string authToken, int cmid)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Member.PublicProfile.AccessLevel < MemberAccessLevel.SeniorQA)
                 {
                     return 1;
                 }
-                SecurityManager.BanCmid(cmid);
+                securityManager.BanCmid(cmid);
             }
             return 0;
         }
 
         public override int OnBanHwd(string authToken, string hwd)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Member.PublicProfile.AccessLevel < MemberAccessLevel.SeniorModerator)
                 {
                     return 1;
                 }
-                SecurityManager.BanHwd(hwd);
+                securityManager.BanHwd(hwd);
             }
             return 0;
         }
 
         public override int OnUnbanCmid(string authToken, int cmid)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Member.PublicProfile.AccessLevel < MemberAccessLevel.SeniorQA)
                 {
                     return 1;
                 }
-                SecurityManager.UnbanCmid(cmid);
+                securityManager.UnbanCmid(cmid);
             }
             return 0;
         }

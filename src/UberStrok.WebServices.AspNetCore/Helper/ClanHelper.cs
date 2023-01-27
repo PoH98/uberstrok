@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using UberStrok.Core.Views;
-using UberStrok.WebServices.AspNetCore.Core.Manager;
 
 namespace UberStrok.WebServices.AspNetCore.Helper
 {
@@ -23,9 +23,9 @@ namespace UberStrok.WebServices.AspNetCore.Helper
             };
         }
 
-        public static bool IsTagLocked(int cmid, string tag)
+        public static bool IsTagLocked(this List<LockedClanTags> lockedClanTags, int cmid, string tag)
         {
-            foreach (LockedClanTags locked in ResourceManager.LockedTags)
+            foreach (LockedClanTags locked in lockedClanTags)
             {
                 if (tag.Replace(" ", "") == locked.Tag)
                 {

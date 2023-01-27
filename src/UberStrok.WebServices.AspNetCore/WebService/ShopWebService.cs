@@ -12,21 +12,31 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 {
     public class ShopWebService : BaseShopWebService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(ShopWebService));
+        private readonly ILog Log = LogManager.GetLogger(typeof(ShopWebService));
+
+        private readonly ResourceManager resourceManager;
+        private readonly GameSessionManager gameSessionManager;
+        private readonly UserManager userManager;
+        public ShopWebService(ResourceManager resourceManager, GameSessionManager gameSessionManager, UserManager userManager)
+        {
+            this.resourceManager = resourceManager;
+            this.gameSessionManager = gameSessionManager;
+            this.userManager = userManager;
+        }
 
         public override UberStrikeItemShopClientView OnGetShop()
         {
-            return ResourceManager.Items;
+            return resourceManager.Items;
         }
 
         public override List<BundleView> OnGetBundles(ChannelType channel)
         {
-            return ResourceManager.Bundles;
+            return resourceManager.Bundles;
         }
 
         public override BuyItemResult OnBuyItem(int itemId, string authToken, UberStrikeCurrencyType currencyType, BuyingDurationType durationType, UberStrikeItemType itemType, BuyingLocationType marketLocation, BuyingRecommendationType recommendationType)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 BaseUberStrikeItemView itemView = OnGetShop().GetItem(itemId, itemType);
                 if (itemView != null)
@@ -98,7 +108,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                                             item.ExpirationDate = DateTime.UtcNow.AddDays(days); //if item has expired
                                         }
                                     }
-                                    _ = UserManager.Save(session.Document);
+                                    _ = userManager.Save(session.Document);
                                     return BuyItemResult.OK;
                                 }
                                 else
@@ -113,7 +123,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                             date = DateTime.Now.AddDays(days);
                         }
                         session.Document.Inventory.Add(new ItemInventoryView(itemId, date, -1, session.Document.UserId));
-                        _ = UserManager.Save(session.Document);
+                        _ = userManager.Save(session.Document);
                         return BuyItemResult.OK;
                     }
                     return BuyItemResult.IsNotForSale;

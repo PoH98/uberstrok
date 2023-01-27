@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using UberStrok.WebServices.AspNetCore.Core.Discord;
 
 namespace UberStrok.WebServices.AspNetCore
 {
@@ -8,7 +10,10 @@ namespace UberStrok.WebServices.AspNetCore
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            IHost builded = CreateHostBuilder(args).Build();
+            _ = builded.Services.GetService<CoreDiscord>().RunAsync();
+            _ = builded.RunAsync();
+            builded.WaitForShutdown();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)

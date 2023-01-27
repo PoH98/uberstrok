@@ -1,4 +1,3 @@
-using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +9,20 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
 {
     public class UberBeatManager
     {
-        public static List<string> ExceptionData { get; set; } = new List<string>();
+        public List<string> ExceptionData { get; set; } = new List<string>();
+
+        private readonly UserManager userManager;
+
+        public UberBeatManager(UserManager userManager)
+        {
+            this.userManager = userManager;
+        }
 
         public void Update(UserDocument document, string hwid)
         {
             try
             {
-                UberBeat uberBeat = UberBeatManager.ParseHWIDToObject(hwid);
+                UberBeat uberBeat = ParseHWIDToObject(hwid);
                 if (uberBeat != null)
                 {
                     document.HDD.UnionWith(uberBeat.HDD);
@@ -24,7 +30,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                     document.MOTHERBOARD.UnionWith(uberBeat.MOTHERBOARD);
                     document.MAC.UnionWith(uberBeat.MAC);
                     document.UNITY.UnionWith(uberBeat.UNITY);
-                    UserManager.Save(document);
+                    _ = userManager.Save(document);
                 }
             }
             catch (Exception ex)
@@ -37,17 +43,17 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             string result2;
             try
             {
-                UserDocument result = UserManager.GetUser(cmid).Result;
+                UserDocument result = userManager.GetUser(cmid).Result;
                 if (duration > 0)
                 {
-                    result.UBMute = DateTime.UtcNow.AddMinutes((double)duration).ToString();
-                    UserManager.Save(result);
+                    result.UBMute = DateTime.UtcNow.AddMinutes(duration).ToString();
+                    _ = userManager.Save(result);
                     result2 = string.Format("{0} has been muted for {1} minutes.", result.Profile.Name, duration.ToString());
                 }
                 else
                 {
                     result.UBMute = "-1";
-                    UserManager.Save(result);
+                    _ = userManager.Save(result);
                     result2 = string.Format("{0} has been muted permanently.", result.Profile.Name);
                 }
             }
@@ -57,96 +63,13 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             }
             return result2;
         }
-        public void UserLog(string steamid, int duration, string hwid)
-        {
-            UserDocument result = UserManager.GetUser(steamid).Result;
-            if (result == null)
-            {
-                if (duration == -1)
-                {
-                    UDPListener.SendDiscord(string.Concat(new string[]
-                    {
-                        "``Permanently Banned user with HWID:``",
-                        Environment.NewLine,
-                        "```",
-                        hwid.Replace("|", Environment.NewLine),
-                        "```has been kicked."
-                    }), true);
-                    return;
-                }
-                if (duration == 0)
-                {
-                    UDPListener.SendDiscord(string.Concat(new string[]
-                    {
-                        "``User with HWID:``",
-                        Environment.NewLine,
-                        "```",
-                        hwid.Replace("|", Environment.NewLine),
-                        "```has logged in."
-                    }), true);
-                    return;
-                }
-                UDPListener.SendDiscord(string.Concat(new string[]
-                {
-                    "``Temporarily Banned user ( for ",
-                    duration.ToString(),
-                    " more minutes ) with HWID:``",
-                    Environment.NewLine,
-                    "```",
-                    hwid.Replace("|", Environment.NewLine),
-                    "```has logged in."
-                }), true);
-                return;
-            }
-            else
-            {
-                if (duration == -1)
-                {
-                    UDPListener.SendDiscord(string.Concat(new string[]
-                    {
-                        string.Format("``Permanently banned user with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, steamid),
-                        Environment.NewLine,
-                        "```",
-                        hwid.Replace("|", Environment.NewLine),
-                        "```has been kicked."
-                    }), true);
-                    return;
-                }
-                if (duration == 0)
-                {
-                    UDPListener.SendDiscord(string.Concat(new string[]
-                    {
-                        string.Format("``User with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, steamid),
-                        Environment.NewLine,
-                        "```",
-                        hwid.Replace("|", Environment.NewLine),
-                        "```has logged in."
-                    }), true);
-                    return;
-                }
-                UDPListener.SendDiscord(string.Concat(new string[]
-                {
-                    string.Format("``Temporarily Banned user ( for {0} more minutes ) with CMID {1}, Name {2}, SteamID {3} and HWID:``", new object[]
-                    {
-                        duration.ToString(),
-                        result.Profile.Cmid,
-                        result.Profile.Name,
-                        steamid
-                    }),
-                    Environment.NewLine,
-                    "```",
-                    hwid.Replace("|", Environment.NewLine),
-                    "```has logged in."
-                }), true);
-                return;
-            }
-        }
+
         public string Unmute(int cmid)
         {
             string result2;
             try
             {
-                UserDocument result = UserManager.GetUser(cmid).Result;
+                UserDocument result = userManager.GetUser(cmid).Result;
                 if (result == null)
                 {
                     result2 = string.Format("User with cmid {0} does not exist.", cmid.ToString());
@@ -158,7 +81,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                 else
                 {
                     result.UBBan = null;
-                    UserManager.Save(result);
+                    _ = userManager.Save(result);
                     result2 = string.Format("User with cmid {0} and name {1} has been unmuted.", cmid.ToString(), result.Profile.Name);
                 }
             }
@@ -189,23 +112,19 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                         else if (dateTime <= DateTime.UtcNow)
                         {
                             member.UBMute = null;
-                            UserManager.Save(member);
+                            _ = userManager.Save(member);
                         }
                     }
-                    foreach (int cmid in this.AltCmids(member.Profile.Cmid))
+                    foreach (int cmid in AltCmids(member.Profile.Cmid))
                     {
-                        list.Add(UberBeatManager.getDuration(cmid, true));
+                        list.Add(getDuration(cmid, true));
                     }
                 }
-                foreach (int cmid2 in this.AltCmids(hwid))
+                foreach (int cmid2 in AltCmids(hwid))
                 {
-                    list.Add(UberBeatManager.getDuration(cmid2, true));
+                    list.Add(getDuration(cmid2, true));
                 }
-                if (list.Contains(-1))
-                {
-                    return -1;
-                }
-                return list.Max();
+                return list.Contains(-1) ? -1 : list.Max();
             }
             catch
             {
@@ -222,17 +141,17 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             string result2;
             try
             {
-                UserDocument result = UserManager.GetUser(cmid).Result;
+                UserDocument result = userManager.GetUser(cmid).Result;
                 if (duration > 0)
                 {
-                    result.UBBan = DateTime.UtcNow.AddMinutes((double)duration).ToString();
-                    UserManager.Save(result);
+                    result.UBBan = DateTime.UtcNow.AddMinutes(duration).ToString();
+                    _ = userManager.Save(result);
                     result2 = string.Format("{0} has been banned for {1} minutes.", result.Profile.Name, duration.ToString());
                 }
                 else
                 {
                     result.UBBan = "-1";
-                    UserManager.Save(result);
+                    _ = userManager.Save(result);
                     result2 = string.Format("{0} has been banned permanently.", result.Profile.Name);
                 }
             }
@@ -248,7 +167,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             string result2;
             try
             {
-                UserDocument result = UserManager.GetUser(cmid).Result;
+                UserDocument result = userManager.GetUser(cmid).Result;
                 if (result == null)
                 {
                     result2 = string.Format("User with cmid {0} does not exist.", cmid.ToString());
@@ -260,7 +179,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                 else
                 {
                     result.UBBan = null;
-                    UserManager.Save(result);
+                    _ = userManager.Save(result);
                     result2 = string.Format("User with cmid {0} and name {1} has been unbanned.", cmid.ToString(), result.Profile.Name);
                 }
             }
@@ -287,22 +206,18 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                     if (ubbanRemainingMinutes == 0)
                     {
                         member.UBBan = null;
-                        UserManager.Save(member);
+                        _ = userManager.Save(member);
                     }
                 }
-                foreach (int cmid in this.AltCmids(member.Profile.Cmid))
+                foreach (int cmid in AltCmids(member.Profile.Cmid))
                 {
-                    list.Add(UberBeatManager.getDuration(cmid, false));
+                    list.Add(getDuration(cmid, false));
                 }
-                foreach (int cmid2 in this.AltCmids(hwid))
+                foreach (int cmid2 in AltCmids(hwid))
                 {
-                    list.Add(UberBeatManager.getDuration(cmid2, false));
+                    list.Add(getDuration(cmid2, false));
                 }
-                if (list.Contains(-1))
-                {
-                    return -1;
-                }
-                return list.Max();
+                return list.Contains(-1) ? -1 : list.Max();
             }
             catch
             {
@@ -316,25 +231,13 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
 
         public static int GetUBBanRemainingMinutes(string ubban)
         {
-            if (ubban == "-1")
-            {
-                return -1;
-            }
-            return (int)Math.Max(DateTime.Parse(ubban).Subtract(DateTime.UtcNow).TotalMinutes + 1.0, 0.0);
+            return ubban == "-1" ? -1 : (int)Math.Max(DateTime.Parse(ubban).Subtract(DateTime.UtcNow).TotalMinutes + 1.0, 0.0);
         }
 
-        public static int getDuration(int cmid, bool muteduration = false)
+        public int getDuration(int cmid, bool muteduration = false)
         {
-            UserDocument result = UserManager.GetUser(cmid).Result;
-            string text;
-            if (muteduration)
-            {
-                text = result.UBMute;
-            }
-            else
-            {
-                text = result.UBBan;
-            }
+            UserDocument result = userManager.GetUser(cmid).Result;
+            string text = muteduration ? result.UBMute : result.UBBan;
             if (string.IsNullOrEmpty(text))
             {
                 return 0;
@@ -357,7 +260,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                     {
                         result.UBBan = null;
                     }
-                    UserManager.Save(result);
+                    _ = userManager.Save(result);
                     result2 = 0;
                 }
             }
@@ -370,7 +273,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
 
         private void FilterExceptionData(ref UberBeat userdata)
         {
-            HashSet<string> other = new HashSet<string>(UberBeatManager.ExceptionData);
+            HashSet<string> other = new HashSet<string>(ExceptionData);
             userdata.HDD.ExceptWith(other);
             userdata.BIOS.ExceptWith(other);
             userdata.MOTHERBOARD.ExceptWith(other);
@@ -389,27 +292,27 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                     if (text.Contains("MAC:"))
                     {
                         string item = text.Replace("MAC:", "");
-                        uberBeat.MAC.Add(item);
+                        _ = uberBeat.MAC.Add(item);
                     }
                     if (text.Contains("HDD:"))
                     {
                         string item2 = text.Replace("HDD:", "");
-                        uberBeat.HDD.Add(item2);
+                        _ = uberBeat.HDD.Add(item2);
                     }
                     if (text.Contains("BIOS:"))
                     {
                         string item3 = text.Replace("BIOS:", "");
-                        uberBeat.BIOS.Add(item3);
+                        _ = uberBeat.BIOS.Add(item3);
                     }
                     if (text.Contains("MOTHERBOARD:"))
                     {
                         string item4 = text.Replace("MOTHERBOARD:", "");
-                        uberBeat.MOTHERBOARD.Add(item4);
+                        _ = uberBeat.MOTHERBOARD.Add(item4);
                     }
                     if (text.Contains("UNITY:"))
                     {
                         string item5 = text.Replace("UNITY:", "");
-                        uberBeat.UNITY.Add(item5);
+                        _ = uberBeat.UNITY.Add(item5);
                     }
                 }
                 return uberBeat;
@@ -422,7 +325,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
         }
         public List<string> GetHWID(int cmid)
         {
-            UserDocument result = UserManager.GetUser(cmid).Result;
+            UserDocument result = userManager.GetUser(cmid).Result;
             List<string> list = new List<string>();
             if (result == null)
             {
@@ -458,50 +361,45 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
         }
         internal List<int> AltCmids(string hwid)
         {
-            List<int> list = new List<int>();
-            UberBeat uberBeat = UberBeatManager.ParseHWIDToObject(hwid);
-            this.FilterExceptionData(ref uberBeat);
-            List<int> first = UserManager.MatchHWID("bios", uberBeat.BIOS).Result.ToList<int>();
-            List<int> second = new List<int>(UserManager.MatchHWID("mac", uberBeat.MAC).Result);
-            List<int> second2 = new List<int>(UserManager.MatchHWID("hdd", uberBeat.HDD).Result);
-            List<int> second3 = new List<int>(UserManager.MatchHWID("motherboard", uberBeat.MOTHERBOARD).Result);
-            List<int> list2 = new List<int>(UserManager.MatchHWID("unity", uberBeat.UNITY).Result);
-            foreach (int item in list2)
-            {
-                list.Add(item);
-            }
-            List<int> second4 = (from x in first.Union(second).Union(second2).Union(second3)
-                                 group x by x into g
-                                 where g.Count<int>() > 1
-                                 select g.Key).Distinct<int>().ToList<int>();
-            return list.Union(second4).ToList<int>();
+            return FindMatchingCmid(ParseHWIDToObject(hwid));
         }
         public List<int> AltCmids(int cmid)
         {
-            List<int> list = new List<int>();
-            list.Add(cmid);
-            UserDocument result = UserManager.GetUser(cmid).Result;
-            UberBeat uberBeat = new UberBeat();
-            uberBeat.HDD = result.HDD;
-            uberBeat.BIOS = result.BIOS;
-            uberBeat.MAC = result.MAC;
-            uberBeat.MOTHERBOARD = result.MOTHERBOARD;
-            uberBeat.UNITY = result.UNITY;
-            this.FilterExceptionData(ref uberBeat);
-            List<int> first = UserManager.MatchHWID("bios", uberBeat.BIOS).Result.ToList<int>();
-            List<int> second = new List<int>(UserManager.MatchHWID("mac", uberBeat.MAC).Result);
-            List<int> second2 = new List<int>(UserManager.MatchHWID("hdd", uberBeat.HDD).Result);
-            List<int> second3 = new List<int>(UserManager.MatchHWID("motherboard", uberBeat.MOTHERBOARD).Result);
-            List<int> list2 = new List<int>(UserManager.MatchHWID("unity", uberBeat.UNITY).Result);
-            foreach (int item in list2)
+            UserDocument doc = userManager.GetUser(cmid).GetAwaiter().GetResult();
+            UberBeat ub = new UberBeat
             {
-                list.Add(item);
+                HDD = doc.HDD,
+                BIOS = doc.BIOS,
+                MAC = doc.MAC,
+                MOTHERBOARD = doc.MOTHERBOARD
+            };
+            return FindMatchingCmid(ub);
+        }
+
+        private List<int> FindMatchingCmid(UberBeat ub)
+        {
+            List<int> alts = new List<int>();
+            FilterExceptionData(ref ub);
+            HashSet<int>[] result = Task.WhenAll(userManager.MatchHWID("bios", ub.BIOS),
+                userManager.MatchHWID("mac", ub.MAC),
+                userManager.MatchHWID("mac", ub.MAC),
+                userManager.MatchHWID("hdd", ub.HDD),
+                userManager.MatchHWID("motherboard", ub.MOTHERBOARD)).GetAwaiter().GetResult();
+            HashSet<int> bios = result[0];
+            HashSet<int> mac = result[1];
+            HashSet<int> hdd = result[2];
+            HashSet<int> motherboard = result[3];
+            List<int> overallAlts = new List<int>();
+            overallAlts.AddRange(bios); overallAlts.AddRange(mac); overallAlts.AddRange(hdd); overallAlts.AddRange(motherboard);
+            IEnumerable<IGrouping<int, int>> keypair = overallAlts.GroupBy(i => i);
+            foreach (IGrouping<int, int> pair in keypair)
+            {
+                if (pair.Count() > 1 && !alts.Contains(pair.Key))
+                {
+                    alts.Add(pair.Key);
+                }
             }
-            List<int> second4 = (from x in first.Union(second).Union(second2).Union(second3)
-                                 group x by x into g
-                                 where g.Count<int>() > 1
-                                 select g.Key).Distinct<int>().ToList<int>();
-            return list.Union(second4).ToList<int>();
+            return alts;
         }
 
         // Token: 0x06000147 RID: 327 RVA: 0x00007750 File Offset: 0x00005950
@@ -511,7 +409,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             try
             {
                 List<string> list = new List<string>();
-                List<UserDocument> result = UserManager.FindUser(name).Result;
+                List<UserDocument> result = userManager.FindUser(name).Result;
                 if (result.Count < 1)
                 {
                     list.Add("Cant find name with such characters");
@@ -539,9 +437,9 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
         public List<string> Alts(int cmid)
         {
             List<string> list = new List<string>();
-            foreach (int id in this.AltCmids(cmid))
+            foreach (int id in AltCmids(cmid))
             {
-                UserDocument result = UserManager.GetUser(id).Result;
+                UserDocument result = userManager.GetUser(id).Result;
                 if (result != null)
                 {
                     list.Add(string.Format("CMID: {0} Name: {1}", result.Profile.Cmid, string.Join(Environment.NewLine, result.Names)));
@@ -556,13 +454,13 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             List<string> result2;
             try
             {
-                List<UserDocument> result = UserManager.Leaderboard(limit, key).Result;
+                List<UserDocument> result = userManager.Leaderboard(limit, key).Result;
                 List<string> list = new List<string>();
                 int num = 1;
                 foreach (UserDocument userDocument in result)
                 {
                     string text = null;
-                    string text2 = this.getKda((double)userDocument.Kills, (double)userDocument.Deaths).ToString();
+                    string text2 = getKda(userDocument.Kills, userDocument.Deaths).ToString();
                     if (!string.IsNullOrEmpty(userDocument.Profile.GroupTag))
                     {
                         text = "[" + userDocument.Profile.GroupTag + "] ";
@@ -581,11 +479,11 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                 }
                 result2 = list;
             }
-            catch (Exception ex)
+            catch
             {
                 result2 = new string[]
                 {
-                    "Error"
+                    "Error",
                 }.ToList<string>();
             }
             return result2;
@@ -597,7 +495,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             List<string> result2;
             try
             {
-                List<UserDocument> result = UserManager.bannedUsers().Result;
+                List<UserDocument> result = userManager.bannedUsers().Result;
                 List<string> list = new List<string>();
                 foreach (UserDocument userDocument in result)
                 {
@@ -610,7 +508,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                 }
                 result2 = list;
             }
-            catch (Exception ex)
+            catch
             {
                 result2 = new string[]
                 {

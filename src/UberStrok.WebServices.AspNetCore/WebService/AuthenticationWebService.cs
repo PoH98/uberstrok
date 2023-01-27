@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UberStrok.Core.Common;
 using UberStrok.Core.Views;
 using UberStrok.WebServices.AspNetCore.Core.Db.Items;
+using UberStrok.WebServices.AspNetCore.Core.Discord;
 using UberStrok.WebServices.AspNetCore.Core.Manager;
 using UberStrok.WebServices.AspNetCore.Core.Session;
 using UberStrok.WebServices.AspNetCore.WebService.Base;
@@ -14,7 +15,22 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 {
     public class AuthenticationWebService : BaseAuthenticationWebService
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(AuthenticationWebService));
+        public readonly ILog Log = LogManager.GetLogger(typeof(AuthenticationWebService));
+        private readonly UserManager userManager;
+        private readonly ResourceManager resourceManager;
+        private readonly GameSessionManager gameSessionManager;
+        private readonly SecurityManager securityManager;
+        private readonly UberBeatManager uberBeatManager;
+        private readonly CoreDiscord coreDiscord;
+        public AuthenticationWebService(UserManager userManager, ResourceManager resourceManager, GameSessionManager gameSessionManager, SecurityManager securityManager, UberBeatManager uberBeatManager, CoreDiscord coreDiscord)
+        {
+            this.userManager = userManager;
+            this.resourceManager = resourceManager;
+            this.gameSessionManager = gameSessionManager;
+            this.securityManager = securityManager;
+            this.uberBeatManager = uberBeatManager;
+            this.coreDiscord = coreDiscord;
+        }
 
         public override async Task<AccountCompletionResultView> OnCompleteAccount(int cmid, string name, ChannelType channelType, string locale, string machineId)
         {
@@ -22,19 +38,19 @@ namespace UberStrok.WebServices.AspNetCore.WebService
             {
                 return new AccountCompletionResultView(5, null, null);
             }
-            if (!ResourceManager.IsNameValid(name))
+            if (!resourceManager.IsNameValid(name))
             {
                 return new AccountCompletionResultView(4, null, null);
             }
-            if (ResourceManager.IsNameOffensive(name))
+            if (resourceManager.IsNameOffensive(name))
             {
                 return new AccountCompletionResultView(6, null, null);
             }
-            if (await UserManager.IsNameUsed(name))
+            if (await userManager.IsNameUsed(name))
             {
                 return new AccountCompletionResultView(2, null, null);
             }
-            if (GameSessionManager.TryGet(cmid, out GameSession session))
+            if (gameSessionManager.TryGet(cmid, out GameSession session))
             {
                 Dictionary<int, int> itemsAttributed = new Dictionary<int, int>();
                 foreach (int t in session.Member.MemberItems)
@@ -46,7 +62,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 try
                 {
                     _ = session.Document.Names.Add(name);
-                    await UserManager.Save(session.Document);
+                    await userManager.Save(session.Document);
                 }
                 catch (MongoWriteException)
                 {
@@ -71,12 +87,11 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                         ServerGameVersion = Startup.WebServiceConfiguration.ServerGameVersion
                     };
                 }
-                UberBeatManager Manager = new UberBeatManager();
-                UserDocument member = await UserManager.GetUser(steamId);
+                UserDocument member = await userManager.GetUser(steamId);
                 UberBeat hwidInfo = UberBeatManager.ParseHWIDToObject(hwid);
                 if (member == null)
                 {
-                    member = await UserManager.CreateUser(steamId, hwidInfo);
+                    member = await userManager.CreateUser(steamId, hwidInfo);
                     if (member == null)
                     {
                         return new MemberAuthenticationResultView
@@ -84,9 +99,9 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                             MemberAuthenticationResult = MemberAuthenticationResult.UnknownError
                         };
                     }
-                    if (Manager.AltCmids(member.Profile.Cmid).Count > 1)
+                    if (uberBeatManager.AltCmids(member.Profile.Cmid).Count > 1)
                     {
-                        await UserManager.DeleteUser(member.Profile.Cmid);
+                        await userManager.DeleteUser(member.Profile.Cmid);
                         return new MemberAuthenticationResultView
                         {
                             MemberAuthenticationResult = MemberAuthenticationResult.IsIpBanned
@@ -95,10 +110,10 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 }
                 else
                 {
-                    Manager.Update(member, hwid);
-                    int banduration = Manager.BanDuration(member, hwid);
+                    uberBeatManager.Update(member, hwid);
+                    int banduration = uberBeatManager.BanDuration(member, hwid);
 
-                    Manager.UserLog(steamId, banduration, hwid);
+                    coreDiscord.UserLog(await userManager.GetUser(steamId), banduration, hwid);
                     if (banduration != 0)
                     {
                         return new MemberAuthenticationResultView
@@ -108,15 +123,15 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                         };
                     }
                 }
-                if (SecurityManager.IsCmidBanned(member.UserId))
+                if (securityManager.IsCmidBanned(member.UserId))
                 {
                     return new MemberAuthenticationResultView
                     {
                         MemberAuthenticationResult = MemberAuthenticationResult.IsBanned
                     };
                 }
-                GameSession session = GameSessionManager.CreateSession(member, null, machineId);
-                int muteDuration = Manager.MuteDuration(member, hwid);
+                GameSession session = gameSessionManager.CreateSession(member, null, machineId);
+                int muteDuration = uberBeatManager.MuteDuration(member, hwid);
                 return new MemberAuthenticationResultView
                 {
                     MemberAuthenticationResult = MemberAuthenticationResult.Ok,

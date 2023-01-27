@@ -3,14 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UberStrok.WebServices.AspNetCore.Core.Db;
+using UberStrok.WebServices.AspNetCore.Core.Db.Tables;
 
 namespace UberStrok.WebServices.AspNetCore.Core.Manager
 {
-    public static class ServerManager
+    public class ServerManager
     {
-        private static MongoDatabase<UberBeatDocument> sm_database;
-        private static UberBeatDocument _document;
-        public static UberBeatDocument Document
+        private readonly MongoDatabase<UberBeatDocument> sm_database;
+        private UberBeatDocument _document;
+        public UberBeatDocument Document
         {
             get
             {
@@ -19,31 +20,31 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             }
         }
 
-        public static void Init()
+        public ServerManager(UberBeatTable table)
         {
-            sm_database = new MongoDatabase<UberBeatDocument>("ExceptionData");
+            sm_database = table.Table;
             _document = sm_database.Collection.Find(_ => true).FirstOrDefault();
             _document ??= CreateEmpty();
         }
 
-        public static void Append(string exceptiondata)
+        public void Append(string exceptiondata)
         {
             _document.ExceptionData.Add(exceptiondata);
             _ = sm_database.Collection.ReplaceOne((UberBeatDocument f) => f.Id == _document.Id, _document, (ReplaceOptions)null, default);
         }
 
-        public static void Remove(string exceptiondata)
+        public void Remove(string exceptiondata)
         {
             _ = _document.ExceptionData.Remove(exceptiondata);
             _ = sm_database.Collection.ReplaceOne((UberBeatDocument f) => f.Id == _document.Id, _document, (ReplaceOptions)null, default);
         }
 
-        public static string GetExceptionData()
+        public string GetExceptionData()
         {
             return string.Join(Environment.NewLine, _document.ExceptionData);
         }
 
-        public static UberBeatDocument CreateEmpty()
+        public UberBeatDocument CreateEmpty()
         {
             Console.BackgroundColor = ConsoleColor.Red;
             Console.ForegroundColor = ConsoleColor.White;

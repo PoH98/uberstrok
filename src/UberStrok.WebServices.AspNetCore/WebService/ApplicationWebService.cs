@@ -12,16 +12,17 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 {
     public class ApplicationWebService : BaseApplicationWebService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(ApplicationWebService));
-
+        private readonly ILog Log = LogManager.GetLogger(typeof(ApplicationWebService));
+        private readonly ResourceManager manager;
         public static ApplicationConfigurationView AppConfig
         {
             get;
             private set;
         }
 
-        public ApplicationWebService()
+        public ApplicationWebService(ResourceManager manager)
         {
+            this.manager = manager;
             AppConfig = Utils.DeserializeJsonWithNewtonsoftAt<ApplicationConfigurationView>("assets/configs/game/application.json") ?? throw new FileNotFoundException("assets/configs/game/application.json file not found.");
         }
 
@@ -36,8 +37,8 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                     EncryptionPassPhrase = string.Empty,
                     IsEnabled = true,
                     WarnPlayer = false,
-                    CommServer = ResourceManager.CommServer,
-                    GameServers = ResourceManager.GameServers
+                    CommServer = manager.CommServer,
+                    GameServers = manager.GameServers
                 };
         }
 
@@ -50,7 +51,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
         {
             return Task.Run(() =>
             {
-                return ResourceManager.Maps;
+                return manager.Maps;
             });
         }
     }

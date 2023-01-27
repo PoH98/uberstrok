@@ -2,34 +2,37 @@ using log4net;
 using System;
 using System.Collections.Generic;
 using UberStrok.WebServices.AspNetCore.Core.Db.Items;
+using UberStrok.WebServices.AspNetCore.Core.Session;
 using UberStrok.WebServices.AspNetCore.Helper;
 
-namespace UberStrok.WebServices.AspNetCore.Core.Session
+namespace UberStrok.WebServices.AspNetCore.Core.Manager
 {
-    public static class GameSessionManager
+    public class GameSessionManager
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(GameSessionManager));
+        private readonly ILog Log = LogManager.GetLogger(typeof(GameSessionManager));
 
-        private static Dictionary<int, GameSession> m_sessions;
+        private readonly Dictionary<int, GameSession> m_sessions;
 
-        private static long m_seed;
+        private long m_seed;
 
-        public static int Count => m_sessions.Count;
+        public int Count => m_sessions.Count;
 
-        public static HashSet<string> Authed
+        public HashSet<string> Authed
         {
             get;
             set;
         }
 
-        public static void Init()
+        private readonly ClanManager clanManager;
+        public GameSessionManager(ClanManager clanManager)
         {
             Authed = new HashSet<string>();
             m_sessions = new Dictionary<int, GameSession>();
             m_seed = Utils.GetTimestamp() & 0xFFFFFFFFFFFFFF;
+            this.clanManager = clanManager;
         }
 
-        public static GameSession CreateSession(UserDocument document, string ipAddress, string machineId)
+        public GameSession CreateSession(UserDocument document, string ipAddress, string machineId)
         {
             if (m_sessions.ContainsKey(document.UserId))
             {
@@ -37,7 +40,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Session
                 Log.Info($"Kicking player with CMID {document.UserId} cause of new login.");
             }
             string sessionId = CreateSessionId(document.UserId);
-            GameSession gameSession = new GameSession(sessionId, document)
+            GameSession gameSession = new GameSession(sessionId, document, clanManager)
             {
                 IPAddress = ipAddress,
                 MachineId = machineId
@@ -50,17 +53,17 @@ namespace UberStrok.WebServices.AspNetCore.Core.Session
             return gameSession;
         }
 
-        public static bool TryGet(int id, out GameSession session)
+        public bool TryGet(int id, out GameSession session)
         {
             return m_sessions.TryGetValue(id, out session);
         }
 
-        public static bool TryGet(string sessionId, out GameSession session)
+        public bool TryGet(string sessionId, out GameSession session)
         {
             return m_sessions.TryGetValue(Utils.GetUserId(sessionId), out session);
         }
 
-        public static GameSession Remove(string sessionId)
+        public GameSession Remove(string sessionId)
         {
             if (m_sessions.Remove(Utils.GetUserId(sessionId), out GameSession session))
             {
@@ -69,7 +72,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Session
             return session;
         }
 
-        internal static string CreateSessionId(int userId)
+        internal string CreateSessionId(int userId)
         {
             byte[] sessionId = new byte[12];
             long seed = m_seed;

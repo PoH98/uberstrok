@@ -7,44 +7,19 @@ using UberStrok.Core.Common;
 using UberStrok.Core.Views;
 using UberStrok.WebServices.AspNetCore.Core.Db;
 using UberStrok.WebServices.AspNetCore.Core.Db.Items;
+using UberStrok.WebServices.AspNetCore.Core.Db.Tables;
 
 namespace UberStrok.WebServices.AspNetCore.Core.Manager
 {
-    public static class UserManager
+    public class UserManager
     {
-        public static MongoDatabase<UserDocument> Database { get; private set; }
-        public static void Init()
+        private readonly MongoDatabase<UserDocument> Database;
+        public UserManager(UserTable Table)
         {
-            Database = new MongoDatabase<UserDocument>("Users");
-            Database.InitSequence();
-            try
-            {
-                _ = Database.Collection.Indexes.CreateOne(new CreateIndexModel<UserDocument>(Builders<UserDocument>.IndexKeys.Ascending((UserDocument f) => f.Profile.Name), new CreateIndexOptions<UserDocument>
-                {
-                    Name = "Name",
-                    Unique = new bool?(true),
-                    Collation = new Collation("en", default, default, CollationStrength.Secondary, default, default, default, default, default)
-                }), null, default);
-                _ = Database.Collection.Indexes.CreateOne(new CreateIndexModel<UserDocument>(Builders<UserDocument>.IndexKeys.Ascending((UserDocument f) => f.SteamId), new CreateIndexOptions
-                {
-                    Name = "SteamId",
-                    Unique = new bool?(true)
-                }), null, default);
-                _ = Database.Collection.Indexes.CreateOne(new CreateIndexModel<UserDocument>(Builders<UserDocument>.IndexKeys.Ascending((UserDocument f) => f.UBBan), new CreateIndexOptions<UserDocument>
-                {
-                    Name = "Banned",
-                    PartialFilterExpression = Builders<UserDocument>.Filter.Exists((UserDocument u) => u.UBBan, true)
-                }), null, default);
-            }
-            catch(Exception ex)
-            {
-                //ignore if indexes can't be created
-                Console.WriteLine(ex.Message);
-            }
-
+            Database = Table.Table;
         }
 
-        internal static Task<UserDocument> CreateUser(string steamId, UberBeat uberbeat)
+        internal Task<UserDocument> CreateUser(string steamId, UberBeat uberbeat)
         {
             try
             {
@@ -92,22 +67,22 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             return null;
         }
 
-        internal static Task DeleteUser(int cmid)
+        internal Task DeleteUser(int cmid)
         {
-            return Task.Run(()=>Database.Collection.DeleteOne(x => x.UserId == cmid));
+            return Task.Run(() => Database.Collection.DeleteOne(x => x.UserId == cmid));
         }
 
-        internal static Task<bool> IsNameUsed(string name)
+        internal Task<bool> IsNameUsed(string name)
         {
             return Task.FromResult(Database.Collection.AsQueryable().Where((UserDocument f) => f.Profile.Name.ToLower() == name.ToLower()).Count() != 0);
         }
 
-        internal static Task<UserDocument> GetUser(int id)
+        internal Task<UserDocument> GetUser(int id)
         {
             return Database.Collection.Find(Builders<UserDocument>.Filter.Eq((UserDocument f) => f.UserId, id)).FirstOrDefaultAsync();
         }
 
-        internal static Task<int> GetCount()
+        internal Task<int> GetCount()
         {
             try
             {
@@ -127,7 +102,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             }
         }
 
-        internal static Task<List<UserDocument>> Leaderboard(int limit, string key)
+        internal Task<List<UserDocument>> Leaderboard(int limit, string key)
         {
             return key == "kill"
                 ? Database.Collection.Find((UserDocument x) => true, null).SortByDescending((UserDocument f) => f.Kills).Limit(limit)
@@ -139,33 +114,33 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                 .ToListAsync();
         }
 
-        internal static Task<List<UserDocument>> bannedUsers()
+        internal Task<List<UserDocument>> bannedUsers()
         {
             return Database.Collection.Find((UserDocument x) => x.UBBan != null, null).ToListAsync();
         }
 
-        internal static Task<UserDocument> GetUser(string steamId)
+        internal Task<UserDocument> GetUser(string steamId)
         {
             return Database.Collection.Find(Builders<UserDocument>.Filter.Eq((UserDocument f) => f.SteamId, steamId)).FirstOrDefaultAsync();
         }
 
-        internal static Task<List<UserDocument>> FindUser(string name)
+        internal Task<List<UserDocument>> FindUser(string name)
         {
             FilterDefinitionBuilder<UserDocument> filterBuilder = Builders<UserDocument>.Filter;
             return Database.Collection.Find((UserDocument x) => x.Names.Any((string t) => t.ToLower().Contains(name.ToLower())), null).ToListAsync();
         }
 
-        internal static Task Save(UserDocument document)
+        internal Task Save(UserDocument document)
         {
             return Database.Collection.ReplaceOneAsync((UserDocument f) => f.Id == document.Id, document, (ReplaceOptions)null, default);
         }
 
-        internal static Task ChangeName(int id, string newName)
+        internal Task ChangeName(int id, string newName)
         {
             return Database.Collection.UpdateOneAsync(Builders<UserDocument>.Filter.Eq((UserDocument f) => f.UserId, id), Builders<UserDocument>.Update.Set((UserDocument f) => f.Profile.Name, newName));
         }
 
-        internal static Task<HashSet<int>> MatchHWID(string key, HashSet<string> obj)
+        internal Task<HashSet<int>> MatchHWID(string key, HashSet<string> obj)
         {
             List<UserDocument> docs = new List<UserDocument>();
             FilterDefinitionBuilder<UserDocument> filterBuilder = Builders<UserDocument>.Filter;

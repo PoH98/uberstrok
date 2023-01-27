@@ -13,7 +13,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService.Base
 {
     public abstract class BaseUserWebService : IUserAsyncWebServiceContract
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(BaseUserWebService));
+        private readonly ILog Log = LogManager.GetLogger(typeof(BaseUserWebService));
 
         public abstract LoadoutView OnGetLoadout(string authToken);
 
@@ -265,18 +265,16 @@ namespace UberStrok.WebServices.AspNetCore.WebService.Base
         {
             try
             {
-                using (MemoryStream memoryStream = new MemoryStream(data))
-                {
-                    string authToken = StringProxy.Deserialize(memoryStream);
-                    StatsCollectionView totalStats = StatsCollectionViewProxy.Deserialize(memoryStream);
-                    StatsCollectionView bestStats = StatsCollectionViewProxy.Deserialize(memoryStream);
-                    await OnEndOfMatch(authToken, totalStats, bestStats);
-                }
+                using MemoryStream memoryStream = new MemoryStream(data);
+                string authToken = StringProxy.Deserialize(memoryStream);
+                StatsCollectionView totalStats = StatsCollectionViewProxy.Deserialize(memoryStream);
+                StatsCollectionView bestStats = StatsCollectionViewProxy.Deserialize(memoryStream);
+                await OnEndOfMatch(authToken, totalStats, bestStats);
             }
             catch (Exception ex)
             {
-               Log.Error("Unable to handle EndOfMatch request:");
-               Log.Error(ex);
+                Log.Error("Unable to handle EndOfMatch request:");
+                Log.Error(ex);
             }
         }
 

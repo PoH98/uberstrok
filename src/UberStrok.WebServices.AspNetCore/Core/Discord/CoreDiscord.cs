@@ -1,41 +1,53 @@
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using log4net;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using UberStrok.WebServices.AspNetCore.Core.Db.Items;
+using UberStrok.WebServices.AspNetCore.Core.Manager;
 
 namespace UberStrok.WebServices.AspNetCore.Core.Discord
 {
-    internal class CoreDiscord
+    public class CoreDiscord
     {
-        private static DiscordSocketClient client;
+        private DiscordSocketClient client;
 
-        private static ulong lobbychannel = 0uL;
+        private ulong lobbychannel = 0uL;
 
-        private static ulong userloginchannel = 0uL;
+        private ulong userloginchannel = 0uL;
 
-        private static readonly List<ulong> allowedChannels = new List<ulong>();
+        private readonly List<ulong> allowedChannels = new List<ulong>();
 
-        private static string token = null;
+        private string token = null;
 
-        private static ulong AltDentifierChannel;
+        private ulong AltDentifierChannel;
 
-        private static ulong LeaderboardChannel;
+        private ulong LeaderboardChannel;
 
-        private static ulong CommandChannel;
+        private ulong CommandChannel;
 
-        public static string emptyline = Environment.NewLine + "_ _" + Environment.NewLine + "_ _" + Environment.NewLine;
+        private string prefix;
 
-        public static void Initialise()
+        public string emptyline = Environment.NewLine + "_ _" + Environment.NewLine + "_ _" + Environment.NewLine;
+
+        private readonly ILog Log = LogManager.GetLogger(typeof(CoreDiscord));
+        private readonly UberBeatManager uberBeatManager;
+        public CoreDiscord(UberBeatManager uberBeatManager)
         {
-            UDPListener.BeginListen();
-            Console.WriteLine("UDP Listener Started.\n");
-            MainAsync();
+            this.uberBeatManager = uberBeatManager;
         }
 
-        public static async void MainAsync()
+        public Task RunAsync()
+        {
+            return MainAsync();
+        }
+
+        public async Task MainAsync()
         {
             try
             {
@@ -54,7 +66,11 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                 if (!exit)
                 {
                     Console.WriteLine(token);
-                    client = new DiscordSocketClient();
+                    var config = new DiscordSocketConfig
+                    {
+                        GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.MessageContent
+                    };
+                    client = new DiscordSocketClient(config);
                     await client.LoginAsync(TokenType.Bot, token);
                     await client.StartAsync();
                     client.MessageReceived += MessageReceived;
@@ -67,7 +83,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
             }
         }
 
-        private static void GetConfig()
+        private void GetConfig()
         {
             try
             {
@@ -93,7 +109,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                         }
                         else if (data.StartsWith("prefix:"))
                         {
-                            UberBeatDiscord.prefix = data.Replace("prefix:", "");
+                            prefix = data.Replace("prefix:", "");
                         }
                         else if (data.StartsWith("AltDentifier:"))
                         {
@@ -123,8 +139,9 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
             }
         }
 
-        private static async Task MessageReceived(SocketMessage message)
+        private async Task MessageReceived(SocketMessage message)
         {
+            Log.Info(message.Author.Username + ":" +message.CleanContent);
             if (!allowedChannels.Contains(message.Channel.Id))
             {
                 return;
@@ -137,12 +154,11 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                     return;
                 }
             }
-            if (string.IsNullOrEmpty(UberBeatDiscord.prefix) || !message.Content.StartsWith(UberBeatDiscord.prefix))
+            if (string.IsNullOrEmpty(prefix) || !message.Content.StartsWith(prefix))
             {
                 return;
             }
-            UberBeatDiscord Bot = new UberBeatDiscord();
-            string reply = Bot.Reply(message.Content.Split(' '));
+            string reply = Reply(message.Content.Split(' '));
             if (string.IsNullOrEmpty(reply))
             {
                 return;
@@ -165,17 +181,205 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
         }
 
         [Command("say")]
-        public static async Task SendChannel([Remainder] string message)
+        public async Task SendChannel([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(lobbychannel) as SocketTextChannel;
             _ = await channel.SendMessageAsync(emptyline + message);
         }
 
         [Command("say")]
-        public static async Task SendLoginLog([Remainder] string message)
+        public async Task SendLoginLog([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(userloginchannel) as SocketTextChannel;
             _ = await channel.SendMessageAsync(emptyline + message);
+        }
+
+        public string Reply(string[] args)
+        {
+            try
+            {
+                int cmid = 0;
+                int duration = -1;
+                if (args.Length > 1)
+                {
+                    _ = int.TryParse(args[1], out cmid);
+                }
+                if (args.Length > 2)
+                {
+                    _ = int.TryParse(args[2], out duration);
+                }
+                string arg = args[0].Replace(prefix, "");
+                string message = string.Join(' ', args);
+                string retstring5;
+                switch (arg)
+                {
+                    case "alts":
+                        {
+                            List<string> alts = uberBeatManager.Alts(cmid);
+                            retstring5 = string.Join(Environment.NewLine + Environment.NewLine, alts);
+                            return retstring5.Length > 1900 ? string.Join("|@@|@|", Trim(retstring5, 1900).ToList()) : "```" + retstring5 + "```";
+                        }
+                    case "hwid":
+                        {
+                            string[] hwidlist = uberBeatManager.GetHWID(cmid).ToArray();
+                            return string.Join(Environment.NewLine, hwidlist);
+                        }
+                    case "search":
+                        {
+                            if (args[1].Length < 2)
+                            {
+                                return "Search name should be 2 characters atleast";
+                            }
+                            List<string> searchlist = uberBeatManager.Search(args[1]);
+                            return string.Join(Environment.NewLine + Environment.NewLine, searchlist);
+                        }
+                    case "mute":
+                        return uberBeatManager.Mute(cmid, duration);
+                    case "unmute":
+                        return uberBeatManager.Unmute(cmid);
+                    case "ban":
+                        {
+                            retstring5 = uberBeatManager.Ban(cmid, duration);
+                            string returnstr = PhotonSocket.ExecuteClientSocket(message.Replace(prefix, ""));
+                            return returnstr + Environment.NewLine + retstring5;
+                        }
+                    case "unban":
+                        return uberBeatManager.Unban(cmid);
+                    case "status":
+                        return "Disabled.";
+                    case "push":
+                        return "Disabled.";
+                    case "players":
+                    case "msg":
+                    case "kick":
+                        return PhotonSocket.ExecuteClientSocket(message.Replace(prefix, ""));
+                    case "processes":
+                    case "windows":
+                    case "modules":
+                        retstring5 = PhotonSocket.ExecuteClientSocket(message.Replace(prefix, ""));
+                        if (retstring5.Length > 1900)
+                        {
+                            return string.Join("|@@|@|", Trim(retstring5, 1900).ToList());
+                        }
+                        return "```" + retstring5 + "```";
+                    case "leaderboardkill":
+                    case "leaderboardxp":
+                    case "leaderboardkdr":
+                        {
+                            int count = (cmid == 0) ? 100 : cmid;
+                            retstring5 = string.Join(Environment.NewLine, uberBeatManager.Leaderboard(count, arg.Replace("leaderboard", "")));
+                            return retstring5.Length > 1900 ? string.Join("|@@|@|", Trim(retstring5, 1900).ToList()) : "```" + retstring5 + "```";
+                        }
+                    default:
+                        return null;
+                    case "banned":
+                        retstring5 = string.Join(Environment.NewLine, uberBeatManager.bannedUsers());
+                        if (retstring5.Length > 1900)
+                        {
+                            return string.Join("|@@|@|", Trim(retstring5, 1900).ToList());
+                        }
+                        return "```" + retstring5 + "```";
+                }
+            }
+            catch (Exception e)
+            {
+                return e.ToString();
+            }
+        }
+
+        private List<string> Trim(string stringToSplit, int maximumLineLength)
+        {
+            IEnumerable<string> lines = stringToSplit.Split(new string[1]
+            {
+                Environment.NewLine
+            }, StringSplitOptions.None).Concat<string>(new string[1]
+            {
+                ""
+            });
+            return lines.Skip(1).Aggregate(lines.Take(1).ToList(), delegate (List<string> a, string w)
+            {
+                string text = a.Last();
+                while (text.Length > maximumLineLength)
+                {
+                    a[a.Count() - 1] = text[..maximumLineLength];
+                    text = text[maximumLineLength..];
+                    a.Add(text);
+                }
+                string text2 = text + Environment.NewLine + w;
+                if (text2.Length > maximumLineLength)
+                {
+                    a.Add(w);
+                }
+                else
+                {
+                    a[a.Count() - 1] = text2;
+                }
+                return a;
+            }).ToList();
+        }
+
+        public async void UserLog(UserDocument result, int duration, string hwid)
+        {
+            if (result == null)
+            {
+                if (duration == -1)
+                {
+                    await SendLoginLog(string.Concat(new string[]
+                    {
+                        "``Permanently Banned user with HWID:``",
+                        Environment.NewLine,
+                        "```",
+                        hwid.Replace("|", Environment.NewLine),
+                        "```has been kicked."
+                    }));
+                    return;
+                }
+                if (duration == 0)
+                {
+                    await SendLoginLog(string.Concat(new string[]
+                    {
+                        "``User with HWID:``",
+                        Environment.NewLine,
+                        "```",
+                        hwid.Replace("|", Environment.NewLine),
+                        "```has logged in."
+                    }));
+                    return;
+                }
+                await SendLoginLog(string.Concat(new string[]
+                {
+                    "``Temporarily Banned user ( for ",
+                    duration.ToString(),
+                    " more minutes ) with HWID:``",
+                    Environment.NewLine,
+                    "```",
+                    hwid.Replace("|", Environment.NewLine),
+                    "```has logged in."
+                }));
+                return;
+            }
+            else
+            {
+                if (duration == -1)
+                {
+                    await SendLoginLog(string.Concat(new string[]
+                    {
+                        string.Format("``Permanently banned user with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, result.SteamId),
+                        Environment.NewLine,
+                        "```",
+                        hwid.Replace("|", Environment.NewLine),
+                        "```has been kicked."
+                    }));
+                    return;
+                }
+                if (duration == 0)
+                {
+                    await SendLoginLog(string.Concat(new string[] { string.Format("``User with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, result.SteamId), Environment.NewLine, "```", hwid.Replace("|", Environment.NewLine), "```has logged in." }));
+                    return;
+                }
+                await SendLoginLog(string.Concat(new string[] { string.Format("``Temporarily Banned user ( for {0} more minutes ) with CMID {1}, Name {2}, SteamID {3} and HWID:``", new object[] { duration.ToString(), result.Profile.Cmid, result.Profile.Name, result.SteamId }), Environment.NewLine, "```", hwid.Replace("|", Environment.NewLine), "```has logged in." }));
+                return;
+            }
         }
     }
 }

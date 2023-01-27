@@ -15,16 +15,31 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 {
     public class ClanWebService : BaseClanWebService
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(ClanWebService));
+        private readonly ILog Log = LogManager.GetLogger(typeof(ClanWebService));
 
-        private static readonly Regex ClanRegex = new Regex("[a-zA-Z0-9 .!_\\-<>{}~@#$%^&*()=+|:?]", RegexOptions.Compiled);
+        private readonly Regex ClanRegex = new Regex("[a-zA-Z0-9 .!_\\-<>{}~@#$%^&*()=+|:?]", RegexOptions.Compiled);
+
+        private readonly GameSessionManager gameSessionManager;
+        private readonly ClanManager clanManager;
+        private readonly UserManager userManager;
+        private readonly StreamManager streamManager;
+        private readonly ResourceManager resourceManager;
+        public ClanWebService(GameSessionManager gameSessionManager, ClanManager clanManager, UserManager userManager, StreamManager streamManager, ResourceManager resourceManager)
+        {
+            this.clanManager = clanManager;
+            this.gameSessionManager = gameSessionManager;
+            this.userManager = userManager;
+            this.streamManager = streamManager;
+            this.resourceManager = resourceManager;
+        }
+
         public override async Task<ClanView> OnGetOwnClan(string authToken, int groupId)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Document.ClanId == groupId)
                 {
-                    ClanDocument clan = await ClanManager.Get(groupId);
+                    ClanDocument clan = await clanManager.Get(groupId);
                     if (clan != null)
                     {
                         return clan.Clan;
@@ -45,7 +60,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<ClanCreationReturnView> OnCreateClan(GroupCreationView groupCreation)
         {
-            if (!GameSessionManager.TryGet(groupCreation.AuthToken, out GameSession session))
+            if (!gameSessionManager.TryGet(groupCreation.AuthToken, out GameSession session))
             {
                 return new ClanCreationReturnView
                 {
@@ -59,7 +74,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                     ResultCode = 1
                 };
             }
-            if (ClanHelper.IsTagLocked(session.Document.UserId, groupCreation.Tag))
+            if (resourceManager.LockedTags.IsTagLocked(session.Document.UserId, groupCreation.Tag))
             {
                 return new ClanCreationReturnView
                 {
@@ -73,7 +88,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                     ResultCode = 2
                 };
             }
-            if (await ClanManager.IsClanNameUsed(groupCreation.Name))
+            if (await clanManager.IsClanNameUsed(groupCreation.Name))
             {
                 return new ClanCreationReturnView
                 {
@@ -87,7 +102,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                     ResultCode = 4
                 };
             }
-            if (await ClanManager.IsClanTagUsed(groupCreation.Tag))
+            if (await clanManager.IsClanTagUsed(groupCreation.Tag))
             {
                 return new ClanCreationReturnView
                 {
@@ -101,13 +116,13 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                     ResultCode = 8
                 };
             }
-            ClanDocument document = await ClanManager.Create(groupCreation, session.Document.Profile);
+            ClanDocument document = await clanManager.Create(groupCreation, session.Document.Profile);
             if (document.Clan.AddMemberToClan(ClanMemberHelper.GetClanMemberView(session.Document, GroupPosition.Leader)))
             {
                 session.Document.ClanId = document.ClanId;
                 session.Document.Profile.GroupTag = document.Clan.Tag;
-                await UserManager.Save(session.Document);
-                await ClanManager.Save(document);
+                await userManager.Save(session.Document);
+                await clanManager.Save(document);
                 return new ClanCreationReturnView
                 {
                     ClanView = document.Clan
@@ -121,21 +136,21 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<List<GroupInvitationView>> OnGetAllGroupInvitations(string authToken)
         {
-            return GameSessionManager.TryGet(authToken, out GameSession session)
-                ? (await StreamManager.Get(session.Document.Streams)).Where((f) => f.StreamType == StreamType.GroupInvitation && ((GroupInvitationStream)f).GroupInvitation.InviteeCmid == session.Document.UserId).Select((s) => ((GroupInvitationStream)s).GroupInvitation).ToList()
+            return gameSessionManager.TryGet(authToken, out GameSession session)
+                ? (await streamManager.Get(session.Document.Streams)).Where((f) => f.StreamType == StreamType.GroupInvitation && ((GroupInvitationStream)f).GroupInvitation.InviteeCmid == session.Document.UserId).Select((s) => ((GroupInvitationStream)s).GroupInvitation).ToList()
                 : null;
         }
 
         public override async Task<List<GroupInvitationView>> OnGetPendingGroupInvitations(int groupId, string authToken)
         {
-            return GameSessionManager.TryGet(authToken, out GameSession session)
-                ? (await StreamManager.Get(session.Document.Streams)).Where((f) => f.StreamType == StreamType.GroupInvitation && ((GroupInvitationStream)f).GroupInvitation.InviteeCmid != session.Document.UserId).Select((s) => ((GroupInvitationStream)s).GroupInvitation).ToList()
+            return gameSessionManager.TryGet(authToken, out GameSession session)
+                ? (await streamManager.Get(session.Document.Streams)).Where((f) => f.StreamType == StreamType.GroupInvitation && ((GroupInvitationStream)f).GroupInvitation.InviteeCmid != session.Document.UserId).Select((s) => ((GroupInvitationStream)s).GroupInvitation).ToList()
                 : null;
         }
 
         public override async Task<int> OnUpdateMemberPosition(MemberPositionUpdateView memberPositionUpdate)
         {
-            if (!GameSessionManager.TryGet(memberPositionUpdate.AuthToken, out GameSession session))
+            if (!gameSessionManager.TryGet(memberPositionUpdate.AuthToken, out GameSession session))
             {
                 Log.Error("An unidentified AuthToken was passed.");
                 return -1;
@@ -145,7 +160,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 Log.Error("Mismatch between groupId and session.Document.ClanId.");
                 return -1;
             }
-            ClanDocument document = await ClanManager.Get(memberPositionUpdate.GroupId);
+            ClanDocument document = await clanManager.Get(memberPositionUpdate.GroupId);
             if (document != null)
             {
                 ClanMemberView executorMemberView = document.Clan.GetMember(session.Document.UserId);
@@ -155,7 +170,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                     if (executorMemberView.HasHigherPermissionThan(targetMemberView.Position))
                     {
                         targetMemberView.Position = memberPositionUpdate.Position;
-                        await ClanManager.Save(document);
+                        await clanManager.Save(document);
                         return 0;
                     }
                     Log.Error("executorMemberView.HasHigherPermissionThan returned false");
@@ -174,11 +189,11 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<int> OnTransferOwnership(int groupId, string authToken, int newLeaderCmid)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Document.ClanId == groupId)
                 {
-                    ClanDocument document = await ClanManager.Get(groupId);
+                    ClanDocument document = await clanManager.Get(groupId);
                     if (document != null)
                     {
                         ClanMemberView executorMemberView = document.Clan.GetMember(session.Document.UserId);
@@ -189,7 +204,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                             executorMemberView.Position = GroupPosition.Member;
                             document.Clan.OwnerName = newLeaderMemberView.Name;
                             document.Clan.OwnerCmid = newLeaderMemberView.Cmid;
-                            _ = ClanManager.Save(document);
+                            _ = clanManager.Save(document);
                             return 0;
                         }
                         Log.Error("executorMemberView or newLeaderMemberView is null");
@@ -213,11 +228,11 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<int> OnKick(int groupId, string authToken, int cmidToKick)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Document.ClanId == groupId)
                 {
-                    ClanDocument document = await ClanManager.Get(groupId);
+                    ClanDocument document = await clanManager.Get(groupId);
                     if (document != null)
                     {
                         ClanMemberView executorMemberView = document.Clan.GetMember(session.Document.UserId);
@@ -228,11 +243,11 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                             {
                                 if (document.Clan.RemoveMemberFromClan(userMemberView))
                                 {
-                                    UserDocument userDocument = GameSessionManager.TryGet(userMemberView.Cmid, out GameSession userSession) ? userSession.Document : UserManager.GetUser(userMemberView.Cmid).Result;
+                                    UserDocument userDocument = gameSessionManager.TryGet(userMemberView.Cmid, out GameSession userSession) ? userSession.Document : userManager.GetUser(userMemberView.Cmid).Result;
                                     userDocument.ClanId = 0;
                                     userDocument.Profile.GroupTag = string.Empty;
-                                    _ = UserManager.Save(userDocument);
-                                    _ = ClanManager.Save(document);
+                                    _ = userManager.Save(userDocument);
+                                    _ = clanManager.Save(document);
                                     return 0;
                                 }
                             }
@@ -265,22 +280,22 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<int> OnLeaveClan(int groupId, string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Document.ClanId == groupId)
                 {
-                    ClanDocument document = await ClanManager.Get(groupId);
+                    ClanDocument document = await clanManager.Get(groupId);
                     if (document != null)
                     {
                         ClanMemberView userMemberView = document.Clan.GetMember(session.Document.UserId);
                         if (document.Clan.RemoveMemberFromClan(userMemberView))
                         {
-                            if (GameSessionManager.TryGet(userMemberView.Cmid, out GameSession userSession))
+                            if (gameSessionManager.TryGet(userMemberView.Cmid, out GameSession userSession))
                             {
                                 userSession.Document.ClanId = 0;
                                 userSession.Document.Profile.GroupTag = string.Empty;
-                                await UserManager.Save(userSession.Document);
-                                await ClanManager.Save(document);
+                                await userManager.Save(userSession.Document);
+                                await clanManager.Save(document);
                                 return 0;
                             }
                             Log.Error("Received leave clan while user doesn't have any active session");
@@ -307,22 +322,22 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<int> OnDisbandClan(int groupId, string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Document.ClanId == groupId)
                 {
-                    ClanDocument document = await ClanManager.Get(groupId);
+                    ClanDocument document = await clanManager.Get(groupId);
                     if (document != null)
                     {
                         for (int i = 0; i < document.Clan.Members.Count; i++)
                         {
                             ClanMemberView userMemberView = document.Clan.Members[i];
-                            UserDocument userDocument = GameSessionManager.TryGet(userMemberView.Cmid, out GameSession userSession) ? userSession.Document : UserManager.GetUser(userMemberView.Cmid).Result;
+                            UserDocument userDocument = gameSessionManager.TryGet(userMemberView.Cmid, out GameSession userSession) ? userSession.Document : userManager.GetUser(userMemberView.Cmid).Result;
                             userDocument.ClanId = 0;
                             userDocument.Profile.GroupTag = string.Empty;
-                            _ = UserManager.Save(userDocument);
+                            _ = userManager.Save(userDocument);
                         }
-                        await ClanManager.Remove(document);
+                        await clanManager.Remove(document);
                         return 0;
                     }
                     Log.Error("ClanManager.Get returned false");
@@ -341,16 +356,16 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<int> OnInviteMemberToJoinAGroup(int clanId, string authToken, int invitee, string message)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
-                ClanDocument clanDocument = await ClanManager.Get(clanId);
+                ClanDocument clanDocument = await clanManager.Get(clanId);
                 if (clanDocument != null)
                 {
                     UserDocument userDocument = session.Document;
                     if (!userDocument.ClanRequests.Contains(clanId))
                     {
-                        int streamId = await StreamManager.GetNextId();
-                        UserDocument inviteeDocument = GameSessionManager.TryGet(invitee, out GameSession userSession) ? userSession.Document : UserManager.GetUser(invitee).Result;
+                        int streamId = await streamManager.GetNextId();
+                        UserDocument inviteeDocument = gameSessionManager.TryGet(invitee, out GameSession userSession) ? userSession.Document : userManager.GetUser(invitee).Result;
                         GroupInvitationStream groupInvitation = new GroupInvitationStream
                         {
                             StreamId = streamId,
@@ -367,11 +382,11 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                                 Message = message
                             }
                         };
-                        await StreamManager.Create(groupInvitation);
+                        await streamManager.Create(groupInvitation);
                         userDocument.Streams.Add(streamId);
                         inviteeDocument.Streams.Add(streamId);
-                        await UserManager.Save(userDocument);
-                        await UserManager.Save(inviteeDocument);
+                        await userManager.Save(userDocument);
+                        await userManager.Save(inviteeDocument);
                         return 0;
                     }
                 }
@@ -381,25 +396,25 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<ClanRequestAcceptView> OnAcceptClanInvitation(int clanInvitationId, string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (session.Document.ClanId == 0)
                 {
-                    StreamDocument document = await StreamManager.Get(clanInvitationId);
+                    StreamDocument document = await streamManager.Get(clanInvitationId);
                     if (document != null && document.StreamType == StreamType.GroupInvitation)
                     {
                         GroupInvitationView groupInvitation = ((GroupInvitationStream)document).GroupInvitation;
-                        ClanDocument clanDocument = await ClanManager.Get(groupInvitation.GroupId);
+                        ClanDocument clanDocument = await clanManager.Get(groupInvitation.GroupId);
                         if (clanDocument != null)
                         {
                             if (clanDocument.Clan.AddMemberToClan(ClanMemberHelper.GetClanMemberView(session.Document)))
                             {
-                                UserDocument user = !GameSessionManager.TryGet(groupInvitation.InviterCmid, out GameSession friendSession) ? UserManager.GetUser(groupInvitation.InviterCmid).Result : friendSession.Document;
+                                UserDocument user = !gameSessionManager.TryGet(groupInvitation.InviterCmid, out GameSession friendSession) ? userManager.GetUser(groupInvitation.InviterCmid).Result : friendSession.Document;
                                 session.Document.ClanId = clanDocument.ClanId;
                                 session.Document.Profile.GroupTag = clanDocument.Clan.Tag;
                                 _ = session.Document.Streams.Remove(groupInvitation.GroupInvitationId);
                                 _ = user.Streams.Remove(groupInvitation.GroupInvitationId);
-                                _ = await Task.WhenAny(UserManager.Save(user), UserManager.Save(session.Document), ClanManager.Save(clanDocument));
+                                _ = await Task.WhenAny(userManager.Save(user), userManager.Save(session.Document), clanManager.Save(clanDocument));
                                 return new ClanRequestAcceptView
                                 {
                                     ActionResult = 0,
@@ -435,18 +450,18 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<ClanRequestDeclineView> OnDeclineClanInvitation(int clanInvitationId, string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
-                StreamDocument document = await StreamManager.Get(clanInvitationId);
+                StreamDocument document = await streamManager.Get(clanInvitationId);
                 if (document != null && document.StreamType == StreamType.GroupInvitation)
                 {
                     GroupInvitationView groupInvitation = ((GroupInvitationStream)document).GroupInvitation;
-                    UserDocument inviterDocument = GameSessionManager.TryGet(groupInvitation.InviterCmid, out GameSession userSession) ? userSession.Document : UserManager.GetUser(groupInvitation.InviterCmid).Result;
+                    UserDocument inviterDocument = gameSessionManager.TryGet(groupInvitation.InviterCmid, out GameSession userSession) ? userSession.Document : userManager.GetUser(groupInvitation.InviterCmid).Result;
                     _ = inviterDocument.ClanRequests.RemoveAll((T) => T == groupInvitation.GroupId);
                     _ = inviterDocument.Streams.RemoveAll((T) => T == groupInvitation.GroupInvitationId);
                     _ = session.Document.Streams.RemoveAll((T) => T == groupInvitation.GroupInvitationId);
-                    _ = UserManager.Save(inviterDocument);
-                    _ = UserManager.Save(session.Document);
+                    _ = userManager.Save(inviterDocument);
+                    _ = userManager.Save(session.Document);
                 }
             }
             return new ClanRequestDeclineView();
@@ -454,18 +469,18 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<int> OnCancelInvite(int clanInvitationId, string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
-                StreamDocument document = await StreamManager.Get(clanInvitationId);
+                StreamDocument document = await streamManager.Get(clanInvitationId);
                 if (document != null && document.StreamType == StreamType.GroupInvitation)
                 {
                     GroupInvitationView groupInvitation = ((GroupInvitationStream)document).GroupInvitation;
-                    UserDocument inviteeDocument = GameSessionManager.TryGet(groupInvitation.InviteeCmid, out GameSession userSession) ? userSession.Document : UserManager.GetUser(groupInvitation.InviteeCmid).Result;
+                    UserDocument inviteeDocument = gameSessionManager.TryGet(groupInvitation.InviteeCmid, out GameSession userSession) ? userSession.Document : userManager.GetUser(groupInvitation.InviteeCmid).Result;
                     _ = inviteeDocument.ClanRequests.RemoveAll((T) => T == groupInvitation.GroupId);
                     _ = inviteeDocument.Streams.RemoveAll((T) => T == groupInvitation.GroupInvitationId);
                     _ = session.Document.Streams.RemoveAll((T) => T == groupInvitation.GroupInvitationId);
-                    await UserManager.Save(inviteeDocument);
-                    await UserManager.Save(session.Document);
+                    await userManager.Save(inviteeDocument);
+                    await userManager.Save(session.Document);
                 }
             }
             return 0;
@@ -473,7 +488,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override int OnGetMyClanId(string authToken)
         {
-            return !GameSessionManager.TryGet(authToken, out GameSession session) ? 0 : session.Document.ClanId;
+            return !gameSessionManager.TryGet(authToken, out GameSession session) ? 0 : session.Document.ClanId;
         }
 
         private bool ValidString(string name)

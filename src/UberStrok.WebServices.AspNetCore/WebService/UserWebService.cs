@@ -18,14 +18,28 @@ namespace UberStrok.WebServices.AspNetCore.WebService
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(UserWebService));
 
+        private readonly GameSessionManager gameSessionManager;
+        private readonly UserManager userManager;
+        private readonly ResourceManager resourceManager;
+        private readonly ClanManager clanManager;
+        private readonly ApplicationWebService applicationWebService;
+        public UserWebService(GameSessionManager gameSessionManager, UserManager userManager, ResourceManager resourceManager, ClanManager clanManager, ApplicationWebService applicationWebService)
+        {
+            this.gameSessionManager = gameSessionManager;
+            this.userManager = userManager;
+            this.resourceManager = resourceManager;
+            this.clanManager = clanManager;
+            this.applicationWebService = applicationWebService;
+        }
+
         public override LoadoutView OnGetLoadout(string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
-                HashSet<string> authed = GameSessionManager.Authed;
+                HashSet<string> authed = gameSessionManager.Authed;
                 lock (authed)
                 {
-                    if (!GameSessionManager.Authed.Add(authToken))
+                    if (!gameSessionManager.Authed.Add(authToken))
                     {
                         return null;
                     }
@@ -37,7 +51,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override UberstrikeUserView OnGetMember(string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 return new UberstrikeUserView
                 {
@@ -54,7 +68,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override MemberWalletView OnGetMemberWallet(string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 return session.Document.Wallet;
             }
@@ -64,7 +78,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override PlayerStatisticsView OnGetPlayerStats(string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 return session.Document.Statistics;
             }
@@ -74,7 +88,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override List<ItemInventoryView> OnGetInventory(string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 return session.Document.Inventory;
             }
@@ -88,7 +102,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
             for (int i = 0; i < 3; i++)
             {
                 string generateUsername = username + Utils.Random.Next(0, 10000).ToString();
-                if (!await UserManager.IsNameUsed(generateUsername))
+                if (!await userManager.IsNameUsed(generateUsername))
                 {
                     usernames.Add(generateUsername);
                 }
@@ -98,7 +112,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override LoadoutView OnGetLoadoutServer(string serviceAuth, string authToken)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 if (Startup.WebServiceConfiguration.ServiceAuth == serviceAuth)
                 {
@@ -115,10 +129,10 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override MemberOperationResult OnSetWallet(string authToken, MemberWalletView walletView)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 session.Member.MemberWallet = walletView;
-                _ = UserManager.Save(session.Document);
+                _ = userManager.Save(session.Document);
                 return MemberOperationResult.Ok;
             }
             Log.Error("An unidentified AuthToken was passed.");
@@ -127,15 +141,15 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<MemberOperationResult> OnSetLoadout(string authToken, LoadoutView loadoutView)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
-                if(!CheckLoadoutAndInventory(session.Document.Loadout, session.Document.Inventory))
+                if (!CheckLoadoutAndInventory(session.Document.Loadout, session.Document.Inventory))
                 {
                     Log.Error("Inventory check not passed.");
                     return MemberOperationResult.InvalidData;
                 }
                 session.Document.Loadout = loadoutView;
-                await UserManager.Save(session.Document);
+                await userManager.Save(session.Document);
                 return MemberOperationResult.Ok;
             }
             Log.Error("An unidentified AuthToken was passed.");
@@ -144,7 +158,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task OnEndOfMatch(string authToken, StatsCollectionView totalStats, StatsCollectionView bestStats)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 MemberWalletView wallet = session.Document.Wallet;
                 PlayerStatisticsView statistics = session.Document.Statistics;
@@ -247,7 +261,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 session.Document.Kills += totalStats.GetKills();
                 session.Document.Deaths += totalStats.Deaths;
                 statistics.Level = XpPointsUtil.GetLevelForXp(statistics.Xp);
-                await UserManager.Save(session.Document);
+                await userManager.Save(session.Document);
             }
             else
             {
@@ -257,20 +271,20 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task<MemberOperationResult> OnChangeMemberName(string authToken, string username, string local, string machineId)
         {
-            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
-                if (ResourceManager.IsNameValid(username))
+                if (resourceManager.IsNameValid(username))
                 {
-                    if (!ResourceManager.IsNameOffensive(username))
+                    if (!resourceManager.IsNameOffensive(username))
                     {
-                        if (await UserManager.IsNameUsed(username))
+                        if (await userManager.IsNameUsed(username))
                         {
                             ItemInventoryView itemInventory = session.Document.Inventory.SingleOrDefault((t) => t.ItemId == 1294);
                             if (itemInventory != null)
                             {
                                 try
                                 {
-                                    await UserManager.ChangeName(session.Document.UserId, username);
+                                    await userManager.ChangeName(session.Document.UserId, username);
                                 }
                                 catch (MongoWriteException)
                                 {
@@ -282,7 +296,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                                 _ = session.Document.Inventory.Remove(itemInventory);
                                 if (session.Document.ClanId != 0)
                                 {
-                                    ClanDocument document = await ClanManager.Get(session.Document.ClanId);
+                                    ClanDocument document = await clanManager.Get(session.Document.ClanId);
                                     if (document != null)
                                     {
                                         ClanMemberView clanMember = document.Clan.GetMember(session.Document.UserId);
@@ -291,10 +305,10 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                                         {
                                             document.Clan.OwnerName = username;
                                         }
-                                        await ClanManager.Save(document);
+                                        await clanManager.Save(document);
                                     }
                                 }
-                                await UserManager.Save(session.Document);
+                                await userManager.Save(session.Document);
                                 return MemberOperationResult.Ok;
                             }
                             return MemberOperationResult.InvalidData;
@@ -318,7 +332,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
         {
             try
             {
-                return await UserManager.IsNameUsed(username);
+                return await userManager.IsNameUsed(username);
             }
             catch (Exception e)
             {
@@ -364,17 +378,9 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 return false;
             }
 
-            if (!inventory.Any(x => x.ItemId == loadout.LowerBody) && loadout.LowerBody != 0 && loadout.LowerBody != 1088)
-            {
-                return false;
-            }
-
-            if (!inventory.Any(x => x.ItemId == loadout.MeleeWeapon) && loadout.MeleeWeapon != 0)
-            {
-                return false;
-            }
-
-            return (inventory.Any(x => x.ItemId == loadout.QuickItem1) || loadout.QuickItem1 == 0)
+            return (inventory.Any(x => x.ItemId == loadout.LowerBody) || loadout.LowerBody == 0 || loadout.LowerBody == 1088)
+&& (inventory.Any(x => x.ItemId == loadout.MeleeWeapon) || loadout.MeleeWeapon == 0)
+&& (inventory.Any(x => x.ItemId == loadout.QuickItem1) || loadout.QuickItem1 == 0)
 && (inventory.Any(x => x.ItemId == loadout.QuickItem2) || loadout.QuickItem2 == 0)
 && (inventory.Any(x => x.ItemId == loadout.QuickItem3) || loadout.QuickItem3 == 0)
 && (inventory.Any(x => x.ItemId == loadout.UpperBody) || loadout.UpperBody == 0 || loadout.UpperBody == 1087)

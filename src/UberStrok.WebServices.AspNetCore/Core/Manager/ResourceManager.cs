@@ -13,55 +13,55 @@ using UberStrok.WebServices.AspNetCore.Helper;
 
 namespace UberStrok.WebServices.AspNetCore.Core.Manager
 {
-    public static class ResourceManager
+    public class ResourceManager
     {
-        private static HashSet<string> m_badWords;
+        private readonly HashSet<string> m_badWords;
 
-        private static readonly Regex NameRegex = new Regex("^[a-zA-Z0-9 .!_\\-<>{}~@#$%^&*()=+|:?]{3,18}$", RegexOptions.Compiled);
+        private readonly Regex NameRegex = new Regex("^[a-zA-Z0-9 .!_\\-<>{}~@#$%^&*()=+|:?]{3,18}$", RegexOptions.Compiled);
 
-        private static readonly Regex MottoRegex = new Regex("^[a-zA-Z0-9 .!_\\-<>{}~@#$%^&*()=+|:?]{3,18}$", RegexOptions.Compiled);
+        private readonly Regex MottoRegex = new Regex("^[a-zA-Z0-9 .!_\\-<>{}~@#$%^&*()=+|:?]{3,18}$", RegexOptions.Compiled);
 
-        public static List<MapView> Maps
+        public List<MapView> Maps
         {
             get;
             private set;
         }
 
-        public static List<AchievementView> AllAchievements { get; private set; }
+        public List<AchievementView> AllAchievements { get; private set; }
 
-        public static PhotonView CommServer
+        public PhotonView CommServer
         {
             get;
             private set;
         }
 
-        public static List<BundleView> Bundles
+        public List<BundleView> Bundles
         {
             get;
             private set;
         }
 
-        public static List<PhotonView> GameServers
+        public List<PhotonView> GameServers
         {
             get;
             private set;
         }
 
-        public static UberStrikeItemShopClientView Items
+        public UberStrikeItemShopClientView Items
         {
             get;
             private set;
         }
 
-        public static PersonNameGenerator NameGenerator
+        public PersonNameGenerator NameGenerator
         {
             get;
             private set;
         }
 
-        public static List<LockedClanTags> LockedTags { get; private set; }
+        public List<LockedClanTags> LockedTags { get; private set; }
 
-        public static void Init()
+        public ResourceManager()
         {
             Maps = Utils.DeserializeJsonWithNewtonsoftAt<List<MapView>>("assets/configs/game/maps.json") ?? throw new FileNotFoundException("assets/configs/game/maps.json file not found.");
             Bundles = Utils.DeserializeJsonWithNewtonsoftAt<List<BundleView>>("assets/configs/game/bundles.json") ?? throw new FileNotFoundException("assets/configs/game/bundles.json file not found.");
@@ -119,7 +119,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             }
         }
 
-        public static string GetIPAddress(string hostname)
+        public string GetIPAddress(string hostname)
         {
             if (IPAddress.TryParse(hostname, out IPAddress _))
             {
@@ -137,7 +137,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             throw new Exception("Unable to get host entry at " + hostname);
         }
 
-        public static MapView Get(string sceneName)
+        public MapView Get(string sceneName)
         {
             if (sceneName == null)
             {
@@ -153,12 +153,12 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             return null;
         }
 
-        internal static bool IsNameValid(string name)
+        internal bool IsNameValid(string name)
         {
             return !string.IsNullOrWhiteSpace(name) && NameRegex.IsMatch(name);
         }
 
-        internal static bool IsNameOffensive(string name)
+        internal bool IsNameOffensive(string name)
         {
             return m_badWords.Contains(name.ToLower());
         }
