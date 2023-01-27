@@ -20,7 +20,19 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override LoadoutView OnGetLoadout(string authToken)
         {
-            return GameSessionManager.TryGet(authToken, out GameSession session) ? session.Document.Loadout : null;
+            if (GameSessionManager.TryGet(authToken, out GameSession session))
+            {
+                HashSet<string> authed = GameSessionManager.Authed;
+                lock (authed)
+                {
+                    if (!GameSessionManager.Authed.Add(authToken))
+                    {
+                        return null;
+                    }
+                }
+                return session.Document.Loadout;
+            }
+            return null;
         }
 
         public override UberstrikeUserView OnGetMember(string authToken)
@@ -117,20 +129,20 @@ namespace UberStrok.WebServices.AspNetCore.WebService
         {
             if (GameSessionManager.TryGet(authToken, out GameSession session))
             {
-                if (UserHelper.CheckLoadoutAndInventory(session.Document.Loadout, session.Document.Inventory))
+                if(!CheckLoadoutAndInventory(session.Document.Loadout, session.Document.Inventory))
                 {
-                    Console.WriteLine("Check success");
-                    session.Document.Loadout = loadoutView;
-                    await UserManager.Save(session.Document);
-                    return MemberOperationResult.Ok;
+                    Log.Error("Inventory check not passed.");
+                    return MemberOperationResult.InvalidData;
                 }
-                else { Console.WriteLine("Check didnt pass"); return MemberOperationResult.InvalidHandle; }
+                session.Document.Loadout = loadoutView;
+                await UserManager.Save(session.Document);
+                return MemberOperationResult.Ok;
             }
             Log.Error("An unidentified AuthToken was passed.");
             return MemberOperationResult.InvalidData;
         }
 
-        public override void OnEndOfMatch(string authToken, StatsCollectionView totalStats, StatsCollectionView bestStats)
+        public override async Task OnEndOfMatch(string authToken, StatsCollectionView totalStats, StatsCollectionView bestStats)
         {
             if (GameSessionManager.TryGet(authToken, out GameSession session))
             {
@@ -235,7 +247,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 session.Document.Kills += totalStats.GetKills();
                 session.Document.Deaths += totalStats.Deaths;
                 statistics.Level = XpPointsUtil.GetLevelForXp(statistics.Xp);
-                _ = UserManager.Save(session.Document);
+                await UserManager.Save(session.Document);
             }
             else
             {
@@ -313,6 +325,62 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 Console.WriteLine(e.ToString());
             }
             return false;
+        }
+
+        private bool CheckLoadoutAndInventory(LoadoutView loadout, List<ItemInventoryView> inventory)
+        {
+            if (!inventory.Any(x => x.ItemId == loadout.Boots) && loadout.Boots != 0 && loadout.Boots != 1089)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.Face) && loadout.Face != 0)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.FunctionalItem1) && loadout.FunctionalItem1 != 0)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.FunctionalItem2) && loadout.FunctionalItem2 != 0)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.FunctionalItem3) && loadout.FunctionalItem3 != 0)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.Gloves) && loadout.Gloves != 0 && loadout.Gloves != 1086)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.Head) && loadout.Head != 0 && loadout.Head != 1084)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.LowerBody) && loadout.LowerBody != 0 && loadout.LowerBody != 1088)
+            {
+                return false;
+            }
+
+            if (!inventory.Any(x => x.ItemId == loadout.MeleeWeapon) && loadout.MeleeWeapon != 0)
+            {
+                return false;
+            }
+
+            return (inventory.Any(x => x.ItemId == loadout.QuickItem1) || loadout.QuickItem1 == 0)
+&& (inventory.Any(x => x.ItemId == loadout.QuickItem2) || loadout.QuickItem2 == 0)
+&& (inventory.Any(x => x.ItemId == loadout.QuickItem3) || loadout.QuickItem3 == 0)
+&& (inventory.Any(x => x.ItemId == loadout.UpperBody) || loadout.UpperBody == 0 || loadout.UpperBody == 1087)
+&& (inventory.Any(x => x.ItemId == loadout.Weapon1) || loadout.Weapon1 == 0)
+&& (inventory.Any(x => x.ItemId == loadout.Weapon2) || loadout.Weapon2 == 0)
+&& (inventory.Any(x => x.ItemId == loadout.Weapon3) || loadout.Weapon3 == 0);
         }
     }
 }

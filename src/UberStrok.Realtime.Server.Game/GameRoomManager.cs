@@ -42,6 +42,8 @@ namespace UberStrok.Realtime.Server.Game
             {
                 if (!_rooms.TryGetValue(roomId, out GameRoom room))
                     return null;
+                if(room.Actors.Count == 0) 
+                    return null;
                 return room;
             }
         }
@@ -105,9 +107,8 @@ namespace UberStrok.Realtime.Server.Game
                     var room = kv.Value;
                     var view = room.GetView();
 
-                    if (room.EmptyTickTime > 10000 / 15)
+                    if (room.Loop.Time > 15000f && room.Actors.Count == 0 && !room.GetView().IsPermanentGame)
                     {
-                        Log.Info("Removing empty room " + room.RoomId);
                         _removedRooms.Add(room.RoomId);
                     }
                     else if (room.Updated)
@@ -153,7 +154,11 @@ namespace UberStrok.Realtime.Server.Game
             {
                 foreach (var kv in _rooms)
                 {
-                    yield return kv.Value;
+                    GameRoom value = kv.Value;
+                    if (value.Actors.Count != 0)
+                    {
+                        yield return value;
+                    }
                 }
             }
         }

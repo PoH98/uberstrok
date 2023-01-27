@@ -16,8 +16,8 @@
   },
   "service_database": {
     "host": "localhost",
-    "database": "uberkill",
-    "username": "Administrator",
-    "password": "retardmf"
+    "database": "admin",
+    "username": "uber",
+    "password": "admin"
   }
 }

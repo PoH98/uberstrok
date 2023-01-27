@@ -10,115 +10,167 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
 {
     public class UberBeatManager
     {
-        public static List<string> ExceptionData => ServerManager.Document.ExceptionData;
+        public static List<string> ExceptionData { get; set; } = new List<string>();
 
-        private static readonly ILog Log = LogManager.GetLogger(typeof(UberBeatManager));
         public void Update(UserDocument document, string hwid)
         {
             try
             {
-                if (document != null)
+                UberBeat uberBeat = UberBeatManager.ParseHWIDToObject(hwid);
+                if (uberBeat != null)
                 {
-                    UberBeat obj = ParseHWIDToObject(hwid);
-                    if (obj != null)
-                    {
-                        document.HDD.UnionWith(obj.HDD);
-                        document.BIOS.UnionWith(obj.BIOS);
-                        document.MOTHERBOARD.UnionWith(obj.MOTHERBOARD);
-                        document.MAC.UnionWith(obj.MAC);
-                        document.UNITY.UnionWith(obj.UNITY);
-                        _ = UserManager.Save(document);
-                    }
+                    document.HDD.UnionWith(uberBeat.HDD);
+                    document.BIOS.UnionWith(uberBeat.BIOS);
+                    document.MOTHERBOARD.UnionWith(uberBeat.MOTHERBOARD);
+                    document.MAC.UnionWith(uberBeat.MAC);
+                    document.UNITY.UnionWith(uberBeat.UNITY);
+                    UserManager.Save(document);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
+                Console.WriteLine(ex.ToString());
             }
         }
-
         public string Mute(int cmid, int duration = 0)
         {
+            string result2;
             try
             {
-                UserDocument member = UserManager.GetUser(cmid).Result;
+                UserDocument result = UserManager.GetUser(cmid).Result;
                 if (duration > 0)
                 {
-                    member.UBMute = DateTime.UtcNow.AddMinutes(duration).ToString();
-                    _ = UserManager.Save(member);
-                    return $"{member.Profile.Name} has been muted for {duration} minutes.";
+                    result.UBMute = DateTime.UtcNow.AddMinutes((double)duration).ToString();
+                    UserManager.Save(result);
+                    result2 = string.Format("{0} has been muted for {1} minutes.", result.Profile.Name, duration.ToString());
                 }
-                member.UBMute = "-1";
-                _ = UserManager.Save(member);
-                return $"{member.Profile.Name} has been muted permanently.";
+                else
+                {
+                    result.UBMute = "-1";
+                    UserManager.Save(result);
+                    result2 = string.Format("{0} has been muted permanently.", result.Profile.Name);
+                }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                result2 = ex.ToString();
             }
+            return result2;
         }
-
         public void UserLog(string steamid, int duration, string hwid)
         {
-            UserDocument member = UserManager.GetUser(steamid).Result;
-            if (member == null)
+            UserDocument result = UserManager.GetUser(steamid).Result;
+            if (result == null)
             {
-                switch (duration)
+                if (duration == -1)
                 {
-                    case -1:
-                        UDPListener.SendDiscord("``Permanently Banned user with HWID:``" + Environment.NewLine + "```" + hwid.Replace("|", Environment.NewLine) + "```has been kicked.", login: true);
-                        break;
-                    case 0:
-                        UDPListener.SendDiscord("``User with HWID:``" + Environment.NewLine + "```" + hwid.Replace("|", Environment.NewLine) + "```has logged in.", login: true);
-                        break;
-                    default:
-                        UDPListener.SendDiscord("``Temporarily Banned user ( for " + duration.ToString() + " more minutes ) with HWID:``" + Environment.NewLine + "```" + hwid.Replace("|", Environment.NewLine) + "```has logged in.", login: true);
-                        break;
+                    UDPListener.SendDiscord(string.Concat(new string[]
+                    {
+                        "``Permanently Banned user with HWID:``",
+                        Environment.NewLine,
+                        "```",
+                        hwid.Replace("|", Environment.NewLine),
+                        "```has been kicked."
+                    }), true);
+                    return;
                 }
+                if (duration == 0)
+                {
+                    UDPListener.SendDiscord(string.Concat(new string[]
+                    {
+                        "``User with HWID:``",
+                        Environment.NewLine,
+                        "```",
+                        hwid.Replace("|", Environment.NewLine),
+                        "```has logged in."
+                    }), true);
+                    return;
+                }
+                UDPListener.SendDiscord(string.Concat(new string[]
+                {
+                    "``Temporarily Banned user ( for ",
+                    duration.ToString(),
+                    " more minutes ) with HWID:``",
+                    Environment.NewLine,
+                    "```",
+                    hwid.Replace("|", Environment.NewLine),
+                    "```has logged in."
+                }), true);
+                return;
             }
             else
             {
-                switch (duration)
+                if (duration == -1)
                 {
-                    case -1:
-                        UDPListener.SendDiscord("``Permanently banned user with Name: " + member.Profile.Name + " and HWID:``" + Environment.NewLine + "```" + hwid.Replace("|", Environment.NewLine) + "```has been kicked.", login: true);
-                        break;
-                    case 0:
-                        UDPListener.SendDiscord("``User with Name: " + member.Profile.Name + " and HWID:``" + Environment.NewLine + "```" + hwid.Replace("|", Environment.NewLine) + "```has logged in.", login: true);
-                        break;
-                    default:
-                        UDPListener.SendDiscord("``Temporarily Banned user ( for " + duration.ToString() + " more minutes ) with Name " + member.Profile.Name + " and HWID:``" + Environment.NewLine + "```" + hwid.Replace("|", Environment.NewLine) + "```has logged in.", login: true);
-                        break;
+                    UDPListener.SendDiscord(string.Concat(new string[]
+                    {
+                        string.Format("``Permanently banned user with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, steamid),
+                        Environment.NewLine,
+                        "```",
+                        hwid.Replace("|", Environment.NewLine),
+                        "```has been kicked."
+                    }), true);
+                    return;
                 }
+                if (duration == 0)
+                {
+                    UDPListener.SendDiscord(string.Concat(new string[]
+                    {
+                        string.Format("``User with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, steamid),
+                        Environment.NewLine,
+                        "```",
+                        hwid.Replace("|", Environment.NewLine),
+                        "```has logged in."
+                    }), true);
+                    return;
+                }
+                UDPListener.SendDiscord(string.Concat(new string[]
+                {
+                    string.Format("``Temporarily Banned user ( for {0} more minutes ) with CMID {1}, Name {2}, SteamID {3} and HWID:``", new object[]
+                    {
+                        duration.ToString(),
+                        result.Profile.Cmid,
+                        result.Profile.Name,
+                        steamid
+                    }),
+                    Environment.NewLine,
+                    "```",
+                    hwid.Replace("|", Environment.NewLine),
+                    "```has logged in."
+                }), true);
+                return;
             }
         }
-
         public string Unmute(int cmid)
         {
+            string result2;
             try
             {
-                UserDocument member = UserManager.GetUser(cmid).Result;
-                if (member == null)
+                UserDocument result = UserManager.GetUser(cmid).Result;
+                if (result == null)
                 {
-                    return $"User with cmid {cmid} does not exist.";
+                    result2 = string.Format("User with cmid {0} does not exist.", cmid.ToString());
                 }
-                if (member.UBMute == null)
+                else if (result.UBMute == null)
                 {
-                    return $"User with cmid {cmid} and name {member.Profile.Name} is not muted.";
+                    result2 = string.Format("User with cmid {0} and name {1} is not muted.", cmid.ToString(), result.Profile.Name);
                 }
-                member.UBBan = null;
-                _ = UserManager.Save(member);
-                return $"User with cmid {cmid} and name {member.Profile.Name} has been unmuted.";
+                else
+                {
+                    result.UBBan = null;
+                    UserManager.Save(result);
+                    result2 = string.Format("User with cmid {0} and name {1} has been unmuted.", cmid.ToString(), result.Profile.Name);
+                }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                result2 = ex.ToString();
             }
+            return result2;
         }
-
         public int MuteDuration(UserDocument member, string hwid)
         {
-            List<int> duration = new List<int>();
+            List<int> list = new List<int>();
             try
             {
                 if (member != null)
@@ -129,33 +181,37 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                         {
                             return -1;
                         }
-                        DateTime Date = DateTime.Parse(member.UBMute);
-                        if (Date > DateTime.UtcNow)
+                        DateTime dateTime = DateTime.Parse(member.UBMute);
+                        if (dateTime > DateTime.UtcNow)
                         {
-                            duration.Add((int)(Date - DateTime.UtcNow).TotalMinutes + 1);
+                            list.Add((int)(dateTime - DateTime.UtcNow).TotalMinutes + 1);
                         }
-                        else if (Date <= DateTime.UtcNow)
+                        else if (dateTime <= DateTime.UtcNow)
                         {
                             member.UBMute = null;
-                            _ = UserManager.Save(member);
+                            UserManager.Save(member);
                         }
                     }
-                    foreach (int cmid2 in AltCmids(member.Profile.Cmid))
+                    foreach (int cmid in this.AltCmids(member.Profile.Cmid))
                     {
-                        duration.Add(GetDuration(cmid2, muteduration: true));
+                        list.Add(UberBeatManager.getDuration(cmid, true));
                     }
                 }
-                foreach (int cmid in AltCmids(hwid))
+                foreach (int cmid2 in this.AltCmids(hwid))
                 {
-                    duration.Add(GetDuration(cmid, muteduration: true));
+                    list.Add(UberBeatManager.getDuration(cmid2, true));
                 }
-                return duration.Contains(-1) ? -1 : duration.Max();
+                if (list.Contains(-1))
+                {
+                    return -1;
+                }
+                return list.Max();
             }
             catch
             {
-                if (duration.Count > 0)
+                if (list.Count > 0)
                 {
-                    return duration.Max();
+                    return list.Max();
                 }
             }
             return 0;
@@ -163,369 +219,416 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
 
         public string Ban(int cmid, int duration = 0)
         {
+            string result2;
             try
             {
-                UserDocument member = UserManager.GetUser(cmid).Result;
+                UserDocument result = UserManager.GetUser(cmid).Result;
                 if (duration > 0)
                 {
-                    member.UBBan = DateTime.UtcNow.AddMinutes(duration).ToString();
-                    _ = UserManager.Save(member);
-                    return $"{member.Profile.Name} has been banned for {duration} minutes.";
+                    result.UBBan = DateTime.UtcNow.AddMinutes((double)duration).ToString();
+                    UserManager.Save(result);
+                    result2 = string.Format("{0} has been banned for {1} minutes.", result.Profile.Name, duration.ToString());
                 }
-                member.UBBan = "-1";
-                _ = UserManager.Save(member);
-                return $"{member.Profile.Name} has been banned permanently.";
+                else
+                {
+                    result.UBBan = "-1";
+                    UserManager.Save(result);
+                    result2 = string.Format("{0} has been banned permanently.", result.Profile.Name);
+                }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return e.ToString();
+                result2 = ex.ToString();
             }
+            return result2;
         }
 
         public string Unban(int cmid)
         {
+            string result2;
             try
             {
-                UserDocument member = UserManager.GetUser(cmid).Result;
-                if (member == null)
+                UserDocument result = UserManager.GetUser(cmid).Result;
+                if (result == null)
                 {
-                    return $"User with cmid {cmid} does not exist.";
+                    result2 = string.Format("User with cmid {0} does not exist.", cmid.ToString());
                 }
-                if (member.UBBan == null)
+                else if (result.UBBan == null)
                 {
-                    return $"User with cmid {cmid} and name {member.Profile.Name} is not banned.";
-                }
-                member.UBBan = null;
-                _ = UserManager.Save(member);
-                return $"User with cmid {cmid} and name {member.Profile.Name} has been unbanned.";
-            }
-            catch (Exception e)
-            {
-                return e.ToString();
-            }
-        }
-
-        public int BanDuration(UserDocument member, string hwid)
-        {
-            List<int> duration = new List<int>();
-            try
-            {
-                if (member != null)
-                {
-                    if (!string.IsNullOrEmpty(member.UBBan))
-                    {
-                        if (member.UBBan == "-1")
-                        {
-                            return -1;
-                        }
-                        DateTime Date = DateTime.Parse(member.UBBan);
-                        if (Date > DateTime.UtcNow)
-                        {
-                            duration.Add((int)(Date - DateTime.UtcNow).TotalMinutes + 1);
-                        }
-                        else if (Date <= DateTime.UtcNow)
-                        {
-                            member.UBBan = null;
-                            _ = UserManager.Save(member);
-                        }
-                    }
+                    result2 = string.Format("User with cmid {0} and name {1} is not banned.", cmid.ToString(), result.Profile.Name);
                 }
                 else
                 {
-                    foreach (int cmid in AltCmids(hwid))
-                    {
-                        duration.Add(GetDuration(cmid));
-                    }
-                    if (duration.Contains(-1))
+                    result.UBBan = null;
+                    UserManager.Save(result);
+                    result2 = string.Format("User with cmid {0} and name {1} has been unbanned.", cmid.ToString(), result.Profile.Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                result2 = ex.ToString();
+            }
+            return result2;
+        }
+
+        // Token: 0x0600013F RID: 319 RVA: 0x00006E14 File Offset: 0x00005014
+        public int BanDuration(UserDocument member, string hwid)
+        {
+            List<int> list = new List<int>();
+            try
+            {
+                if (!string.IsNullOrEmpty(member.UBBan))
+                {
+                    int ubbanRemainingMinutes = UberBeatManager.GetUBBanRemainingMinutes(member.UBBan);
+                    if (ubbanRemainingMinutes == -1)
                     {
                         return -1;
                     }
+                    if (ubbanRemainingMinutes == 0)
+                    {
+                        member.UBBan = null;
+                        UserManager.Save(member);
+                    }
                 }
-                return duration.Max();
+                foreach (int cmid in this.AltCmids(member.Profile.Cmid))
+                {
+                    list.Add(UberBeatManager.getDuration(cmid, false));
+                }
+                foreach (int cmid2 in this.AltCmids(hwid))
+                {
+                    list.Add(UberBeatManager.getDuration(cmid2, false));
+                }
+                if (list.Contains(-1))
+                {
+                    return -1;
+                }
+                return list.Max();
             }
             catch
             {
-                if (duration.Count > 0)
+                if (list.Count > 0)
                 {
-                    return duration.Max();
+                    return list.Max();
                 }
             }
             return 0;
         }
 
-        private static int GetDuration(int cmid, bool muteduration = false)
+        public static int GetUBBanRemainingMinutes(string ubban)
         {
-            UserDocument doc = UserManager.GetUser(cmid).GetAwaiter().GetResult();
-            string datestr = (!muteduration) ? doc.UBBan : doc.UBMute;
-            if (string.IsNullOrEmpty(datestr))
-            {
-                return 0;
-            }
-            if (datestr == "-1")
+            if (ubban == "-1")
             {
                 return -1;
             }
+            return (int)Math.Max(DateTime.Parse(ubban).Subtract(DateTime.UtcNow).TotalMinutes + 1.0, 0.0);
+        }
+
+        public static int getDuration(int cmid, bool muteduration = false)
+        {
+            UserDocument result = UserManager.GetUser(cmid).Result;
+            string text;
+            if (muteduration)
+            {
+                text = result.UBMute;
+            }
+            else
+            {
+                text = result.UBBan;
+            }
+            if (string.IsNullOrEmpty(text))
+            {
+                return 0;
+            }
+            int result2;
             try
             {
-                DateTime date = DateTime.Parse(datestr);
-                if (date > DateTime.UtcNow)
+                DateTime dateTime = DateTime.Parse(text);
+                if (dateTime > DateTime.UtcNow)
                 {
-                    return (int)(date - DateTime.UtcNow).TotalMinutes + 1;
-                }
-                if (muteduration)
-                {
-                    doc.UBMute = null;
+                    result2 = (int)(dateTime - DateTime.UtcNow).TotalMinutes + 1;
                 }
                 else
                 {
-                    doc.UBBan = null;
+                    if (muteduration)
+                    {
+                        result.UBMute = null;
+                    }
+                    else
+                    {
+                        result.UBBan = null;
+                    }
+                    UserManager.Save(result);
+                    result2 = 0;
                 }
-                _ = UserManager.Save(doc);
-                return 0;
             }
             catch
             {
-                return 0;
+                result2 = 0;
             }
+            return result2;
         }
 
         private void FilterExceptionData(ref UberBeat userdata)
         {
-
-            HashSet<string> ExceptionDataSet = new HashSet<string>(ExceptionData);
-            userdata.HDD.ExceptWith(ExceptionDataSet);
-            userdata.BIOS.ExceptWith(ExceptionDataSet);
-            userdata.MOTHERBOARD.ExceptWith(ExceptionDataSet);
-            userdata.UNITY.ExceptWith(ExceptionDataSet);
-            userdata.MAC.ExceptWith(ExceptionDataSet);
+            HashSet<string> other = new HashSet<string>(UberBeatManager.ExceptionData);
+            userdata.HDD.ExceptWith(other);
+            userdata.BIOS.ExceptWith(other);
+            userdata.MOTHERBOARD.ExceptWith(other);
+            userdata.UNITY.ExceptWith(other);
+            userdata.MAC.ExceptWith(other);
         }
 
-        public UberBeat ParseHWIDToObject(string data)
+        public static UberBeat ParseHWIDToObject(string data)
         {
-            UberBeat newuserdata = new UberBeat();
+            UberBeat uberBeat = new UberBeat();
             try
             {
-                string[] hwid = data.Split("|").Distinct().ToArray();
-                string[] array = hwid;
-                foreach (string line in array)
+                string[] array = data.Split("|", StringSplitOptions.None).Distinct<string>().ToArray<string>();
+                foreach (string text in array)
                 {
-                    if (line.Contains("MAC:"))
+                    if (text.Contains("MAC:"))
                     {
-                        string newline5 = line.Replace("MAC:", "");
-                        _ = newuserdata.MAC.Add(newline5);
+                        string item = text.Replace("MAC:", "");
+                        uberBeat.MAC.Add(item);
                     }
-                    if (line.Contains("HDD:"))
+                    if (text.Contains("HDD:"))
                     {
-                        string newline4 = line.Replace("HDD:", "");
-                        _ = newuserdata.HDD.Add(newline4);
+                        string item2 = text.Replace("HDD:", "");
+                        uberBeat.HDD.Add(item2);
                     }
-                    if (line.Contains("BIOS:"))
+                    if (text.Contains("BIOS:"))
                     {
-                        string newline3 = line.Replace("BIOS:", "");
-                        _ = newuserdata.BIOS.Add(newline3);
+                        string item3 = text.Replace("BIOS:", "");
+                        uberBeat.BIOS.Add(item3);
                     }
-                    if (line.Contains("MOTHERBOARD:"))
+                    if (text.Contains("MOTHERBOARD:"))
                     {
-                        string newline2 = line.Replace("MOTHERBOARD:", "");
-                        _ = newuserdata.MOTHERBOARD.Add(newline2);
+                        string item4 = text.Replace("MOTHERBOARD:", "");
+                        uberBeat.MOTHERBOARD.Add(item4);
                     }
-                    /*if (line.Contains("UNITY:"))
-					{
-						string newline = line.Replace("UNITY:", "");
-						newuserdata.UNITY.Add(newline);
-					}*/
+                    if (text.Contains("UNITY:"))
+                    {
+                        string item5 = text.Replace("UNITY:", "");
+                        uberBeat.UNITY.Add(item5);
+                    }
                 }
-                return newuserdata;
+                return uberBeat;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
-                return newuserdata;
+                Console.WriteLine(ex.ToString());
             }
+            return uberBeat;
         }
-
         public List<string> GetHWID(int cmid)
         {
-            UserDocument target = UserManager.GetUser(cmid).Result;
-            List<string> returnlist = new List<string>();
-            if (target == null)
+            UserDocument result = UserManager.GetUser(cmid).Result;
+            List<string> list = new List<string>();
+            if (result == null)
             {
-                returnlist.Add("Invalid CMID");
-                return returnlist;
+                list.Add("Invalid CMID");
+                return list;
             }
-            foreach (string name in target.Names)
+            foreach (string str in result.Names)
             {
-                returnlist.Add("NAME:" + name);
+                list.Add("NAME:" + str);
             }
-            foreach (string hdd in target.HDD)
+            list.Add("STEAM ID:" + result.SteamId);
+            foreach (string str2 in result.HDD)
             {
-                returnlist.Add("HDD:" + hdd);
+                list.Add("HDD:" + str2);
             }
-            foreach (string mac in target.MAC)
+            foreach (string str3 in result.MAC)
             {
-                returnlist.Add("MAC:" + mac);
+                list.Add("MAC:" + str3);
             }
-            foreach (string motherboard in target.MOTHERBOARD)
+            foreach (string str4 in result.MOTHERBOARD)
             {
-                returnlist.Add("MOTHERBOARD:" + motherboard);
+                list.Add("MOTHERBOARD:" + str4);
             }
-            foreach (string bios in target.BIOS)
+            foreach (string str5 in result.BIOS)
             {
-                returnlist.Add("BIOS:" + bios);
+                list.Add("BIOS:" + str5);
             }
-            foreach (string unity in target.UNITY)
+            foreach (string str6 in result.UNITY)
             {
-                returnlist.Add("UNITY:" + unity);
+                list.Add("UNITY:" + str6);
             }
-            return returnlist;
+            return list;
         }
-
-        public List<int> AltCmids(string hwid)
+        internal List<int> AltCmids(string hwid)
         {
-            return FindMatchingCmid(ParseHWIDToObject(hwid));
-        }
-
-        private List<int> FindMatchingCmid(UberBeat ub)
-        {
-            List<int> alts = new List<int>();
-            FilterExceptionData(ref ub);
-            HashSet<int>[] result = Task.WhenAll(UserManager.MatchHWID("bios", ub.BIOS),
-                UserManager.MatchHWID("mac", ub.MAC),
-                UserManager.MatchHWID("mac", ub.MAC),
-                UserManager.MatchHWID("hdd", ub.HDD),
-                UserManager.MatchHWID("motherboard", ub.MOTHERBOARD)).GetAwaiter().GetResult();
-            HashSet<int> bios = result[0];
-            HashSet<int> mac = result[1];
-            HashSet<int> hdd = result[2];
-            HashSet<int> motherboard = result[3];
-            List<int> overallAlts = new List<int>();
-            overallAlts.AddRange(bios); overallAlts.AddRange(mac); overallAlts.AddRange(hdd); overallAlts.AddRange(motherboard);
-            IEnumerable<IGrouping<int, int>> keypair = overallAlts.GroupBy(i => i);
-            foreach (IGrouping<int, int> pair in keypair)
+            List<int> list = new List<int>();
+            UberBeat uberBeat = UberBeatManager.ParseHWIDToObject(hwid);
+            this.FilterExceptionData(ref uberBeat);
+            List<int> first = UserManager.MatchHWID("bios", uberBeat.BIOS).Result.ToList<int>();
+            List<int> second = new List<int>(UserManager.MatchHWID("mac", uberBeat.MAC).Result);
+            List<int> second2 = new List<int>(UserManager.MatchHWID("hdd", uberBeat.HDD).Result);
+            List<int> second3 = new List<int>(UserManager.MatchHWID("motherboard", uberBeat.MOTHERBOARD).Result);
+            List<int> list2 = new List<int>(UserManager.MatchHWID("unity", uberBeat.UNITY).Result);
+            foreach (int item in list2)
             {
-                if (pair.Count() > 1 && !alts.Contains(pair.Key))
-                {
-                    alts.Add(pair.Key);
-                }
+                list.Add(item);
             }
-            return alts;
+            List<int> second4 = (from x in first.Union(second).Union(second2).Union(second3)
+                                 group x by x into g
+                                 where g.Count<int>() > 1
+                                 select g.Key).Distinct<int>().ToList<int>();
+            return list.Union(second4).ToList<int>();
         }
-
         public List<int> AltCmids(int cmid)
         {
-            UserDocument doc = UserManager.GetUser(cmid).GetAwaiter().GetResult();
-            UberBeat ub = new UberBeat
+            List<int> list = new List<int>();
+            list.Add(cmid);
+            UserDocument result = UserManager.GetUser(cmid).Result;
+            UberBeat uberBeat = new UberBeat();
+            uberBeat.HDD = result.HDD;
+            uberBeat.BIOS = result.BIOS;
+            uberBeat.MAC = result.MAC;
+            uberBeat.MOTHERBOARD = result.MOTHERBOARD;
+            uberBeat.UNITY = result.UNITY;
+            this.FilterExceptionData(ref uberBeat);
+            List<int> first = UserManager.MatchHWID("bios", uberBeat.BIOS).Result.ToList<int>();
+            List<int> second = new List<int>(UserManager.MatchHWID("mac", uberBeat.MAC).Result);
+            List<int> second2 = new List<int>(UserManager.MatchHWID("hdd", uberBeat.HDD).Result);
+            List<int> second3 = new List<int>(UserManager.MatchHWID("motherboard", uberBeat.MOTHERBOARD).Result);
+            List<int> list2 = new List<int>(UserManager.MatchHWID("unity", uberBeat.UNITY).Result);
+            foreach (int item in list2)
             {
-                HDD = doc.HDD,
-                BIOS = doc.BIOS,
-                MAC = doc.MAC,
-                MOTHERBOARD = doc.MOTHERBOARD
-            };
-            return FindMatchingCmid(ub);
+                list.Add(item);
+            }
+            List<int> second4 = (from x in first.Union(second).Union(second2).Union(second3)
+                                 group x by x into g
+                                 where g.Count<int>() > 1
+                                 select g.Key).Distinct<int>().ToList<int>();
+            return list.Union(second4).ToList<int>();
         }
 
+        // Token: 0x06000147 RID: 327 RVA: 0x00007750 File Offset: 0x00005950
         public List<string> Search(string name)
         {
+            List<string> result2;
             try
             {
-                List<string> result = new List<string>();
-                List<UserDocument> list = UserManager.FindUser(name).Result;
-                if (list.Count < 1)
+                List<string> list = new List<string>();
+                List<UserDocument> result = UserManager.FindUser(name).Result;
+                if (result.Count < 1)
                 {
-                    result.Add("Cant find name with such characters");
-                    return result;
+                    list.Add("Cant find name with such characters");
+                    result2 = list;
                 }
-                foreach (UserDocument doc in list)
+                else
                 {
-                    string name2 = (doc.Names.Count > 0) ? string.Join(Environment.NewLine, doc.Names) : doc.Profile.Name;
-                    result.Add($"CMID: {doc.Profile.Cmid} Name: {name2}");
+                    foreach (UserDocument userDocument in result)
+                    {
+                        string arg = (userDocument.Names.Count > 0) ? string.Join(Environment.NewLine, userDocument.Names) : userDocument.Profile.Name;
+                        list.Add(string.Format("CMID: {0} Name: {1}", userDocument.Profile.Cmid, arg));
+                    }
+                    result2 = list;
                 }
-                return result;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.ToString());
-                return null;
+                Console.WriteLine(ex.ToString());
+                result2 = null;
             }
+            return result2;
         }
 
+        // Token: 0x06000148 RID: 328 RVA: 0x0000783C File Offset: 0x00005A3C
         public List<string> Alts(int cmid)
         {
-            List<string> result = new List<string>();
-            foreach (int cmid2 in AltCmids(cmid))
+            List<string> list = new List<string>();
+            foreach (int id in this.AltCmids(cmid))
             {
-                UserDocument doc = UserManager.GetUser(cmid2).Result;
-                if (doc != null)
+                UserDocument result = UserManager.GetUser(id).Result;
+                if (result != null)
                 {
-                    result.Add($"CMID: {doc.Profile.Cmid} Name: {string.Join(Environment.NewLine, doc.Names)}");
+                    list.Add(string.Format("CMID: {0} Name: {1}", result.Profile.Cmid, string.Join(Environment.NewLine, result.Names)));
                 }
             }
-            return result;
+            return list;
         }
 
+        // Token: 0x06000149 RID: 329 RVA: 0x000078D0 File Offset: 0x00005AD0
         public List<string> Leaderboard(int limit, string key)
         {
+            List<string> result2;
             try
             {
-                List<UserDocument> docs = UserManager.Leaderboard(limit, key).Result;
-                List<string> result = new List<string>();
-                int i = 1;
-                foreach (UserDocument doc in docs)
+                List<UserDocument> result = UserManager.Leaderboard(limit, key).Result;
+                List<string> list = new List<string>();
+                int num = 1;
+                foreach (UserDocument userDocument in result)
                 {
-                    string clantag = null;
-                    string kda = getKda(doc.Kills, doc.Deaths).ToString();
-                    if (!string.IsNullOrEmpty(doc.Profile.GroupTag))
+                    string text = null;
+                    string text2 = this.getKda((double)userDocument.Kills, (double)userDocument.Deaths).ToString();
+                    if (!string.IsNullOrEmpty(userDocument.Profile.GroupTag))
                     {
-                        clantag = "[" + doc.Profile.GroupTag + "] ";
+                        text = "[" + userDocument.Profile.GroupTag + "] ";
                     }
-                    result.Add($"[{i}]    > {clantag}{doc.Profile.Name}\n           Kills {doc.Kills} - Level {doc.Statistics.Level} - {doc.Statistics.Xp} XP - KDR {kda}\n");
-                    i++;
+                    list.Add(string.Format("[{0}]    > {1}{2}\n           Kills {3} - Level {4} - {5} XP - KDR {6}\n", new object[]
+                    {
+                        num,
+                        text,
+                        userDocument.Profile.Name,
+                        userDocument.Kills,
+                        userDocument.Statistics.Level,
+                        userDocument.Statistics.Xp,
+                        text2
+                    }));
+                    num++;
                 }
-                return result;
+                result2 = list;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new string[1]
+                result2 = new string[]
                 {
                     "Error"
-                }.ToList();
+                }.ToList<string>();
             }
+            return result2;
         }
 
+        // Token: 0x0600014A RID: 330 RVA: 0x00007A40 File Offset: 0x00005C40
         public List<string> bannedUsers()
         {
+            List<string> result2;
             try
             {
-                List<UserDocument> docs = UserManager.bannedUsers().Result;
-                List<string> result = new List<string>();
-                foreach (UserDocument doc in docs)
+                List<UserDocument> result = UserManager.bannedUsers().Result;
+                List<string> list = new List<string>();
+                foreach (UserDocument userDocument in result)
                 {
-                    string clantag = null;
-                    if (!string.IsNullOrEmpty(doc.Profile.GroupTag))
+                    string arg = null;
+                    if (!string.IsNullOrEmpty(userDocument.Profile.GroupTag))
                     {
-                        clantag = "{" + doc.Profile.GroupTag + "} ";
+                        arg = "{" + userDocument.Profile.GroupTag + "} ";
                     }
-                    result.Add($"[{doc.Profile.Cmid}]  {clantag}{doc.Profile.Name}\n");
+                    list.Add(string.Format("[{0}]  {1}{2}\n", userDocument.Profile.Cmid, arg, userDocument.Profile.Name));
                 }
-                return result;
+                result2 = list;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new string[1]
+                result2 = new string[]
                 {
                     "Error"
-                }.ToList();
+                }.ToList<string>();
             }
+            return result2;
         }
 
+        // Token: 0x0600014B RID: 331 RVA: 0x00007B24 File Offset: 0x00005D24
         private double getKda(double kills, double deaths)
         {
             if (deaths == 0.0)
             {
                 deaths = 1.0;
             }
-            double kda = kills / deaths;
-            return Math.Truncate(100.0 * kda) / 100.0;
+            double num = kills / deaths;
+            return Math.Truncate(100.0 * num) / 100.0;
         }
     }
 }

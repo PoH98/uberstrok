@@ -1,12 +1,28 @@
 ﻿{
     "CommServer": {
-        "IP": "109.230.238.103",
+        "IP": "85.215.170.157",
         "Port": 5055
     },
     "GameServers": [
         {
-            "Name": "Germany",
-            "IP": "109.230.238.103",
+            "Name": "HaZard's Server (EU)",
+            "IP": "85.215.170.157",
+            "Region": 1,
+            "Port": 5056,
+            "UsageType": 1,
+            "MinLatency": 500
+        },
+        {
+            "Name": "PoH98's Server (MY)",
+            "IP": "123.253.35.253",
+            "Region": 1,
+            "Port": 5056,
+            "UsageType": 1,
+            "MinLatency": 500
+        },
+        {
+            "Name": "10032 Uberstrike Server (AP)",
+            "IP": "10032uber.ddns.net",
             "Region": 1,
             "Port": 5056,
             "UsageType": 1,

@@ -61,7 +61,8 @@ namespace UberStrok.Core
             Dictionary<int, TUberStrikeItem> dict = new Dictionary<int, TUberStrikeItem>(list.Count);
             foreach (TUberStrikeItem item in list)
             {
-                dict.Add(item.ID, item);
+                if(!dict.ContainsKey(item.ID))
+                    dict.Add(item.ID, item);
             }
 
             return dict;

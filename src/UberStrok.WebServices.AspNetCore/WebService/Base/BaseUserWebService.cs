@@ -37,7 +37,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService.Base
 
         public abstract MemberOperationResult OnSetWallet(string authToken, MemberWalletView walletView);
 
-        public abstract void OnEndOfMatch(string authToken, StatsCollectionView totalStats, StatsCollectionView bestStats);
+        public abstract Task OnEndOfMatch(string authToken, StatsCollectionView totalStats, StatsCollectionView bestStats);
 
         public abstract Task<MemberOperationResult> OnChangeMemberName(string authToken, string username, string local, string machineId);
 
@@ -261,20 +261,22 @@ namespace UberStrok.WebServices.AspNetCore.WebService.Base
             }
         }
 
-        public void EndOfMatch(byte[] data)
+        public async Task EndOfMatch(byte[] data)
         {
             try
             {
-                using MemoryStream bytes = new MemoryStream(data);
-                string authToken = StringProxy.Deserialize(bytes);
-                StatsCollectionView totalStats = StatsCollectionViewProxy.Deserialize(bytes);
-                StatsCollectionView bestStats = StatsCollectionViewProxy.Deserialize(bytes);
-                OnEndOfMatch(authToken, totalStats, bestStats);
+                using (MemoryStream memoryStream = new MemoryStream(data))
+                {
+                    string authToken = StringProxy.Deserialize(memoryStream);
+                    StatsCollectionView totalStats = StatsCollectionViewProxy.Deserialize(memoryStream);
+                    StatsCollectionView bestStats = StatsCollectionViewProxy.Deserialize(memoryStream);
+                    await OnEndOfMatch(authToken, totalStats, bestStats);
+                }
             }
             catch (Exception ex)
             {
-                Log.Error("Unable to handle EndOfMatch request:");
-                Log.Error(ex);
+               Log.Error("Unable to handle EndOfMatch request:");
+               Log.Error(ex);
             }
         }
 

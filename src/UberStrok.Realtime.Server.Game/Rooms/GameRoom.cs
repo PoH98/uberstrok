@@ -1,4 +1,7 @@
 ﻿using log4net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,8 +47,21 @@ namespace UberStrok.Realtime.Server.Game
         public Loop Loop { get; }
         public ILoopScheduler Scheduler { get; }
 
-        public ICollection<GameActor> Players { get; }
-        public ICollection<GameActor> Actors { get; }
+        public ICollection<GameActor> Players
+        {
+            get
+            {
+                return _players;
+            }
+        }
+
+        public ICollection<GameActor> Actors
+        {
+            get
+            {
+                return _actors;
+            }
+        }
 
         public StateMachine<RoomState.Id> State { get; }
 
@@ -88,32 +104,19 @@ namespace UberStrok.Realtime.Server.Game
 
         public GameRoom(GameRoomDataView data, ILoopScheduler scheduler)
         {
-            _view = data ?? throw new ArgumentNullException(nameof(data));
-            Scheduler = scheduler ?? throw new ArgumentNullException(nameof(scheduler));
-
+            _view = data ?? throw new ArgumentNullException("data");
+            Scheduler = scheduler ?? throw new ArgumentNullException("scheduler");
             ReportLog = LogManager.GetLogger("Report");
-
             _stats = new Dictionary<int, StatisticsManager>();
-
             int capacity = data.PlayerLimit / 2;
             _players = new List<GameActor>(capacity);
             _actors = new List<GameActor>(capacity);
             _actorDeltas = new List<GameActorInfoDeltaView>(capacity);
             _actorMovements = new List<PlayerMovement>(capacity);
-
-            Players = _players;
-            Actors = _actors;
-
-            /* 
-             * Using a high tick rate to push updates to the client faster.
-             * But the player movements are still sent at ~10 tick/s.
-             */
             Loop = new Loop(OnTick, OnTickError);
-
             Shop = new ShopManager();
             Spawns = new SpawnManager();
             PowerUps = new PowerUpManager(this);
-
             State = new StateMachine<RoomState.Id>();
             State.Register(RoomState.Id.None, null);
             State.Register(RoomState.Id.WaitingForPlayers, new WaitingForPlayersRoomState(this));
@@ -121,71 +124,57 @@ namespace UberStrok.Realtime.Server.Game
             State.Register(RoomState.Id.Running, new RunningRoomState(this));
             State.Register(RoomState.Id.End, new EndRoomState(this));
             State.Register(RoomState.Id.AfterRound, new AfterRoundState(this));
-            /* 
-             * * Expected interval between ticks by the client is 100ms 
-             * (10 tick/s).
-             *
-             * * Lag extrapolation starts when the packets arrive at around
-             * 150ms late assuming the client receives a constant stream of
-             * packets of 100ms intervals. The threshold of 150ms is not
-             * constant and varies according to the measurements done by the
-             * client.
-             * 
-             * * We're actually updating at 9.5 tick/s, because it seems the
-             * client can not truely handle packets at 10 tick/s. This is
-             * likely because sometimes packets gets "clogged" in the client's
-             * packet queue and since packets don't have a timestamp of when
-             * they were sent; it appears to be have been sent faster than
-             * 10 tick/s. This therefore causes the client to update the
-             * position of the players with little to no interpolation in an
-             * attempt to catch up.
-             * 
-             * So we use a tick rate lower than that expected by the client to
-             * give it some breathing room and reduce the chance of packets
-             * building up in its packet queue to the point where it does hard
-             * position updates.
-             * 
-             * * TLDR; 
-             * A lower tick rate gives a smoother motion but more inaccurate
-             * positions.
-             * A higher tick rate gives a choppier motion but more accurate
-             * positions.
-             */
-            const float UBZ_INTERVAL = 1000f / 9.5f;
-            _frameTimer = new Timer(Loop, UBZ_INTERVAL);
-
+            _frameTimer = new Timer(Loop, 105.26316f);
             Reset();
-
-            /* Schedule Loop of room. */
             Scheduler.Schedule(Loop);
         }
 
         public void Join(GamePeer peer)
         {
             if (peer == null)
-                throw new ArgumentNullException(nameof(peer));
-            if (peer.Actor != null && peer.Actor.Room != null)
             {
-                peer.Actor.Room.Leave(peer);
+                throw new ArgumentNullException("peer");
             }
-            Enqueue(() => DoJoin(peer));
+            if (peer.Actor != null)
+            {
+                throw new InvalidOperationException("Peer already in another room");
+            }
+            Enqueue(delegate
+            {
+                DoJoin(peer);
+            });
         }
 
         public void Leave(GamePeer peer)
         {
             if (peer == null)
-                throw new ArgumentNullException(nameof(peer));
+            {
+                throw new ArgumentNullException("peer");
+            }
             if (peer.Actor == null)
+            {
                 throw new InvalidOperationException("Peer is not in a room");
-            Enqueue(() => DoLeave(peer));
+            }
+            if (peer.Actor.Room != this)
+            {
+                throw new InvalidOperationException("Peer is not leaving the correct room");
+            }
+            Enqueue(delegate
+            {
+                DoLeave(peer);
+            });
         }
 
         public void Spawn(GameActor actor)
         {
             if (actor == null)
-                throw new ArgumentNullException(nameof(actor));
-
-            Enqueue(() => DoSpawn(actor));
+            {
+                throw new ArgumentNullException("actor");
+            }
+            Enqueue(delegate
+            {
+                DoSpawn(actor);
+            });
         }
 
         private struct Achievement
@@ -233,7 +222,6 @@ namespace UberStrok.Realtime.Server.Game
 
                 foreach (var player in Players)
                 {
-                    var stats = player.Statistics.Total;
                     var summary = new StatsSummaryView
                     {
                         Cmid = player.Cmid,
@@ -334,92 +322,63 @@ namespace UberStrok.Realtime.Server.Game
                 EmptyTickTime = 0;
             }
 
-            for (int i = 0; i < _actors.Count; i++)
+            foreach (GameActor actor in Actors)
             {
-                var actor = _actors[i];
                 if (actor.Peer.HasError)
                 {
                     actor.Peer.Disconnect();
-                    Leave(actor.Peer);
+                    continue;
                 }
-                else
+                try
                 {
-                    try
+                    actor.Tick();
+                }
+                catch (Exception ex)
+                {
+                    base.Log.Error((object)("Failed to tick " + actor.GetDebug() + "."), ex);
+                    actor.Peer.Disconnect();
+                    continue;
+                }
+                if (Players.Contains(actor) || actor.State.Current == ActorState.Id.Spectator)
+                {
+                    GameActorInfoDeltaView viewDelta = actor.Info.GetViewDelta();
+                    if (viewDelta.Changes.Count > 0)
                     {
-                        actor.Tick();
+                        viewDelta.Update();
+                        _actorDeltas.Add(viewDelta);
                     }
-                    catch (Exception ex)
+                    if (actor.Damages.Count > 0)
                     {
-                        /* 
-                         * NOTE: This should never happen, but just incase 
-                         * stuff goes wild.
-                         */
-                        Log.Error($"Failed to tick {actor.GetDebug()}. Disconnecting...", ex);
-                        actor.Peer.Disconnect();
-                        //remove from actors list
-                        Leave(actor.Peer);
-                        /* Something happened; we dip. */
-                        continue;
+                        actor.Peer.Events.Game.SendDamageEvent(actor.Damages);
+                        actor.Damages.Clear();
                     }
-
-                    /* 
-                     * If the actor is a player.
-                     */
-                    if (Players.Contains(actor) || actor.State.Current == ActorState.Id.Spectator)
+                    if (updateMovements && actor.Info.IsAlive)
                     {
-                        var delta = actor.Info.GetViewDelta();
-
-                        /* 
-                         * If the player has changed something since the last tick.
-                         */
-                        if (delta.Changes.Count > 0)
-                        {
-                            delta.Update();
-                            _actorDeltas.Add(delta);
-                        }
-
-                        /* 
-                         * If the player has any damage events, we send them.
-                         */
-                        if (actor.Damages.Count > 0)
-                        {
-                            actor.Peer.Events.Game.SendDamageEvent(actor.Damages);
-                            actor.Damages.Clear();
-                        }
-
-                        /* 
-                         * If we need to update positions and the player is 
-                         * alive, we register it to the list of movements.
-                         */
-                        if (updateMovements && actor.Info.IsAlive)
-                        {
-                            Debug.Assert(actor.Movement.PlayerId == actor.PlayerId);
-                            _actorMovements.Add(actor.Movement);
-                        }
+                        _actorMovements.Add(actor.Movement);
                     }
                 }
             }
-
             if (_actorDeltas.Count > 0)
             {
-                for (int i = 0; i < _actors.Count; i++)
-                    _actors[i].Peer.Events.Game.SendAllPlayerDeltas(_actorDeltas);
-
-                /* Wipe actor delta changes. */
-                for (int i = 0; i < _actorDeltas.Count; i++)
-                    _actorDeltas[i].Reset();
-
+                foreach (GameActor actor in Actors)
+                {
+                    actor.Peer.Events.Game.SendAllPlayerDeltas(_actorDeltas);
+                }
+                foreach (GameActorInfoDeltaView actorDelta in _actorDeltas)
+                {
+                    actorDelta.Reset();
+                }
                 _actorDeltas.Clear();
             }
-
-            if (_actorMovements.Count > 0 && updateMovements)
+            if (!(_actorMovements.Count > 0 && updateMovements))
             {
-                for (int i = 0; i < _actors.Count; i++)
-                    _actors[i].Peer.Events.Game.SendAllPlayerPositions(_actorMovements, _frame);
-
-                /* Wipe player movements. */
-                _actorMovements.Clear();
+                return;
             }
+            foreach (GameActor actor in Actors)
+            {
+                actor.Peer.Events.Game.SendAllPlayerPositions(_actorMovements, _frame);
+            }
+            _actorMovements.Clear();
         }
 
         private void OnTickError(Exception ex)
@@ -473,28 +432,37 @@ namespace UberStrok.Realtime.Server.Game
 
         private void DoLeave(GamePeer peer)
         {
-            var actor = peer.Actor;
+            if (peer == null)
+            {
+                Log.Error("Peer was null when tried to leave the room");
+                return;
+            }
             bool donotResetActor = false;
-
-            if (peer.Actor.Room != this)
+            if (peer.Actor != null && peer.Actor.Room != this)
             {
                 Log.Error("Peer tried to leave a room, but doesnt belong to this room");
                 donotResetActor = true;
             }
+            var actor = peer.Actor;
             try
             {
-                if (_actors.Remove(actor))
+                if(actor != null)
                 {
-                    if (_players.Contains(actor))
-                        OnPlayerLeft(new PlayerLeftEventArgs { Player = peer.Actor });
-
-                    /* OnPlayerLeft should remove it. */
-                    Debug.Assert(!_players.Contains(actor));
-                    Log.Info($"{actor.GetDebug()} left.");
-                }
-                else
-                {
-                    Log.Warn($"{actor.GetDebug()} tried to leave but was not in the list of Actors.");
+                    if (_actors.Remove(actor))
+                    {
+                        if (_players.Contains(actor))
+                        {
+                            OnPlayerLeft(new PlayerLeftEventArgs
+                            {
+                                Player = actor
+                            });
+                        }
+                        base.Log.Info((object)(actor.GetDebug() + " left."));
+                    }
+                    else
+                    {
+                        base.Log.Warn((object)(actor.GetDebug() + " tried to leave but was not in the list of Actors."));
+                    }
                 }
             }
             finally
@@ -503,7 +471,7 @@ namespace UberStrok.Realtime.Server.Game
                 if (!donotResetActor)
                 {
                     peer.Actor = null;
-                    peer.Handlers.Remove(Id);
+                    _ = peer.Handlers.Remove(Id);
                 }
                 if (peer.OnLeaveRoom != null)
                 {
@@ -666,6 +634,14 @@ namespace UberStrok.Realtime.Server.Game
             }
 
             return false;
+        }
+
+        public virtual void EndMatch()
+        {
+            foreach (GameActor player in Players)
+            {
+                player.EndMatch(Winner == player.Info.TeamID);
+            }
         }
 
         public string GetDebug()

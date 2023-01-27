@@ -36,9 +36,10 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                     PartialFilterExpression = Builders<UserDocument>.Filter.Exists((UserDocument u) => u.UBBan, true)
                 }), null, default);
             }
-            catch
+            catch(Exception ex)
             {
                 //ignore if indexes can't be created
+                Console.WriteLine(ex.Message);
             }
 
         }
@@ -89,6 +90,11 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
                 Console.WriteLine(e.ToString());
             }
             return null;
+        }
+
+        internal static Task DeleteUser(int cmid)
+        {
+            return Task.Run(()=>Database.Collection.DeleteOne(x => x.UserId == cmid));
         }
 
         internal static Task<bool> IsNameUsed(string name)

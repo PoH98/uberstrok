@@ -73,32 +73,38 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 }
                 UberBeatManager Manager = new UberBeatManager();
                 UserDocument member = await UserManager.GetUser(steamId);
-                Manager.Update(member, hwid);
-                int banduration = Manager.BanDuration(member, hwid);
-                Manager.UserLog(steamId, banduration, hwid);
-                if (banduration != 0)
-                {
-                    return new MemberAuthenticationResultView
-                    {
-                        MemberAuthenticationResult = MemberAuthenticationResult.IsBanned,
-                        BanDuration = banduration
-                    };
-                }
+                UberBeat hwidInfo = UberBeatManager.ParseHWIDToObject(hwid);
                 if (member == null)
                 {
-                    if (Manager.AltCmids(hwid).Count > 0)
-                    {
-                        return new MemberAuthenticationResultView
-                        {
-                            MemberAuthenticationResult = MemberAuthenticationResult.IsBanned
-                        };
-                    }
-                    member = await UserManager.CreateUser(steamId, Manager.ParseHWIDToObject(hwid));
+                    member = await UserManager.CreateUser(steamId, hwidInfo);
                     if (member == null)
                     {
                         return new MemberAuthenticationResultView
                         {
                             MemberAuthenticationResult = MemberAuthenticationResult.UnknownError
+                        };
+                    }
+                    if (Manager.AltCmids(member.Profile.Cmid).Count > 1)
+                    {
+                        await UserManager.DeleteUser(member.Profile.Cmid);
+                        return new MemberAuthenticationResultView
+                        {
+                            MemberAuthenticationResult = MemberAuthenticationResult.IsIpBanned
+                        };
+                    }
+                }
+                else
+                {
+                    Manager.Update(member, hwid);
+                    int banduration = Manager.BanDuration(member, hwid);
+
+                    Manager.UserLog(steamId, banduration, hwid);
+                    if (banduration != 0)
+                    {
+                        return new MemberAuthenticationResultView
+                        {
+                            MemberAuthenticationResult = MemberAuthenticationResult.IsBanned,
+                            BanDuration = banduration
                         };
                     }
                 }

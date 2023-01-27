@@ -7,24 +7,24 @@ namespace UberStrok.Realtime.Server.Game
     public sealed class AfterRoundState : RoomState
     {
         private readonly Countdown _restartCountdown;
+
         private TeamID _winner;
 
-        public AfterRoundState(GameRoom room) : base(room)
+        public AfterRoundState(GameRoom room)
+            : base(room)
         {
-            _restartCountdown = new Countdown(Room.Loop, 3, 0);
+            _restartCountdown = new Countdown(base.Room.Loop, 3, 0);
             _restartCountdown.Completed += OnRestartCountdownCompleted;
         }
 
         public override void OnEnter()
         {
             _winner = GetWinner();
-
-            foreach (var otherActor in Room.Players)
+            foreach (GameActor player in base.Room.Players)
             {
-                otherActor.Peer.Events.Game.SendTeamWins(_winner);
-                otherActor.State.Set(ActorState.Id.AfterRound);
+                player.Peer.Events.Game.SendTeamWins(_winner);
+                player.State.Set(ActorState.Id.AfterRound);
             }
-
             _restartCountdown.Restart();
         }
 
@@ -33,56 +33,49 @@ namespace UberStrok.Realtime.Server.Game
             _restartCountdown.Tick();
         }
 
-
         private void OnRestartCountdownCompleted()
         {
-            if (Room.IsTeamElimination)
+            if (base.Room.IsTeamElimination)
             {
-                if (this.Room.GetView().KillLimit - Math.Max(this.Room.BlueTeamScore, this.Room.RedTeamScore) == 0)
+                if (base.Room.GetView().KillLimit - Math.Max(base.Room.BlueTeamScore, base.Room.RedTeamScore) == 0)
                 {
-                    Room.State.Set(Id.End);
+                    base.Room.State.Set(Id.End);
+                    return;
                 }
-                else
-                {
-                    Room.RoundNumber++;
-                    Room.State.Set(Id.Countdown);
-                }
+                base.Room.RoundNumber++;
+                base.Room.State.Set(Id.Countdown);
             }
             else
             {
-                Room.RoundNumber++;
-                Room.State.Set(Id.End);
+                base.Room.RoundNumber++;
+                base.Room.State.Set(Id.End);
             }
         }
 
         private TeamID GetWinner()
         {
-            if (Room.IsTeamElimination)
+            if (base.Room.IsTeamElimination)
             {
-                if (this.Room.GetView().KillLimit - Math.Max(this.Room.BlueTeamScore, this.Room.RedTeamScore) == 0)
+                if (base.Room.GetView().KillLimit - Math.Max(base.Room.BlueTeamScore, base.Room.RedTeamScore) == 0)
                 {
-                    if (this.Room.BlueTeamScore > this.Room.RedTeamScore)
+                    if (base.Room.BlueTeamScore > base.Room.RedTeamScore)
                     {
-                        Room.Winner = TeamID.BLUE;
+                        base.Room.Winner = (TeamID)1;
                     }
-                    else if (this.Room.RedTeamScore > this.Room.BlueTeamScore)
+                    else if (base.Room.RedTeamScore > base.Room.BlueTeamScore)
                     {
-                        Room.Winner = TeamID.RED;
+                        base.Room.Winner = (TeamID)2;
                     }
                     else
                     {
-                        Room.Winner = TeamID.NONE;
+                        base.Room.Winner = (TeamID)0;
                     }
-
-                    return Room.Winner;
+                    return base.Room.Winner;
                 }
-                else
-                {
-                    return ((TeamEliminationGameRoom)Room).RoundWinner;
-                }
+                return ((TeamEliminationGameRoom)base.Room).RoundWinner;
             }
-
-            return Room.Winner;
+            return base.Room.Winner;
         }
     }
+
 }
