@@ -21,6 +21,8 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
 
         private ulong userloginchannel = 0uL;
 
+        private ulong publicloginchannel = 0uL;
+
         private readonly List<ulong> allowedChannels = new List<ulong>();
 
         private string token = null;
@@ -58,7 +60,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                     Console.WriteLine(Environment.NewLine + "Discord bot token missing/invalid. Skipping....." + Environment.NewLine);
                     exit = true;
                 }
-                if (!exit && (lobbychannel == 0L || userloginchannel == 0L))
+                if (!exit && (lobbychannel == 0L || userloginchannel == 0L || publicloginchannel == 0L))
                 {
                     Console.WriteLine(Environment.NewLine + "Invalid Discord Channel ID. Couldnt parse data to ulong. Skipping....." + Environment.NewLine);
                     exit = true;
@@ -102,6 +104,10 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                         else if (data.StartsWith("userloginchannel:"))
                         {
                             userloginchannel = ulong.Parse(data.Replace("userloginchannel:", ""));
+                        }
+                        else if (data.StartsWith("publicloginchannel:"))
+                        {
+                            publicloginchannel = ulong.Parse(data.Replace("publicloginchannel:", ""));
                         }
                         else if (data.StartsWith("token:"))
                         {
@@ -191,6 +197,13 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
         public async Task SendLoginLog([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(userloginchannel) as SocketTextChannel;
+            _ = await channel.SendMessageAsync(emptyline + message);
+        }
+
+        [Command("say")]
+        public async Task SendPublicLoginLog([Remainder] string message)
+        {
+            SocketTextChannel channel = client.GetChannel(publicloginchannel) as SocketTextChannel;
             _ = await channel.SendMessageAsync(emptyline + message);
         }
 
@@ -375,6 +388,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                 if (duration == 0)
                 {
                     await SendLoginLog(string.Concat(new string[] { string.Format("``User with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, result.SteamId), Environment.NewLine, "```", hwid.Replace("|", Environment.NewLine), "```has logged in." }));
+                    await SendPublicLoginLog(string.Concat(new string[] { string.Format("``User with Name: {0}", result.Profile.Name), "```has logged in." }));
                     return;
                 }
                 await SendLoginLog(string.Concat(new string[] { string.Format("``Temporarily Banned user ( for {0} more minutes ) with CMID {1}, Name {2}, SteamID {3} and HWID:``", new object[] { duration.ToString(), result.Profile.Cmid, result.Profile.Name, result.SteamId }), Environment.NewLine, "```", hwid.Replace("|", Environment.NewLine), "```has logged in." }));
