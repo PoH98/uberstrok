@@ -54,8 +54,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -82,8 +127,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -110,8 +200,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -138,8 +273,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -166,8 +346,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -194,8 +419,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -222,8 +492,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 120,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 650,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1360,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -502,8 +817,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -558,8 +918,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -614,8 +1019,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -670,8 +1120,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -726,8 +1221,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1050,7 +1590,7 @@
     },
     {
       "ItemType": 3,
-      "ArmorPoints": 50,
+      "ArmorPoints": 30,
       "ArmorWeight": 0,
       "ItemClass": 15,
       "ID": 1037,
@@ -1289,7 +1829,7 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 10001,
+          "Price": 0,
           "Currency": 1,
           "Discount": 0,
           "Amount": 1,
@@ -1621,8 +2161,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1649,8 +2234,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1677,8 +2307,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1705,8 +2380,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1733,8 +2453,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1761,8 +2526,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1845,8 +2655,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1873,8 +2728,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1901,8 +2801,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1929,8 +2874,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1957,8 +2947,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -1985,8 +3020,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -3273,7 +4353,7 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 10001,
+          "Price": 0,
           "Currency": 1,
           "Discount": 0,
           "Amount": 1,
@@ -3861,8 +4941,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -3889,8 +5014,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 520,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -3917,8 +5087,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -3945,8 +5160,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -3973,8 +5233,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 900,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 2720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1250,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 21600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -5009,8 +6314,8 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
-          "Currency": 1,
+          "Price": 1000000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -5037,8 +6342,8 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
-          "Currency": 1,
+          "Price": 1000000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -5065,8 +6370,8 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
-          "Currency": 1,
+          "Price": 1000000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -5092,9 +6397,9 @@
       "MaxDurationDays": 0,
       "IsConsumable": false,
       "Prices": [
-        {
-          "Price": 0,
-          "Currency": 1,
+		{
+          "Price": 1000000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -5149,8 +6454,8 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
-          "Currency": 1,
+          "Price": 1000000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -8419,7 +9724,7 @@
       "UsesPerLife": -1,
       "UsesPerRound": 3,
       "UsesPerGame": -1,
-      "CoolDownTime": 6000,
+      "CoolDownTime": 2000,
       "WarmUpTime": 0,
       "MaxOwnableAmount": 1,
       "BehaviourType": 1,
@@ -8455,7 +9760,7 @@
       "UsesPerLife": -1,
       "UsesPerRound": 3,
       "UsesPerGame": -1,
-      "CoolDownTime": 6000,
+      "CoolDownTime": 2000,
       "WarmUpTime": 0,
       "MaxOwnableAmount": 1,
       "BehaviourType": 1,
@@ -8491,7 +9796,7 @@
       "UsesPerLife": -1,
       "UsesPerRound": 3,
       "UsesPerGame": -1,
-      "CoolDownTime": 6000,
+      "CoolDownTime": 2000,
       "WarmUpTime": 0,
       "MaxOwnableAmount": 1,
       "BehaviourType": 1,
@@ -9337,8 +10642,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9487,8 +10837,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9537,8 +10932,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 650,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 3150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12920,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2650,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 16000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9587,8 +11027,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2400,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 25000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 134640,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 8400,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 64000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 288000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9637,8 +11122,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 3600,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 37500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201960,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 12600,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 96000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 432000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9687,8 +11217,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 4800,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 269280,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 16800,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 128000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 576000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9787,8 +11362,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9837,8 +11457,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -9887,8 +11552,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2160,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 13500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 59160,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 9450,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 302400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10037,8 +11747,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10087,8 +11842,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10137,8 +11937,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10187,8 +12032,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10237,8 +12127,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2160,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 13500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 59160,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 9450,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 302400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10287,8 +12222,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2160,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 13500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 59160,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 9450,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 302400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10337,8 +12317,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10387,8 +12412,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10487,8 +12557,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10537,8 +12652,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2160,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 13500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 59160,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 9450,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 302400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10587,8 +12747,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2880,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 18000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 78880,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 12600,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 90000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 403200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10637,8 +12842,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -10657,8 +12907,8 @@
       "DamagePerProjectile": 10,
       "AccuracySpread": 80,
       "RecoilKickback": 9,
-      "StartAmmo": 20,
-      "MaxAmmo": 30,
+      "StartAmmo": 80,
+      "MaxAmmo": 80,
       "MissileTimeToDetonate": 0,
       "MissileForceImpulse": 0,
       "MissileBounciness": 0,
@@ -10887,8 +13137,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 650,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 3150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12920,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2650,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 16000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -11187,8 +13482,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -11237,8 +13577,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -11337,8 +13722,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 650,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 3150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12920,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2650,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 16000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -11587,8 +14017,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67320,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4200,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 32000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 144000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -11637,8 +14112,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 3600,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 37500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201960,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 12600,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 96000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 476000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -11687,8 +14207,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 4800,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 269280,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 16800,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 128000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 576000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -11737,8 +14302,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2400,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 25000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 134640,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 8400,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 64000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 288000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12089,8 +14699,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12139,8 +14794,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12189,8 +14889,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2160,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 13500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 59160,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 9450,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 302400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12289,8 +15034,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12339,8 +15129,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12389,14 +15224,60 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2160,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 13500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 59160,
           "Currency": 1,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
           "Duration": 5,
           "IsConsumable": true
+        },
+        {
+          "Price": 9450,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 302400,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
         }
+
       ],
       "IsForSale": false,
       "ShopHighlightType": 0,
@@ -12541,8 +15422,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2160,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 13500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 59160,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 9450,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 302400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12593,8 +15519,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12645,8 +15616,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12747,8 +15763,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67320,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4200,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 32000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 144000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12847,8 +15908,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67320,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4200,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 32000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 144000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -12949,8 +16055,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67320,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4200,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 32000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 144000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -13051,8 +16202,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67320,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4200,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 32000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 144000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -13100,9 +16296,149 @@
       "MaxDurationDays": 0,
       "IsConsumable": false,
       "Prices": [
-        {
-          "Price": 0,
+{
+          "Price": 3600,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 37500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201960,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 12600,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 96000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 476000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        }
+      ],
+      "IsForSale": false,
+      "ShopHighlightType": 0,
+      "CustomProperties": {},
+      "ItemProperties": {}
+    },
+    {
+      "ItemType": 1,
+      "DamageKnockback": 0,
+      "DamagePerProjectile": 7,
+      "AccuracySpread": 90,
+      "RecoilKickback": 10,
+      "StartAmmo": 50,
+      "MaxAmmo": 50,
+      "MissileTimeToDetonate": 0,
+      "MissileForceImpulse": 0,
+      "MissileBounciness": 0,
+      "SplashRadius": 0,
+      "ProjectilesPerShot": 13,
+      "ProjectileSpeed": 1,
+      "RateOfFire": 360,
+      "RecoilMovement": 16,
+      "CombatRange": 1,
+      "Tier": 1,
+      "SecondaryActionReticle": 0,
+      "WeaponSecondaryAction": 0,
+      "CriticalStrikeBonus": 0,
+      "DamagePerSecond": 0.0,
+      "HasAutomaticFire": true,
+      "DefaultZoomMultiplier": 0,
+      "MinZoomMultiplier": 0,
+      "MaxZoomMultiplier": 0,
+      "ItemClass": 4,
+      "ID": 64,
+      "Name": "SPAS-12 [Tiger]",
+      "PrefabName": "Automatic_Shotgun_Pimp",
+      "Description": "Using some of the energy of each shot to cycle the action and land a new round - The SPAS-12 is a force to be reckoned with. In Tiger you get full start and max ammo!",
+      "LevelLock": 0,
+      "MaxDurationDays": 0,
+      "IsConsumable": false,
+      "Prices": [
+        {
+          "Price": 4800,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 269280,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 16800,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 128000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 576000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -13151,8 +16487,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 4800,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 269280,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 16800,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 128000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 576000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -13201,8 +16582,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 2400,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 25000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 134640,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 8400,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 64000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 288000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -13451,8 +16877,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -13646,13 +17117,58 @@
       "Name": "Eos [Camo]",
       "PrefabName": "HaloCannon_Camo",
       "Description": "Tier 4 Rocket Launcher [Special]",
-      "LevelLock": 0,
+      "LevelLock": 8,
       "MaxDurationDays": 0,
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -13851,8 +17367,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1200,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 67320,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4200,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 32000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 144000,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -14255,8 +17816,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 720,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 19720,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3150,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 22500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -14507,8 +18113,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -14607,8 +18258,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -14657,8 +18353,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 630,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 3000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12240,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3700,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 17000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -14707,8 +18448,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 945,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 18360,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4750,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 25500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 151200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -14807,8 +18593,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -14907,8 +18738,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -15007,8 +18883,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 1440,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 9000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 39440,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 6300,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 45000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 201600,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -15207,8 +19128,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -15257,8 +19223,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 630,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 3000,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12240,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 3700,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 17000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 100800,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -15307,8 +19318,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 945,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 4500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 18360,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 4750,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 25500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 151200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -15457,8 +19513,53 @@
       "IsConsumable": false,
       "Prices": [
 	   {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -15557,8 +19658,53 @@
       "IsConsumable": false,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 315,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 1500,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 6120,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 1850,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 8500,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 50400,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
@@ -15656,8 +19802,53 @@
       "MaxDurationDays": 0,
       "Prices": [
         {
-          "Price": 0,
+          "Price": 650,
           "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 3150,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 12920,
+          "Currency": 1,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 5,
+          "IsConsumable": true
+        },
+        {
+          "Price": 2650,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 1,
+          "IsConsumable": true
+        },
+		{
+          "Price": 16000,
+          "Currency": 2,
+          "Discount": 0,
+          "Amount": 1,
+          "PackType": 0,
+          "Duration": 2,
+          "IsConsumable": true
+        },
+		{
+          "Price": 79200,
+          "Currency": 2,
           "Discount": 0,
           "Amount": 1,
           "PackType": 0,
