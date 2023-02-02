@@ -1,9 +1,9 @@
 ﻿{
   "locked": false,
   "service_auth": "rEtArDMoTheRfUcKeRDD0S",
-  "service_base": "http://109.230.238.103:5000/2.0/",
-  "service_socket": "",
-  "server_game_version": "4.8.4",
+  "service_base": "http://13.38.94.69:5000/2.0/",
+  "service_socket": "127.0.0.1",
+  "server_game_version": "4.8.6",
   "wallet": {
     "starting_points": 10000,
     "starting_credits": 10000
@@ -16,8 +16,8 @@
   },
   "service_database": {
     "host": "localhost",
-    "database": "admin",
     "username": "uber",
-    "password": "admin"
+    "password": "admin",
+    "database": "admin"
   }
 }
