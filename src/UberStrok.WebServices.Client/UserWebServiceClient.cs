@@ -30,9 +30,20 @@ namespace UberStrok.WebServices.Client
             }
         }
 
-        public MemberOperationResult SetLoadout(string webauth, string authToken, LoadoutView loadoutView)
+        public MemberOperationResult SetLoadout(string serviceauth, string authToken, LoadoutView view)
         {
-            return MemberOperationResult.Ok;
+            using (MemoryStream bytes = new MemoryStream())
+            {
+                StringProxy.Serialize(bytes, serviceauth);
+                StringProxy.Serialize(bytes, authToken);
+                LoadoutViewProxy.Serialize(bytes, view);
+
+                byte[] data = Channel.SetLoadout(bytes.ToArray());
+                using (MemoryStream inBytes = new MemoryStream(data))
+                {
+                    return EnumProxy<MemberOperationResult>.Deserialize(inBytes);
+                }
+            }
         }
 
         public LoadoutView GetLoadout(string authToken)
