@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="Photon.SocketServer">
       <HintPath>..\..\Photon-OnPremise-Server-Plugin-SDK_v4-0-29-11263\lib\Photon.SocketServer.dll</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="PhotonHostRuntimeInterfaces">
       <HintPath>..\..\Photon-OnPremise-Server-SDK_v4-0-29-11263\lib\PhotonHostRuntimeInterfaces.dll</HintPath>
@@ -63,6 +64,10 @@
     <Compile Include="IRoom.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Uberstrok.Core.Common\Uberstrok.Core.Common.csproj">
+      <Project>{297C2155-5E47-4054-AB46-52F853AACEA3}</Project>
+      <Name>Uberstrok.Core.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UberStrok.Core.Views\UberStrok.Core.Views.csproj">
       <Project>{3BAAA4FD-1AF2-4C32-B059-ABF0E111693D}</Project>
       <Name>UberStrok.Core.Views</Name>
