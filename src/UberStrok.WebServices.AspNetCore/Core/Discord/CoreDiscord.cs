@@ -388,7 +388,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                 if (duration == 0)
                 {
                     await SendLoginLog(string.Concat(new string[] { string.Format("``User with CMID {0}, Name: {1}, SteamID {2} and HWID:``", result.Profile.Cmid, result.Profile.Name, result.SteamId), Environment.NewLine, "```", hwid.Replace("|", Environment.NewLine), "```has logged in." }));
-                    await SendPublicLoginLog(string.Concat(new string[] { string.Format("``User with Name: {0}", result.Profile.Name), "```has logged in." }));
+                    await SendPublicLoginLog(string.Concat(new string[] { string.Format("``User with Name: {0}``", result.Profile.Name), Environment.NewLine, "has logged in." }));
                     return;
                 }
                 await SendLoginLog(string.Concat(new string[] { string.Format("``Temporarily Banned user ( for {0} more minutes ) with CMID {1}, Name {2}, SteamID {3} and HWID:``", new object[] { duration.ToString(), result.Profile.Cmid, result.Profile.Name, result.SteamId }), Environment.NewLine, "```", hwid.Replace("|", Environment.NewLine), "```has logged in." }));
