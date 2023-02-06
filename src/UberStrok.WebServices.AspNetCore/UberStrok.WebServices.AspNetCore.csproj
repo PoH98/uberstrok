@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>8.0</LangVersion>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
@@ -54,7 +54,7 @@
     <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="6.1.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="RandomNameGeneratorLibrary" Version="1.2.2" />
     <PackageReference Include="SoapCore" Version="1.1.0.36" />
@@ -64,7 +64,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UberStrok.Core.Common\UberStrok.Core.Common.csproj" />
+    <ProjectReference Include="..\Uberstrok.Core.Common\Uberstrok.Core.Common.csproj" />
     <ProjectReference Include="..\UberStrok.Core.Serialization\UberStrok.Core.Serialization.csproj" />
     <ProjectReference Include="..\UberStrok.Core.Views\UberStrok.Core.Views.csproj" />
     <ProjectReference Include="..\UberStrok.Core\UberStrok.Core.csproj" />

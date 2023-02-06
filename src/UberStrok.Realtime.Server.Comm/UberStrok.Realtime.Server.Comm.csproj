@@ -76,10 +76,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UberStrok.Core.Common\UberStrok.Core.Common.csproj">
-      <Project>{F6AA8827-1031-4753-BE08-B0D7F3A98C75}</Project>
-      <Name>UberStrok.Core.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UberStrok.Core.Serialization\UberStrok.Core.Serialization.csproj">
       <Project>{31695DBE-D01C-4EA8-92CC-28541E9E0BC0}</Project>
       <Name>UberStrok.Core.Serialization</Name>
