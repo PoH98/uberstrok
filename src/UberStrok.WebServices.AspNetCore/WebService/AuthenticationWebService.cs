@@ -93,7 +93,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 {
                     member = await userManager.CreateUser(steamId, hwidInfo);
                     if (member == null)
-                    {
+                    {   
                         return new MemberAuthenticationResultView
                         {
                             MemberAuthenticationResult = MemberAuthenticationResult.UnknownError

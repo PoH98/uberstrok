@@ -527,7 +527,11 @@ namespace UberStrok.Realtime.Server.Comm
         {
             using (UdpClient udpClient = new UdpClient())
             {
-                udpClient.Connect("127.0.0.1", 5070);
+                if (!File.Exists("udphost.txt"))
+                {
+                    File.WriteAllText("udphost.txt", "127.0.0.1");
+                }
+                udpClient.Connect(File.ReadAllText("udphost.txt"), 5070);
                 byte[] bytes = Encoding.UTF8.GetBytes("comm:" + message);
                 _ = udpClient.Send(bytes, bytes.Length);
             }

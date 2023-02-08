@@ -57,14 +57,14 @@ namespace UberStrok.WebServices.AspNetCore
             _ = services.AddScoped<ModerationWebService>();
 
             //Register Manager
-            _ = services.AddScoped<ClanManager>();
-            _ = services.AddScoped<UserManager>();
-            _ = services.AddScoped<ServerManager>();
-            _ = services.AddScoped<SecurityManager>();
-            _ = services.AddScoped<StreamManager>();
+            _ = services.AddSingleton<ClanManager>();
+            _ = services.AddSingleton<UserManager>();
+            _ = services.AddSingleton<ServerManager>();
+            _ = services.AddSingleton<SecurityManager>();
+            _ = services.AddSingleton<StreamManager>();
             _ = services.AddSingleton<ResourceManager>();
             _ = services.AddSingleton<GameSessionManager>();
-            _ = services.AddScoped<UberBeatManager>();
+            _ = services.AddSingleton<UberBeatManager>();
 
             //Register Tables
             _ = services.AddSingleton<ClanTable>();

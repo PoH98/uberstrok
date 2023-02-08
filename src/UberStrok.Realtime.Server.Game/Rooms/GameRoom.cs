@@ -5,7 +5,11 @@ using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+using Uberstrok.Core.Common;
 using UberStrok.Core;
 using UberStrok.Core.Common;
 using UberStrok.Core.Views;
@@ -139,10 +143,25 @@ namespace UberStrok.Realtime.Server.Game
             {
                 throw new InvalidOperationException("Peer already in another room");
             }
+
             Enqueue(delegate
             {
                 DoJoin(peer);
             });
+        }
+
+        public void SendMessageUDP(string message)
+        {
+            using (UdpClient udpClient = new UdpClient())
+            {
+                if (!File.Exists("udphost.txt"))
+                {
+                    File.WriteAllText("udphost.txt", "127.0.0.1");
+                }
+                udpClient.Connect(File.ReadAllText("udphost.txt"), 5070);
+                byte[] bytes = Encoding.UTF8.GetBytes("game:" + message);
+                _ = udpClient.Send(bytes, bytes.Length);
+            }
         }
 
         public void Leave(GamePeer peer)
@@ -414,7 +433,9 @@ namespace UberStrok.Realtime.Server.Game
                     peer.Actor.State.Set(ActorState.Id.Overview);
 
                     _actors.Add(peer.Actor);
-
+                    var webUrl = actor.PlayerName + "had joined a game! Use this url to play with him! uberstroke://" + AES.EncryptAndEncode(_view.RoomId.ToString());
+                    Log.Info("Sending generated Url to web service..." + webUrl);
+                    SendMessageUDP(webUrl);
                     Log.Info($"{peer.Actor.GetDebug()} joined.");
                 }
             }

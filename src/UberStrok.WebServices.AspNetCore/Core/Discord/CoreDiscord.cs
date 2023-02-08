@@ -23,6 +23,8 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
 
         private ulong publicloginchannel = 0uL;
 
+        private ulong gamelobbychannel = 0ul;
+
         private readonly List<ulong> allowedChannels = new List<ulong>();
 
         private string token = null;
@@ -186,24 +188,27 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
             }
         }
 
-        [Command("say")]
         public async Task SendChannel([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(lobbychannel) as SocketTextChannel;
             _ = await channel.SendMessageAsync(emptyline + message);
         }
 
-        [Command("say")]
         public async Task SendLoginLog([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(userloginchannel) as SocketTextChannel;
             _ = await channel.SendMessageAsync(emptyline + message);
         }
 
-        [Command("say")]
         public async Task SendPublicLoginLog([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(publicloginchannel) as SocketTextChannel;
+            _ = await channel.SendMessageAsync(emptyline + message);
+        }
+
+        public async Task SendGameChannel([Remainder] string message)
+        {
+            SocketTextChannel channel = client.GetChannel(lobbychannel) as SocketTextChannel;
             _ = await channel.SendMessageAsync(emptyline + message);
         }
 
@@ -215,11 +220,17 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                 int duration = -1;
                 if (args.Length > 1)
                 {
-                    _ = int.TryParse(args[1], out cmid);
+                    if(!int.TryParse(args[1], out cmid))
+                    {
+                        return "Please input valid CMID before using this command";
+                    }
                 }
                 if (args.Length > 2)
                 {
-                    _ = int.TryParse(args[2], out duration);
+                    if (!int.TryParse(args[2], out duration))
+                    {
+                        return "Please input valid Duration before using this command";
+                    }
                 }
                 string arg = args[0].Replace(prefix, "");
                 string message = string.Join(' ', args);

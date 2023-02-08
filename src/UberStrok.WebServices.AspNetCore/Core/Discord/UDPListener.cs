@@ -42,7 +42,13 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                 string returnData = Encoding.UTF8.GetString(received);
                 if (!string.IsNullOrEmpty(returnData) && returnData.StartsWith("comm:"))
                 {
+                    Log.Info("Received trigger from comm server");
                     SendDiscord(returnData[5..]);
+                }
+                else if (!string.IsNullOrEmpty(returnData) && returnData.StartsWith("game:"))
+                {
+                    Log.Info("Received trigger from game server");
+                    SendDiscord(returnData[5..], true);
                 }
             }
             catch (Exception e)
@@ -57,17 +63,17 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
             new Thread(new ThreadStart(BeginListen)).Start();
         }
 
-        public void SendDiscord(string message, bool login = false)
+        public async void SendDiscord(string message, bool login = false)
         {
             try
             {
                 if (login)
                 {
-                    coreDiscord.SendLoginLog(message).GetAwaiter().GetResult();
+                    await coreDiscord.SendLoginLog(message);
                 }
                 else
                 {
-                    coreDiscord.SendChannel(message).GetAwaiter().GetResult();
+                    await coreDiscord.SendChannel(message);
                 }
             }
             catch (Exception e)
