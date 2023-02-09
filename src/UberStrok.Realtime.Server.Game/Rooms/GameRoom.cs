@@ -150,20 +150,6 @@ namespace UberStrok.Realtime.Server.Game
             });
         }
 
-        public void SendMessageUDP(string message)
-        {
-            using (UdpClient udpClient = new UdpClient())
-            {
-                if (!File.Exists("udphost.txt"))
-                {
-                    File.WriteAllText("udphost.txt", "127.0.0.1");
-                }
-                udpClient.Connect(File.ReadAllText("udphost.txt"), 5070);
-                byte[] bytes = Encoding.UTF8.GetBytes("game:" + message);
-                _ = udpClient.Send(bytes, bytes.Length);
-            }
-        }
-
         public void Leave(GamePeer peer)
         {
             if (peer == null)
@@ -433,9 +419,6 @@ namespace UberStrok.Realtime.Server.Game
                     peer.Actor.State.Set(ActorState.Id.Overview);
 
                     _actors.Add(peer.Actor);
-                    var webUrl = actor.PlayerName + "had joined a game! Use this url to play with him! uberstroke://" + AES.EncryptAndEncode(_view.RoomId.ToString());
-                    Log.Info("Sending generated Url to web service..." + webUrl);
-                    SendMessageUDP(webUrl);
                     Log.Info($"{peer.Actor.GetDebug()} joined.");
                 }
             }

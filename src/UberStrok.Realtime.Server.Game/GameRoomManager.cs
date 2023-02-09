@@ -2,6 +2,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net.Sockets;
+using System.Text;
+using System.Windows.Forms;
+using Uberstrok.Core.Common;
 using UberStrok.Core;
 using UberStrok.Core.Common;
 using UberStrok.Core.Views;
@@ -94,10 +99,24 @@ namespace UberStrok.Realtime.Server.Game
 
                 Log.Info($"Created {room.GetDebug()}");
             }
-
+            var webUrl = "A room had created in game! Join now with uberstroke://" + AES.EncryptAndEncode(room.RoomId.ToString());
+            Log.Info("Sending generated Url to web service..." + webUrl);
+            SendMessageUDP(webUrl);
             return room;
         }
-
+        public void SendMessageUDP(string message)
+        {
+            using (UdpClient udpClient = new UdpClient())
+            {
+                if (!File.Exists("udphost.txt"))
+                {
+                    File.WriteAllText("udphost.txt", "127.0.0.1");
+                }
+                udpClient.Connect(File.ReadAllText("udphost.txt"), 5070);
+                byte[] bytes = Encoding.UTF8.GetBytes("game:" + message);
+                _ = udpClient.Send(bytes, bytes.Length);
+            }
+        }
         public void Tick()
         {
             lock (_sync)
