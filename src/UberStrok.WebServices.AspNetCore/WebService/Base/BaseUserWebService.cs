@@ -35,7 +35,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService.Base
 
         public abstract Task<MemberOperationResult> OnSetLoadout(string authToken, LoadoutView loadoutView);
 
-        public abstract MemberOperationResult OnSetWallet(string authToken, MemberWalletView walletView);
+        public abstract Task<MemberOperationResult> OnSetWallet(string authToken, MemberWalletView walletView);
 
         public abstract Task OnEndOfMatch(string authToken, StatsCollectionView totalStats, StatsCollectionView bestStats);
 
@@ -282,12 +282,12 @@ namespace UberStrok.WebServices.AspNetCore.WebService.Base
         {
             try
             {
-                return Task.Run(() =>
+                return Task.Run(async () =>
                 {
                     using MemoryStream bytes = new MemoryStream(data);
                     string authToken = StringProxy.Deserialize(bytes);
                     MemberWalletView walletView = MemberWalletViewProxy.Deserialize(bytes);
-                    MemberOperationResult result = OnSetWallet(authToken, walletView);
+                    MemberOperationResult result = await OnSetWallet(authToken, walletView);
                     using MemoryStream outBytes = new MemoryStream();
                     EnumProxy<MemberOperationResult>.Serialize(outBytes, result);
                     return outBytes.ToArray();

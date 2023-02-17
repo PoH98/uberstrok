@@ -1,9 +1,11 @@
 using log4net;
 using System;
 using System.Net;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Uberstrok.Core.Common;
 
 namespace UberStrok.WebServices.AspNetCore.Core.Discord
 {
@@ -13,12 +15,17 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
 
         public UdpClient udpClient = new UdpClient(5070);
 
+        private string Ip = string.Empty;
         private readonly CoreDiscord coreDiscord;
         public UDPListener(CoreDiscord coreDiscord)
         {
             this.coreDiscord = coreDiscord;
             Initialise();
-            Console.WriteLine("UDP Listener Started.\n");
+            HttpClient httpClient = new HttpClient();
+            var response = httpClient.GetAsync("http://ipinfo.io/ip").GetAwaiter().GetResult();
+            Ip = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            Log.Info("Detected own IP as " + Ip);
+            Log.Info("UDP Listener Started.");
         }
 
         public void BeginListen()
@@ -48,7 +55,13 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
                 else if (!string.IsNullOrEmpty(returnData) && returnData.StartsWith("game:"))
                 {
                     Log.Info("Received trigger from game server");
-                    SendDiscord(returnData[5..], true);
+                    var ip = RemoteIpEndPoint.Address.ToString();
+                    if(ip == "127.0.0.1" || ip == "localhost")
+                    {
+                        ip = Ip;
+                    }
+                    //disable for now first
+                    //SendDiscord(returnData[5..] + "." + AES.EncryptAndEncode(ip));
                 }
             }
             catch (Exception e)

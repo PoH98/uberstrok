@@ -23,8 +23,6 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
 
         private ulong publicloginchannel = 0uL;
 
-        private ulong gamelobbychannel = 0ul;
-
         private readonly List<ulong> allowedChannels = new List<ulong>();
 
         private string token = null;
@@ -37,7 +35,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
 
         private string prefix;
 
-        public string emptyline = Environment.NewLine + "_ _" + Environment.NewLine + "_ _" + Environment.NewLine;
+        private UDPListener UDPListener;
 
         private readonly ILog Log = LogManager.GetLogger(typeof(CoreDiscord));
         private readonly UberBeatManager uberBeatManager;
@@ -48,6 +46,7 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
 
         public Task RunAsync()
         {
+            UDPListener = new UDPListener(this);
             return MainAsync();
         }
 
@@ -173,10 +172,10 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
             }
             if (!reply.Contains("|@@|@|"))
             {
-                _ = await message.Channel.SendMessageAsync(emptyline + reply);
+                _ = await message.Channel.SendMessageAsync(reply);
                 return;
             }
-            _ = await message.Channel.SendMessageAsync(emptyline);
+            _ = await message.Channel.SendMessageAsync(Environment.NewLine + "_ _" + Environment.NewLine);
             string[] replies = reply.Split(new string[1]
             {
                 "|@@|@|"
@@ -191,25 +190,25 @@ namespace UberStrok.WebServices.AspNetCore.Core.Discord
         public async Task SendChannel([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(lobbychannel) as SocketTextChannel;
-            _ = await channel.SendMessageAsync(emptyline + message);
+            _ = await channel.SendMessageAsync(message);
         }
 
         public async Task SendLoginLog([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(userloginchannel) as SocketTextChannel;
-            _ = await channel.SendMessageAsync(emptyline + message);
+            _ = await channel.SendMessageAsync(message);
         }
 
         public async Task SendPublicLoginLog([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(publicloginchannel) as SocketTextChannel;
-            _ = await channel.SendMessageAsync(emptyline + message);
+            _ = await channel.SendMessageAsync(message);
         }
 
         public async Task SendGameChannel([Remainder] string message)
         {
             SocketTextChannel channel = client.GetChannel(lobbychannel) as SocketTextChannel;
-            _ = await channel.SendMessageAsync(emptyline + message);
+            _ = await channel.SendMessageAsync(message);
         }
 
         public string Reply(string[] args)

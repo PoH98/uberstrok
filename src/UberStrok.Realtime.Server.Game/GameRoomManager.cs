@@ -99,7 +99,16 @@ namespace UberStrok.Realtime.Server.Game
 
                 Log.Info($"Created {room.GetDebug()}");
             }
-            var webUrl = "A room had created in game! Join now with uberstroke://" + AES.EncryptAndEncode(room.RoomId.ToString());
+            if (string.IsNullOrEmpty(data.Guid))
+            {
+                data.Guid = Guid.NewGuid().ToString();
+            }
+            if (!File.Exists("globalurl.txt"))
+            {
+                File.WriteAllText("globalurl.txt", "https://localhost:5000/");
+            }
+            Log.Info("Room ID: " + data.Guid);
+            var webUrl = "A "+data.GameMode.ToString() + " room had created in game! Join now with " + new Uri(new Uri(File.ReadAllText("globalurl.txt")), "join?roomId=" + AES.EncryptAndEncode(data.Guid)).AbsoluteUri;
             Log.Info("Sending generated Url to web service..." + webUrl);
             SendMessageUDP(webUrl);
             return room;

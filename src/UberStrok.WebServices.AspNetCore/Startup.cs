@@ -12,6 +12,7 @@ using UberStrok.WebServices.AspNetCore.Core.Db.Tables;
 using UberStrok.WebServices.AspNetCore.Core.Discord;
 using UberStrok.WebServices.AspNetCore.Core.Manager;
 using UberStrok.WebServices.AspNetCore.Helper;
+using UberStrok.WebServices.AspNetCore.Middleware;
 using UberStrok.WebServices.AspNetCore.WebService;
 
 namespace UberStrok.WebServices.AspNetCore
@@ -44,58 +45,66 @@ namespace UberStrok.WebServices.AspNetCore
         public void ConfigureServices(IServiceCollection services)
         {
             // Register services.
-            _ = services.AddSoapCore();
+            services.AddSoapCore();
 
             // Register web services.
-            _ = services.AddScoped<ApplicationWebService>();
-            _ = services.AddScoped<AuthenticationWebService>();
-            _ = services.AddScoped<ShopWebService>();
-            _ = services.AddScoped<UserWebService>();
-            _ = services.AddScoped<ClanWebService>();
-            _ = services.AddScoped<PrivateMessageWebService>();
-            _ = services.AddScoped<RelationshipWebService>();
-            _ = services.AddScoped<ModerationWebService>();
+            services.AddScoped<ApplicationWebService>();
+            services.AddScoped<AuthenticationWebService>();
+            services.AddScoped<ShopWebService>();
+            services.AddScoped<UserWebService>();
+            services.AddScoped<ClanWebService>();
+            services.AddScoped<PrivateMessageWebService>();
+            services.AddScoped<RelationshipWebService>();
+            services.AddScoped<ModerationWebService>();
 
             //Register Manager
-            _ = services.AddSingleton<ClanManager>();
-            _ = services.AddSingleton<UserManager>();
-            _ = services.AddSingleton<ServerManager>();
-            _ = services.AddSingleton<SecurityManager>();
-            _ = services.AddSingleton<StreamManager>();
-            _ = services.AddSingleton<ResourceManager>();
-            _ = services.AddSingleton<GameSessionManager>();
-            _ = services.AddSingleton<UberBeatManager>();
+            services.AddSingleton<ClanManager>();
+            services.AddSingleton<UserManager>();
+            services.AddSingleton<ServerManager>();
+            services.AddSingleton<SecurityManager>();
+            services.AddSingleton<StreamManager>();
+            services.AddSingleton<ResourceManager>();
+            services.AddSingleton<GameSessionManager>();
+            services.AddSingleton<UberBeatManager>();
+
+            //Register Middleware
+            services.AddSingleton<JoinRoom>();
 
             //Register Tables
-            _ = services.AddSingleton<ClanTable>();
-            _ = services.AddSingleton<UserTable>();
-            _ = services.AddSingleton<UberBeatTable>();
-            _ = services.AddSingleton<SecurityTable>();
-            _ = services.AddSingleton<StreamTable>();
+            services.AddSingleton<ClanTable>();
+            services.AddSingleton<UserTable>();
+            services.AddSingleton<UberBeatTable>();
+            services.AddSingleton<SecurityTable>();
+            services.AddSingleton<StreamTable>();
 
             //Register Discord
-            _ = services.AddSingleton<CoreDiscord>();
-            _ = services.AddSingleton<UDPListener>();
+            services.AddSingleton<CoreDiscord>();
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                _ = app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();
             }
-            _ = app.UseStaticFiles(new StaticFileOptions
+            app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "assets/images")),
                 RequestPath = new PathString("/images")
             });
-            _ = app.UseSoapEndpoint<AuthenticationWebService>("/2.0/AuthenticationWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
-            _ = app.UseSoapEndpoint<ApplicationWebService>("/2.0/ApplicationWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
-            _ = app.UseSoapEndpoint<ShopWebService>("/2.0/ShopWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
-            _ = app.UseSoapEndpoint<UserWebService>("/2.0/UserWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
-            _ = app.UseSoapEndpoint<ClanWebService>("/2.0/ClanWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
-            _ = app.UseSoapEndpoint<PrivateMessageWebService>("/2.0/PrivateMessageWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
-            _ = app.UseSoapEndpoint<RelationshipWebService>("/2.0/RelationshipWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+                RequestPath = new PathString("")
+            });
+            app.UseSoapEndpoint<AuthenticationWebService>("/2.0/AuthenticationWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseSoapEndpoint<ApplicationWebService>("/2.0/ApplicationWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseSoapEndpoint<ShopWebService>("/2.0/ShopWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseSoapEndpoint<UserWebService>("/2.0/UserWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseSoapEndpoint<ClanWebService>("/2.0/ClanWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseSoapEndpoint<PrivateMessageWebService>("/2.0/PrivateMessageWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseSoapEndpoint<RelationshipWebService>("/2.0/RelationshipWebService", new SoapEncoderOptions(), SoapSerializer.DataContractSerializer);
+            app.UseMiddleware<JoinRoom>();
         }
     }
 }

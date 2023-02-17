@@ -130,9 +130,13 @@ namespace UberStrok.WebServices.AspNetCore.Core.Manager
             return Database.Collection.Find((UserDocument x) => x.Names.Any((string t) => t.ToLower().Contains(name.ToLower())), null).ToListAsync();
         }
 
-        internal Task Save(UserDocument document)
+        internal async Task Save(UserDocument document)
         {
-            return Database.Collection.ReplaceOneAsync((UserDocument f) => f.Id == document.Id, document, (ReplaceOptions)null, default);
+            var result = await Database.Collection.ReplaceOneAsync((UserDocument f) => f.Id == document.Id, document);
+            if (!result.IsAcknowledged)
+            {
+                throw new InvalidOperationException("User saving failed!");
+            }
         }
 
         internal Task ChangeName(int id, string newName)

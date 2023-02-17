@@ -127,12 +127,12 @@ namespace UberStrok.WebServices.AspNetCore.WebService
             return null;
         }
 
-        public override MemberOperationResult OnSetWallet(string authToken, MemberWalletView walletView)
+        public override async Task<MemberOperationResult> OnSetWallet(string authToken, MemberWalletView walletView)
         {
             if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 session.Member.MemberWallet = walletView;
-                _ = userManager.Save(session.Document);
+                await userManager.Save(session.Document);
                 return MemberOperationResult.Ok;
             }
             Log.Error("An unidentified AuthToken was passed.");
