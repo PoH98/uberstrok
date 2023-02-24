@@ -99,14 +99,15 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                             MemberAuthenticationResult = MemberAuthenticationResult.UnknownError
                         };
                     }
-                    if (uberBeatManager.AltCmids(member.Profile.Cmid).Count > 1)
+                    //avoid users creating alts, disable for now
+                    /*if (uberBeatManager.AltCmids(member.Profile.Cmid).Count > 1)
                     {
                         await userManager.DeleteUser(member.Profile.Cmid);
                         return new MemberAuthenticationResultView
                         {
                             MemberAuthenticationResult = MemberAuthenticationResult.IsIpBanned
                         };
-                    }
+                    }*/
                 }
                 else
                 {
