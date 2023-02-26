@@ -12,7 +12,7 @@ public sealed class DeathMatchGameRoom : GameRoom
     {
         //IL_0009: Unknown result type (might be due to invalid IL or missing references)
         //IL_000f: Invalid comparison between Unknown and I4
-        if ((int)data.GameMode != 1)
+        if (data.GameMode != GameModeType.DeathMatch)
         {
             throw new ArgumentException("GameRoomDataView is not in deathmatch mode", "data");
         }
@@ -20,18 +20,7 @@ public sealed class DeathMatchGameRoom : GameRoom
 
     public override bool CanJoin(GameActor actor, TeamID team)
     {
-        //IL_0006: Unknown result type (might be due to invalid IL or missing references)
-        //IL_000c: Invalid comparison between Unknown and I4
-        //IL_0010: Unknown result type (might be due to invalid IL or missing references)
-        if ((int)actor.Info.AccessLevel >= 4)
-        {
-            return true;
-        }
-        if ((int)team == 0)
-        {
-            return !GetView().IsFull;
-        }
-        return false;
+        return actor.Info.AccessLevel >= MemberAccessLevel.Moderator || (team == TeamID.NONE && !base.GetView().IsFull);
     }
 
     public override bool CanStart()
@@ -41,11 +30,7 @@ public sealed class DeathMatchGameRoom : GameRoom
 
     public override bool CanDamage(GameActor victim, GameActor attacker)
     {
-        if (!base.IsMatchRunning)
-        {
-            return false;
-        }
-        return true;
+        return base.IsMatchRunning;
     }
 
     protected override void OnPlayerJoined(PlayerJoinedEventArgs e)

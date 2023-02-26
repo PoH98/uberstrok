@@ -20,10 +20,7 @@ namespace UberStrok.WebServices.AspNetCore
         {
             return Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(delegate (IWebHostBuilder webBuilder)
             {
-                _ = webBuilder.UseStartup<Startup>().UseUrls("http://0.0.0.0:5000").UseKestrel(options =>
-                {
-                    options.Limits.MaxRequestBodySize = 256000;
-                });
+                _ = webBuilder.UseStartup<Startup>().UseKestrel();
             }).ConfigureLogging(delegate (HostBuilderContext hostingContext, ILoggingBuilder logging)
             {
                 _ = logging.AddLog4Net();

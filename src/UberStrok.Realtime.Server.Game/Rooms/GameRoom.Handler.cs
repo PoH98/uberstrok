@@ -27,8 +27,6 @@ namespace UberStrok.Realtime.Server.Game
 
         protected sealed override void OnJoinTeam(GameActor actor, TeamID team)
         {
-            if (actor == null)
-                return;
             if (!CanJoin(actor, team))
             {
                 actor.Peer.Events.Game.SendJoinGameFailed("Room or team is full.");

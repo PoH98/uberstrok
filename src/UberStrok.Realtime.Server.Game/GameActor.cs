@@ -148,13 +148,7 @@ namespace UberStrok.Realtime.Server.Game
 
         public void EndMatch(bool hasWon)
         {
-            int num = CalculateXp(hasWon);
-            Info.Xp += num;
-            StatsCollectionView total = Statistics.Total;
-            total.Xp += num;
-            StatsCollectionView total2 = Statistics.Total;
-            total2.Points += CalculatePoints(hasWon);
-            Info.Level = XpPointsUtil.GetLevelForXp(Info.Xp);
+            Peer.Events.Game.SendTeamWins(Room.Winner);
             Peer.SendEndGame(Statistics.Total, Statistics.Best);
         }
 

@@ -1,5 +1,6 @@
 using log4net;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +23,12 @@ namespace UberStrok.WebServices.AspNetCore.WebService
         private readonly UserManager userManager;
         private readonly ResourceManager resourceManager;
         private readonly ClanManager clanManager;
-        private readonly ApplicationWebService applicationWebService;
-        public UserWebService(GameSessionManager gameSessionManager, UserManager userManager, ResourceManager resourceManager, ClanManager clanManager, ApplicationWebService applicationWebService)
+        public UserWebService(GameSessionManager gameSessionManager, UserManager userManager, ResourceManager resourceManager, ClanManager clanManager)
         {
             this.gameSessionManager = gameSessionManager;
             this.userManager = userManager;
             this.resourceManager = resourceManager;
             this.clanManager = clanManager;
-            this.applicationWebService = applicationWebService;
         }
 
         public override LoadoutView OnGetLoadout(string authToken)
@@ -158,6 +157,7 @@ namespace UberStrok.WebServices.AspNetCore.WebService
 
         public override async Task OnEndOfMatch(string authToken, StatsCollectionView totalStats, StatsCollectionView bestStats)
         {
+            Log.Info("End of match triggered, sending rewards");
             if (gameSessionManager.TryGet(authToken, out GameSession session))
             {
                 MemberWalletView wallet = session.Document.Wallet;
@@ -260,13 +260,12 @@ namespace UberStrok.WebServices.AspNetCore.WebService
                 wallet.Points += totalStats.Points;
                 session.Document.Kills += totalStats.GetKills();
                 session.Document.Deaths += totalStats.Deaths;
+                Log.Info(JsonConvert.SerializeObject(wallet));
                 statistics.Level = XpPointsUtil.GetLevelForXp(statistics.Xp);
                 await userManager.Save(session.Document);
+                return;
             }
-            else
-            {
-                Log.Error("An unidentified AuthToken was passed.");
-            }
+            Log.Error("An unidentified AuthToken was passed.");
         }
 
         public override async Task<MemberOperationResult> OnChangeMemberName(string authToken, string username, string local, string machineId)

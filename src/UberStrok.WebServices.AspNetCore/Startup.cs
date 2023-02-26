@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using SoapCore;
 using System.IO;
+using System.Net;
 using UberStrok.WebServices.AspNetCore.Core.Db.Tables;
 using UberStrok.WebServices.AspNetCore.Core.Discord;
 using UberStrok.WebServices.AspNetCore.Core.Manager;
@@ -48,14 +50,14 @@ namespace UberStrok.WebServices.AspNetCore
             services.AddSoapCore();
 
             // Register web services.
-            services.AddScoped<ApplicationWebService>();
-            services.AddScoped<AuthenticationWebService>();
-            services.AddScoped<ShopWebService>();
-            services.AddScoped<UserWebService>();
-            services.AddScoped<ClanWebService>();
-            services.AddScoped<PrivateMessageWebService>();
-            services.AddScoped<RelationshipWebService>();
-            services.AddScoped<ModerationWebService>();
+            services.AddSingleton<ApplicationWebService>();
+            services.AddSingleton<AuthenticationWebService>();
+            services.AddSingleton<ShopWebService>();
+            services.AddSingleton<UserWebService>();
+            services.AddSingleton<ClanWebService>();
+            services.AddSingleton<PrivateMessageWebService>();
+            services.AddSingleton<RelationshipWebService>();
+            services.AddSingleton<ModerationWebService>();
 
             //Register Manager
             services.AddSingleton<ClanManager>();
@@ -79,6 +81,12 @@ namespace UberStrok.WebServices.AspNetCore
 
             //Register Discord
             services.AddSingleton<CoreDiscord>();
+
+            services.Configure(delegate (KestrelServerOptions options)
+            {
+                options.AllowSynchronousIO = true;
+                options.Listen(IPAddress.Parse("0.0.0.0"), 5000);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)

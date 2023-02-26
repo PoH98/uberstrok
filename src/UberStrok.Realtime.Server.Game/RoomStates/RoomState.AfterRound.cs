@@ -35,46 +35,49 @@ namespace UberStrok.Realtime.Server.Game
 
         private void OnRestartCountdownCompleted()
         {
-            if (base.Room.IsTeamElimination)
+            int roundNumber;
+            if (!base.Room.IsTeamElimination)
             {
-                if (base.Room.GetView().KillLimit - Math.Max(base.Room.BlueTeamScore, base.Room.RedTeamScore) == 0)
-                {
-                    base.Room.State.Set(Id.End);
-                    return;
-                }
-                base.Room.RoundNumber++;
-                base.Room.State.Set(Id.Countdown);
+                GameRoom room = base.Room;
+                roundNumber = room.RoundNumber;
+                room.RoundNumber = roundNumber + 1;
+                base.Room.State.Set(RoomState.Id.End);
+                return;
             }
-            else
+            if (base.Room.GetView().KillLimit - Math.Max(base.Room.BlueTeamScore, base.Room.RedTeamScore) == 0)
             {
-                base.Room.RoundNumber++;
-                base.Room.State.Set(Id.End);
+                base.Room.State.Set(RoomState.Id.End);
+                return;
             }
+            GameRoom room2 = base.Room;
+            roundNumber = room2.RoundNumber;
+            room2.RoundNumber = roundNumber + 1;
+            base.Room.State.Set(RoomState.Id.Countdown);
         }
 
         private TeamID GetWinner()
         {
-            if (base.Room.IsTeamElimination)
+            if (!base.Room.IsTeamElimination)
             {
-                if (base.Room.GetView().KillLimit - Math.Max(base.Room.BlueTeamScore, base.Room.RedTeamScore) == 0)
-                {
-                    if (base.Room.BlueTeamScore > base.Room.RedTeamScore)
-                    {
-                        base.Room.Winner = (TeamID)1;
-                    }
-                    else if (base.Room.RedTeamScore > base.Room.BlueTeamScore)
-                    {
-                        base.Room.Winner = (TeamID)2;
-                    }
-                    else
-                    {
-                        base.Room.Winner = (TeamID)0;
-                    }
-                    return base.Room.Winner;
-                }
-                return ((TeamEliminationGameRoom)base.Room).RoundWinner;
+                return base.Room.Winner;
             }
-            return base.Room.Winner;
+            if (base.Room.GetView().KillLimit - Math.Max(base.Room.BlueTeamScore, base.Room.RedTeamScore) == 0)
+            {
+                if (base.Room.BlueTeamScore > base.Room.RedTeamScore)
+                {
+                    base.Room.Winner = TeamID.BLUE;
+                }
+                else if (base.Room.RedTeamScore > base.Room.BlueTeamScore)
+                {
+                    base.Room.Winner = TeamID.RED;
+                }
+                else
+                {
+                    base.Room.Winner = TeamID.NONE;
+                }
+                return base.Room.Winner;
+            }
+            return ((TeamEliminationGameRoom)base.Room).RoundWinner;
         }
     }
 

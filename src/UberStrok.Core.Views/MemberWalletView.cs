@@ -7,8 +7,8 @@ namespace UberStrok.Core.Views
     {
         public MemberWalletView()
         {
-            CreditsExpiration = DateTime.Today;
-            PointsExpiration = DateTime.Today;
+            CreditsExpiration = DateTime.MaxValue;
+            PointsExpiration = DateTime.MaxValue;
         }
 
         public MemberWalletView(int cmid, int? credits, int? points, DateTime? creditsExpiration, DateTime? pointsExpiration)
@@ -25,12 +25,12 @@ namespace UberStrok.Core.Views
 
             if (!creditsExpiration.HasValue)
             {
-                creditsExpiration = new DateTime?(DateTime.MinValue);
+                creditsExpiration = new DateTime?(DateTime.MaxValue);
             }
 
             if (!pointsExpiration.HasValue)
             {
-                pointsExpiration = new DateTime?(DateTime.MinValue);
+                pointsExpiration = new DateTime?(DateTime.MaxValue);
             }
 
             SetMemberWallet(cmid, credits.Value, points.Value, creditsExpiration.Value, pointsExpiration.Value);

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Uberstrok.Core.Common;
 using UberStrok.Core;
@@ -110,21 +111,32 @@ namespace UberStrok.Realtime.Server.Game
             Log.Info("Room ID: " + data.Guid);
             var webUrl = "A "+data.GameMode.ToString() + " room had created in game! Join now with " + new Uri(new Uri(File.ReadAllText("globalurl.txt")), "join?roomId=" + AES.EncryptAndEncode(data.Guid)).AbsoluteUri;
             Log.Info("Sending generated Url to web service..." + webUrl);
-            SendMessageUDP(webUrl);
+            _ = SendMessageUDP(webUrl);
             return room;
         }
-        public void SendMessageUDP(string message)
+        public Task SendMessageUDP(string message)
         {
-            using (UdpClient udpClient = new UdpClient())
+            return Task.Run(() =>
             {
-                if (!File.Exists("udphost.txt"))
+                try
                 {
-                    File.WriteAllText("udphost.txt", "127.0.0.1");
+                    using (UdpClient udpClient = new UdpClient())
+                    {
+                        if (!File.Exists("udphost.txt"))
+                        {
+                            File.WriteAllText("udphost.txt", "127.0.0.1");
+                        }
+                        udpClient.Connect(File.ReadAllText("udphost.txt"), 5070);
+                        byte[] bytes = Encoding.UTF8.GetBytes("game:" + message);
+                        _ = udpClient.Send(bytes, bytes.Length);
+                    }
                 }
-                udpClient.Connect(File.ReadAllText("udphost.txt"), 5070);
-                byte[] bytes = Encoding.UTF8.GetBytes("game:" + message);
-                _ = udpClient.Send(bytes, bytes.Length);
-            }
+                catch(Exception ex)
+                {
+                    Log.Error("Connect failed to target for udp: " + File.ReadAllText("udphost.txt") + ":5070" + "\nException:" + ex.ToString());
+                }
+            });
+
         }
         public void Tick()
         {

@@ -2,6 +2,7 @@
 using Photon.SocketServer;
 using System;
 using System.Collections.Generic;
+using UberStrok.Core;
 using UberStrok.Core.Common;
 using UberStrok.Core.Views;
 
@@ -68,6 +69,7 @@ namespace UberStrok.Realtime.Server.Game
             if (clientVersion != GameApplication.Instance.Configuration.ServerGameVersion)
             {
                 ((PeerBase)peer).Disconnect();
+                Log.Error("Client version not match! " + clientVersion + " vs " +  GameApplication.Instance.Configuration.ServerGameVersion);
                 return;
             }
             try
@@ -192,23 +194,20 @@ namespace UberStrok.Realtime.Server.Game
 
         protected override void OnUpdateLoadout(GamePeer peer)
         {
-            var actor = peer.Actor;
+            GameActor actor = peer.Actor;
             if (actor == null)
             {
-                Log.Error("Peer attempted to update loadout but was not associated with any Actor.");
+                base.Log.Error("Peer attempted to update loadout but was not associated with any Actor.");
                 return;
             }
             try
             {
-                var shop = actor.Room.Shop;
-                var loadout = peer.GetLoadout(retrieve: true);
-
+                ShopManager shop = actor.Room.Shop;
+                LoadoutView loadout = peer.GetLoadout(true);
                 actor.Loadout.Update(shop, loadout);
-
                 actor.Info.Gear = actor.Loadout.Gear.GetAsList();
                 actor.Info.Weapons = actor.Loadout.Weapons.GetAsList();
                 actor.Info.QuickItems = actor.Loadout.QuickItems.GetAsList();
-
                 actor.Info.ArmorPointCapacity = actor.Loadout.Gear.GetArmorCapacity();
             }
             catch

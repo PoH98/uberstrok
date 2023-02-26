@@ -265,11 +265,13 @@ namespace UberStrok.WebServices.AspNetCore.WebService.Base
         {
             try
             {
-                using MemoryStream memoryStream = new MemoryStream(data);
-                string authToken = StringProxy.Deserialize(memoryStream);
-                StatsCollectionView totalStats = StatsCollectionViewProxy.Deserialize(memoryStream);
-                StatsCollectionView bestStats = StatsCollectionViewProxy.Deserialize(memoryStream);
-                await OnEndOfMatch(authToken, totalStats, bestStats);
+                using (MemoryStream memoryStream = new MemoryStream(data))
+                {
+                    string authToken = StringProxy.Deserialize(memoryStream);
+                    StatsCollectionView totalStats = StatsCollectionViewProxy.Deserialize(memoryStream);
+                    StatsCollectionView bestStats = StatsCollectionViewProxy.Deserialize(memoryStream);
+                    await OnEndOfMatch(authToken, totalStats, bestStats);
+                }
             }
             catch (Exception ex)
             {
